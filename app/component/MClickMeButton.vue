@@ -1,6 +1,6 @@
 <template>
   <button type="button" @click="click++">Click me</button>
-  <p>Click {{ click }} times</p>
+  <p>{{ $tc("click", click) }}</p>
 </template>
 
 <script setup lang="ts">
