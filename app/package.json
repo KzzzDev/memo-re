@@ -1,0 +1,27 @@
+{
+  "name": "memo-re",
+  "version": "1.0.0",
+  "description": "未来創造展",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kazumasa1/memo-re.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kazumasa1/memo-re/issues"
+  },
+  "homepage": "https://github.com/Kazumasa1/memo-re#readme",
+  "dependencies": {
+    "@vitejs/plugin-vue": "^3.1.2",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.8",
+    "vite-plugin-env-compatible": "^1.1.1",
+    "vue": "^3.2.41"
+  }
+}
