@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import MClickMe from "../component/MClickMeButton.vue";
+import MClickMe from "./component/MClickMeButton.vue";
 </script>
 
 <style scoped>

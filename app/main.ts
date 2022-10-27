@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 
-import App from "./view/App.vue";
+import App from "./App.vue";
 
 import en from "./public/i18n/en/main.json";
 import ja from "./public/i18n/ja/main.json";
