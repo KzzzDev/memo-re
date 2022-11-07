@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  app:
-    container_name: app
+  django:
+    container_name: django
     build: ./
     volumes:
-     - ./django/source:/django
+     - ./:/django
     ports:
      - 8000:8000
     working_dir: '/django'
