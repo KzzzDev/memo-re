@@ -8,6 +8,15 @@ cd memo-re/app
 npm ci
 ```
 
+## Usage
+
+Run the following command to build this Vue app.
+This will build resources that can serve statically to `dist` directory.
+
+```sh
+npm run build
+```
+
 ## Contribute
 
 - Install the workspace recommendation extensions.
