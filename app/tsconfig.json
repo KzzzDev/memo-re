@@ -14,13 +14,6 @@
     "skipLibCheck": true,
     "allowJs": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.vue",
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "include": ["**/*.ts", "**/*.vue", "env.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -436,3 +436,5 @@ docs/_book
 test/
 
 # End of https://www.toptal.com/developers/gitignore/api/git,visualstudiocode,node,vue,python,django
+
+!app/lib/

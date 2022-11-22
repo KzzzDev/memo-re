@@ -17,6 +17,8 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 
+import { useMemoRe } from "./lib";
+
 import MClickMe from "./component/MClickMeButton.vue";
 
 import messages from "./public/locales/ja.json";
@@ -24,6 +26,7 @@ import messages from "./public/locales/ja.json";
 const localeOptions = ["ja", "en"];
 
 const { t, setLocaleMessage, locale: current } = useI18n<{ message: typeof messages }, typeof localeOptions[number]>();
+const { fetch } = useMemoRe();
 
 const change = (ev: Event) => {
   if (!(ev.target instanceof HTMLSelectElement)) {
@@ -34,8 +37,7 @@ const change = (ev: Event) => {
 };
 
 const changeLocale = (locale: typeof localeOptions[number]) =>
-  fetch(`/locales/${locale}.json`)
-    .then((data) => data.json())
+  fetch<typeof messages>(`locales/${locale}.json`)
     .then((message) => setLocaleMessage(locale, message))
     .then(() => (current.value = locale))
     .then(() => document.querySelector("html")?.setAttribute("lang", locale));
