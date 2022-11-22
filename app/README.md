@@ -17,6 +17,12 @@ This will build resources that can serve statically to `dist` directory.
 npm run build
 ```
 
+## Behavior
+
+This app require some environment variables to support.
+You can either set those values to environment or in `.env` file.
+Refer to [`env.d.ts`](./env.d.ts) for detail.
+
 ## Contribute
 
 - Install the workspace recommendation extensions.
