@@ -12,6 +12,7 @@
   <main>
     <m-click-me :start="0" />
   </main>
+
 </template>
 
 <script setup lang="ts">
@@ -39,6 +40,9 @@ const changeLocale = (locale: typeof localeOptions[number]) =>
     .then((message) => setLocaleMessage(locale, message))
     .then(() => (current.value = locale))
     .then(() => document.querySelector("html")?.setAttribute("lang", locale));
+
+
+
 </script>
 
 <style scoped>
