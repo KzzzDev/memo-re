@@ -1,17 +1,16 @@
 <template>
   <header>
-    <h1>{{ t("greeting") }}</h1>
+
   </header>
 
-  <aside>
-    <select @change="change">
-      <option v-for="l in localeOptions" :key="l" :value="l">{{ l }}</option>
-    </select>
-  </aside>
-
   <main>
-    <m-click-me :start="0" />
+    <!-- main内にRouter View配置 -->
+    <router-view/>
   </main>
+
+  <footer>
+    <!--    Footer使わないかも-->
+  </footer>
 
 </template>
 
@@ -47,8 +46,7 @@ const changeLocale = (locale: typeof localeOptions[number]) =>
 
 </script>
 
-<style scoped>
-h1 {
-  color: green;
-}
+<style>
+
+
 </style>
