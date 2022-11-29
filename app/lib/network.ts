@@ -1,3 +1,5 @@
+import { Url } from "url";
+
 //#region Prelude
 const baseUrl = process.env.API_SERVER;
 
@@ -35,3 +37,33 @@ export const access = <T, U = {}>(
     return (validator(res) ? Promise.resolve : Promise.reject)(res.json());
   });
 //#endregion
+
+type NoteCategory = number;
+
+export interface NoteBrief {
+  category: NoteCategory;
+  title: string;
+}
+
+export interface NoteTemplate extends NoteBrief {
+  content: string;
+}
+
+export interface Note extends NoteTemplate {
+  imageUrl: string;
+}
+
+type UserId = string;
+
+type UserName = string;
+
+export interface UserCredential {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  id?: UserId;
+  name: UserName;
+  icon: string;
+}
