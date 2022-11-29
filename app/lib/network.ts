@@ -5,14 +5,16 @@ interface Error {
   errors: [{ message: string }];
 }
 
-export interface ResponseBase {
+interface ResponseBase {
   status: number;
   error: Error;
 }
 
+export type APIResponse<T> = ResponseBase & T;
+
 export interface ErrorResponse extends ResponseBase {}
 
-export const access = <T extends ResponseBase, U = {}>(
+export const access = <T, U = {}>(
   endpoint: string,
   body?: U,
   options?: Partial<{
@@ -29,7 +31,7 @@ export const access = <T extends ResponseBase, U = {}>(
       Authorization: `Bearer <Token>`, //! Utilize JWT token
       ...options?.headers,
     },
-  }).then<T | ErrorResponse>((res) => {
+  }).then<APIResponse<T> | ErrorResponse>((res) => {
     return (validator(res) ? Promise.resolve : Promise.reject)(res.json());
   });
 //#endregion
