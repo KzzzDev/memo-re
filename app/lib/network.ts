@@ -40,7 +40,7 @@ export interface FriendActionPayload {
 export type NoteModificationPayload = NoteTemplate;
 //#endregion
 
-export const logIn = (credential: Credential) =>
+export const logIn = (credential: UserCredential) =>
   access(`login`, credential, { method: "POST" }, undefined, (res) => res.headers.get("Authorization")?.slice(8)); // TODO: Store JWT
 
 //#region User
