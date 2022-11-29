@@ -12,7 +12,7 @@ interface ResponseBase {
 
 export type APIResponse<T> = ResponseBase & T;
 
-export interface ErrorResponse extends ResponseBase {}
+export type ErrorResponse = ResponseBase;
 
 export const access = <T, U = {}>(
   endpoint: string,
@@ -31,7 +31,7 @@ export const access = <T, U = {}>(
       Authorization: `Bearer <Token>`, //! Utilize JWT token
       ...options?.headers,
     },
-  }).then<APIResponse<T> | ErrorResponse>((res) => {
+  }).then<APIResponse<T>>((res) => {
     return (validator(res) ? Promise.resolve : Promise.reject)(res.json());
   });
 //#endregion
