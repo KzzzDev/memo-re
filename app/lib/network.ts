@@ -1,6 +1,4 @@
-import { useMemoRe } from ".";
-
-const { access } = useMemoRe();
+import { access } from ".";
 
 //#region Schema
 type NoteCategory = number;
