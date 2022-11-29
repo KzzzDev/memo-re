@@ -1,51 +1,8 @@
-//#region Prelude
-const baseUrl = process.env.API_SERVER;
+import { useMemoRe } from ".";
 
-const defaultResponseValidator = (res: Response) => res.status === 200;
+const { access } = useMemoRe();
 
-type Middleware = (res: Response) => void;
-
-interface Error {
-  errors: [{ message: string }];
-}
-
-interface ResponseBase {
-  status: number;
-  error: Error;
-}
-
-export type APIResponse<T> = ResponseBase & T;
-
-export type ErrorResponse = ResponseBase;
-
-export const access = <T, U = {}>(
-  endpoint: string,
-  body?: U,
-  options?: Partial<{
-    method: "GET" | "POST" | "PUT" | "DELETE";
-    headers: HeadersInit;
-  }>,
-  validator = defaultResponseValidator,
-  ...middleware: Middleware[]
-) =>
-  fetch(`${baseUrl}/${endpoint}`, {
-    body: body && JSON.stringify(body),
-    method: options?.method ?? "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer <Token>`, // TODO: Use JWT token
-      ...options?.headers,
-    },
-  })
-    .then((res) => {
-      middleware.map((ware) => ware(res));
-      return res;
-    })
-    .then<APIResponse<T>>((res) => {
-      return (validator(res) ? Promise.resolve : Promise.reject)(res.json());
-    });
-//#endregion
-
+//#region Schema
 type NoteCategory = number;
 
 type NoteId = string;
@@ -83,11 +40,10 @@ export interface FriendActionPayload {
 }
 
 export type NoteModificationPayload = NoteTemplate;
+//#endregion
 
 export const logIn = (credential: Credential) =>
-  access(`login`, credential, { method: "POST" }, defaultResponseValidator, (res) =>
-    res.headers.get("Authorization")?.slice(8)
-  ); // TODO: Store JWT
+  access(`login`, credential, { method: "POST" }, undefined, (res) => res.headers.get("Authorization")?.slice(8)); // TODO: Store JWT
 
 //#region User
 export const registerUser = (info: UserCredential & { name: string }) => access(`users`, info, { method: "POST" });
