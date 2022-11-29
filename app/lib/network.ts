@@ -1,6 +1,10 @@
 //#region Prelude
 const baseUrl = process.env.API_SERVER;
 
+const defaultResponseValidator = (res: Response) => res.status === 200;
+
+type Middleware = (res: Response) => void;
+
 interface Error {
   errors: [{ message: string }];
 }
@@ -21,19 +25,25 @@ export const access = <T, U = {}>(
     method: "GET" | "POST" | "PUT" | "DELETE";
     headers: HeadersInit;
   }>,
-  validator = (res: Response) => res.status == 200
+  validator = defaultResponseValidator,
+  ...middleware: Middleware[]
 ) =>
   fetch(`${baseUrl}/${endpoint}`, {
     body: body && JSON.stringify(body),
     method: options?.method ?? "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer <Token>`, //! Utilize JWT token
+      Authorization: `Bearer <Token>`, // TODO: Use JWT token
       ...options?.headers,
     },
-  }).then<APIResponse<T>>((res) => {
-    return (validator(res) ? Promise.resolve : Promise.reject)(res.json());
-  });
+  })
+    .then((res) => {
+      middleware.map((ware) => ware(res));
+      return res;
+    })
+    .then<APIResponse<T>>((res) => {
+      return (validator(res) ? Promise.resolve : Promise.reject)(res.json());
+    });
 //#endregion
 
 type NoteCategory = number;
@@ -73,6 +83,11 @@ export interface FriendActionPayload {
 }
 
 export type NoteModificationPayload = NoteTemplate;
+
+export const logIn = (credential: Credential) =>
+  access(`login`, credential, { method: "POST" }, defaultResponseValidator, (res) =>
+    res.headers.get("Authorization")?.slice(8)
+  ); // TODO: Store JWT
 
 //#region User
 export const registerUser = (info: UserCredential & { name: string }) => access(`users`, info, { method: "POST" });
