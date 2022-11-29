@@ -1,6 +1,6 @@
 import { shallowRef } from "vue";
 
-import { APIResponse, BackendCall, ErrorResponse } from ".";
+import { BackendCall, APIResponse, ErrorResponse } from "./network";
 
 /**
  * @example

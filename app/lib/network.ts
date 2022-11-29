@@ -1,4 +1,60 @@
-import { access } from ".";
+//#region Prelude
+const { API_SERVER: baseUrl } = process.env;
+
+interface AccessOptions {
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  headers: HeadersInit;
+}
+
+type ResponseValidator = (res: Response) => boolean;
+
+const defaultResponseValidator: ResponseValidator = (res) => res.status === 200;
+
+type Middleware = (res: Response) => void;
+
+interface Error {
+  errors: [{ message: string }];
+}
+
+interface ResponseBase {
+  status: number;
+  error: Error;
+}
+
+export type APIResponse<T> = ResponseBase & T;
+
+export type ErrorResponse = ResponseBase;
+
+export type BackendCall<T> = () => Promise<APIResponse<T>>;
+
+const access =
+  <T, U = {}>(
+    endpoint: string,
+    body?: U,
+    options?: Partial<AccessOptions>,
+    validator?: ResponseValidator,
+    ...middleware: Middleware[]
+  ): BackendCall<T> =>
+  () =>
+    fetch(`${baseUrl}/${endpoint}`, {
+      body: body && JSON.stringify(body),
+      method: options?.method ?? "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer <Token>`, // TODO: Use JWT token
+        ...options?.headers,
+      },
+    })
+      .then((res) => {
+        middleware.map((ware) => ware(res));
+        return res;
+      })
+      .then<APIResponse<T>>((res) => {
+        const valid = validator ?? defaultResponseValidator;
+        const output = valid(res) ? Promise.resolve : Promise.reject;
+        return output(res.json());
+      });
+//#endregion
 
 //#region Schema
 type NoteCategory = number;
