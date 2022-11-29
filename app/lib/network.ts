@@ -1,5 +1,3 @@
-import { Url } from "url";
-
 //#region Prelude
 const baseUrl = process.env.API_SERVER;
 
@@ -39,6 +37,8 @@ export const access = <T, U = {}>(
 //#endregion
 
 type NoteCategory = number;
+
+type NoteId = string;
 
 export interface NoteBrief {
   category: NoteCategory;
