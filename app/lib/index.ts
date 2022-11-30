@@ -1,13 +1,28 @@
+import { Component, App } from "vue";
+
 interface MemoReOptions {
   baseUrl: string;
 }
 
 export const useMemoRe = (options?: Partial<MemoReOptions>) => {
-  const { baseUrl = process.env.API_SERVER } = (options ??= {});
-
   return {
     appName: process.env.npm_package_name,
     appVersion: process.env.npm_package_version,
-    fetch: <T>(endpoint: string) => fetch(`${baseUrl}/${endpoint}`).then<T>((res) => res.json()),
   };
 };
+
+//#region PlugIn
+interface MemoReAppOptions {
+  views: Record<string, Component>;
+}
+
+export const createMemoRe =
+  (options: MemoReAppOptions) =>
+  (app: App): any => {
+    const { views = {} } = options;
+
+    for (const key in views) {
+      app.component(key, views[key]);
+    }
+  };
+//#endregion
