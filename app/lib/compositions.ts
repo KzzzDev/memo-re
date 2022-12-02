@@ -21,8 +21,14 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
 
   const refresh = () =>
     call(...param)
-      .then((res) => (data.value = res))
-      .catch((err) => (error.value = err));
+      .then((res) => {
+        data.value = res;
+        error.value = undefined;
+      })
+      .catch((err) => {
+        error.value = err;
+        data.value = undefined;
+      });
 
   if (immediately) {
     onMounted(refresh);
