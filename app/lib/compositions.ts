@@ -1,4 +1,4 @@
-import { reactive, Ref, shallowRef } from "vue";
+import { onMounted, reactive, Ref, shallowRef } from "vue";
 
 import { APIResponse, ErrorResponse } from "./network";
 
@@ -24,7 +24,9 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
       .then((res) => (data.value = res))
       .catch((err) => (error.value = err));
 
-  immediately ? refresh() : undefined;
+  if (immediately) {
+    onMounted(refresh);
+  }
 
   return { data, error, refresh };
 };
