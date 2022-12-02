@@ -47,8 +47,7 @@ const access = <T, U = {}>(
     })
     .then<APIResponse<T>>((res) => {
       const valid = validator ?? defaultResponseValidator;
-      const output = valid(res) ? Promise.resolve : Promise.reject;
-      return output(res.json());
+      return valid(res) ? Promise.resolve(res.json()) : Promise.reject(res.json());
     });
 //#endregion
 
