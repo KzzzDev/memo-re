@@ -1,3 +1,5 @@
+import { getAuthHeader, setToken } from "./auth";
+
 //#region Prelude
 const { API_SERVER: baseUrl } = process.env;
 
@@ -37,7 +39,7 @@ const access = <T, U = {}>(
     method: options?.method ?? "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer <Token>`, // TODO: Use JWT token
+      ...getAuthHeader(),
       ...options?.headers,
     },
   })
@@ -92,7 +94,9 @@ export type NoteModificationPayload = NoteTemplate;
 //#endregion
 
 export const logIn = (credential: UserCredential) =>
-  access(`login`, credential, { method: "POST" }, undefined, (res) => res.headers.get("Authorization")?.slice(8)); // TODO: Store JWT
+  access(`login`, credential, { method: "POST" }, undefined, (res) =>
+    setToken(res.headers.get("Authorization")?.slice(8))
+  );
 
 //#region User
 export const registerUser = (info: UserCredential & { name: string }) => access(`users`, info, { method: "POST" });
