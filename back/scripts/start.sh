@@ -6,7 +6,8 @@ unix_today=$((unix_today+32400))
 jst_ymd_today=$(date '+%Y/%m/%d %H:%M:%S' --date "@$unix_today")
 
 # メインプロジェクトフォルダが無ければセットアップ実行
-if [ ! -d /code/app ]; then
+if [ ! -d /usr/src/app ]; then
+# if [ ! -d /code/app ]; then
     echo "----- ${jst_ymd_today} | Project initialization -----"
     mkdir app && cd app && django-admin startproject config .
     sleep 10

@@ -15,7 +15,7 @@ services:
       - ./web/conf:/etc/nginx/conf.d
       - ./web/logs/nginx/:/var/log/nginx/
       - ./web/uwsgi_params:/etc/nginx/uwsgi_params
-      - static_volume:/user/src/app/static
+      - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/media
     networks:
       - django_net
@@ -27,7 +27,8 @@ services:
     build:
       context: ./back
       dockerfile: ./Dockerfile
-    command: 'sh /code/scripts/start.sh'
+    command: 'sh scripts/start.sh'
+    # command: 'sh /code/scripts/start.sh'
     restart: always
     volumes:
       - ./back:/usr/src/app
@@ -49,7 +50,8 @@ services:
       - 8080:8080
     expose:
       - "3000"
-    command: 'sh /code/scripts/start.sh'
+    command: 'sh scripts/start.sh'
+    # command: 'sh /code/scripts/start.sh'
     volumes:
       - ./front:/code
       - ./front:/app/:cashed

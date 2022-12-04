@@ -4,7 +4,8 @@ ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 
 # 開発ディレクトリ設定
-ENV WORKDIR /usr/src/app
+ENV WORKDIR /usr/src
+# ENV WORKDIR /usr/src/app
 WORKDIR ${WORKDIR}
 COPY ./scripts/ ${WORKDIR}/
 
