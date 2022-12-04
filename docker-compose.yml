@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+  web:
+    container_name: nginx
+    build:
+      context: ./
+      dockerfile: ./web/Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./web/conf:/etc/nginx/conf.d
+      - ./web/logs/nginx/:/var/log/nginx/
+      - ./web/uwsgi_params:/etc/nginx/uwsgi_params
+      - static_volume:/user/src/app/static
+      - media_volume:/usr/src/app/media
+    networks:
+      - django_net
+    depends_on:
+      - back
+
+  back:
+    container_name: django
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+    command: 'sh /code/scripts/start.sh'
+    restart: always
+    volumes:
+      - ./back:/usr/src/app
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
+    expose:
+      - "8001"
+    networks:
+      - django_net
+    # depends_on:
+    #   - db
+
+  front:
+    container_name: vue
+    build:
+      context: ./front
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    expose:
+      - "3000"
+    command: 'sh /code/scripts/start.sh'
+    volumes:
+      - ./front:/code
+      - ./front:/app/:cashed
+      - ./front/node_modules:/app/node_modules
+    networks:
+      - django_net
+    depends_on:
+      - back
+  # db:
+  #   image: mysql:8.0
+  #   restart: always
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     MYSQL_DATABASE: django
+  #     MYSQL_USER: user
+  #     MYSQL_PASSWORD: password
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+  #   volumes:
+  #     - ./db:/var/lib/mysql
+
+networks:
+  django_net:
+    driver: bridge
+
+volumes:
+  django_statics:
+    driver: local
+  static_volume:
+  media_volume:
