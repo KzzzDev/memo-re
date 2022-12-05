@@ -1,4 +1,5 @@
-import { onMounted, reactive, Ref, shallowRef } from "vue";
+import { onMounted, reactive, ref, Ref, shallowRef, UnwrapRef, watch, WatchStopHandle } from "vue";
+import { tee } from "./helper";
 
 import { APIResponse, ErrorResponse } from "./network";
 
@@ -48,4 +49,36 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
   }
 
   return { data, error, refresh };
+};
+
+/**
+ * @param initial Initial value of the composition.
+ * @param rules Validation rule, return whether the value is invalid or error message.
+ * @param options.immediately Whether to watch the value change immediately.
+ * @param options.defaultMessage Default error message. Use when value is invalid and no error message returned.
+ */
+export const useError = <T>(
+  initial: T,
+  rules: ((value: UnwrapRef<T>) => boolean | string)[],
+  options = { immediately: true, defaultMessage: "" }
+) => {
+  const data = ref(initial);
+  const error = ref("");
+
+  const predicate = rules.reduce((prev, next) => (value) => next(value) || prev(value));
+  const validate = (value: UnwrapRef<T>) => {
+    const rst = predicate(value);
+    const msg = rst ? (typeof rst == "string" ? rst : options?.defaultMessage) : "";
+    error.value = msg;
+    return msg;
+  };
+
+  let stop: WatchStopHandle | undefined;
+  const start = () => (stop && stop()) || (stop = watch(data, validate, { immediate: true }));
+
+  if (options?.immediately) {
+    onMounted(start);
+  }
+
+  return { data, error, start, stop, validate };
 };
