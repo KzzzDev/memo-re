@@ -1,7 +1,13 @@
 <template>
   <form @submit.prevent="login">
-    <input type="text" autocomplete="username" v-model="email" />
-    <input type="password" autocomplete="password" v-model="password" />
+    <label>
+      メールアドレス
+      <input type="text" autocomplete="username" v-model="email" />
+    </label>
+    <label>
+      パスワード
+      <input type="password" autocomplete="password" v-model="password" />
+    </label>
     <p v-if="!!error" class="error">メールアドレスかパスワードが間違っている</p>
     <input type="submit" value="ログイン" />
   </form>
