@@ -1,5 +1,8 @@
 import { Component, App } from "vue";
 
+export * from "./helper";
+export * from "./compositions";
+
 interface MemoReOptions {
   baseUrl: string;
 }

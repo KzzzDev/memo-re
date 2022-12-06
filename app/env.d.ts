@@ -6,6 +6,10 @@ export declare global {
        */
       readonly API_SERVER: string;
       /**
+       * Key to get/set JWT.
+       */
+      readonly TOKEN_KEY: string;
+      /**
        * Application name injected from package.json
        */
       readonly npm_package_name: string;
