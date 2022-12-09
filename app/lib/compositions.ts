@@ -1,5 +1,4 @@
 import { onMounted, reactive, ref, Ref, shallowRef, UnwrapRef, watch, WatchStopHandle } from "vue";
-import { tee } from "./helper";
 
 import { APIResponse, ErrorResponse } from "./network";
 
@@ -63,13 +62,13 @@ export const useError = <T>(
   options = { immediately: true, defaultMessage: "" }
 ) => {
   const data = ref(initial);
-  const error = ref("");
+  const error = ref<string | undefined>(undefined);
 
   const predicate = rules.reduce((prev, next) => (value) => next(value) || prev(value));
   const validate = (value: UnwrapRef<T>) => {
     const rst = predicate(value);
     const msg = rst ? (typeof rst == "string" ? rst : options?.defaultMessage) : "";
-    error.value = msg;
+    error.value = msg || undefined;
     return msg;
   };
 
