@@ -1,10 +1,18 @@
 <template>
+  <header>
+
+  </header>
+
   <main>
-    <router-view />
+    <router-view/>
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>
+
+<style>
 
 
-<style scoped></style>
+</style>
