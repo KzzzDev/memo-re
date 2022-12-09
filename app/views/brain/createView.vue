@@ -8,18 +8,22 @@
       <dl>
         <dd>
           <input type="text" placeholder="タイトル" v-model="titleInput">
+          <p v-show="!!titleError">{{ titleError }}</p>
         </dd>
         <dd>
           <select v-model="eraSelect">
-            <option selected disabled>年代</option>
-            <option value="">小学校</option>
+            <option value="-1" selected disabled>年代</option>
+            <option value="1">小学校</option>
           </select>
+          <p v-show="!!eraError">{{ eraError }}</p>
+
         </dd>
         <dd>
           <textarea v-model="memoTextarea"></textarea>
+          <p v-show="!!memoTextError">{{ memoTextError }}</p>
         </dd>
         <dd>
-          <button @click="">作成！</button>
+          <button @click="submit">作成！</button>
         </dd>
       </dl>
     </div>
@@ -28,15 +32,59 @@
 </template>
 
 <script setup lang="ts">
+import {computed, watch} from "vue";
+import {useBackend, useError} from "../../lib";
+import {createNote} from "../../lib/network";
+import validator from "validator";
 
-import {ref} from "vue";
+import {useRouter} from "vue-router";
+const {push} = useRouter()
 
-// とりあえず各フォーム入力バインディング用変数は　目的+タグで表記
-const titleInput = ref("")
-const memoTextarea = ref("")
-const eraSelect = ref(null)
+const {
+  data: titleInput,
+  error: titleError,
+  start: tStart,
+} = useError("", [validator.isEmpty], {
+  defaultMessage: "タイトルを入力してください。",
+  immediately: false,
+});
 
+const {
+  data: memoTextarea,
+  error: memoTextError,
+  start: mStart,
+} = useError("", [validator.isEmpty], {
+  defaultMessage: "テキストを入力してください。",
+  immediately: false
+})
 
+const {
+  data: eraSelect,
+  error: eraError,
+  start: eStart,
+} = useError(-1, [value => value < 0], {
+  defaultMessage: "年代を選択してください。",
+  immediately: false
+})
+
+const valid = computed(() => !(titleError.value || memoTextError.value || eraError.value));
+
+const submit = () => {
+  tStart();
+  mStart();
+  eStart();
+
+  if (valid) {
+    CreateNote()
+  }
+}
+
+const {data, error, refresh: CreateNote} = useBackend(createNote, false, {
+  title: titleInput,
+  category: eraSelect,
+  content: memoTextarea
+});
+watch(data, (value) => !!value && push({path: "/list"}));
 
 </script>
 
@@ -58,7 +106,7 @@ const eraSelect = ref(null)
   flex-direction: column;
 }
 
-input,select,button{
+input, select, button {
   width: 480px;
   height: 40px;
   margin: 0 0 10px;
@@ -69,7 +117,7 @@ input,select,button{
   box-sizing: border-box;
 }
 
-textarea{
+textarea {
   width: 480px;
   height: 200px;
   margin: 0 0 10px;
