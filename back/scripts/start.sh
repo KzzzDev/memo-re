@@ -1,24 +1,4 @@
 #!/bin/bash
-set 'echo -e -o pipefail'
-
-unix_today=$(date +'%s')
-unix_today=$((unix_today+32400))
-jst_ymd_today=$(date '+%Y/%m/%d %H:%M:%S' --date "@$unix_today")
-
-# メインプロジェクトフォルダが無ければセットアップ実行
-if [ ! -d /usr/src/app ]; then
-# if [ ! -d /code/app ]; then
-    echo "----- ${jst_ymd_today} | Project initialization -----"
-    mkdir app && cd app && django-admin startproject config .
-    sleep 10
-    # djangoセットアップ＆サーバー起動
-    bash /usr/src/app/scripts/django-settings.sh
-    bash /usr/src/app/scripts/django-appstart.sh api
-    # python manage.py createsuperuser
-    echo "----- ${jst_ymd_today} | Initialization completed -----"
-else
-    echo "----- ${jst_ymd_today} | container update -----"
-fi
 
 cd app
 python manage.py makemigrations

@@ -4,9 +4,7 @@ FROM node:16.13
 ENV WORKDIR /code
 WORKDIR ${WORKDIR}
 COPY ./scripts/ ${WORKDIR}/
+COPY ./app/ ${WORKDIR}/app/
 
 # コンテナ内でパッケージを一括インストール
-RUN npm update npm && npm install -g @vue/cli && \
-    npm install -g @vue/cli@5.0.4
-
-COPY . ${WORKDIR}/
+RUN cd app && npm update npm && npm ci && npm run build
