@@ -10,7 +10,8 @@ COPY ./scripts/ ${WORKDIR}/
 
 # コンテナ内でパッケージを一括インストール
 COPY requirements.txt ${WORKDIR}
-RUN pip install --upgrade pip && pip install -r requirements.txt && \
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
     pip install coreapi django-cors-headers python-jose
 
 COPY ./app/ ${WORKDIR}/
