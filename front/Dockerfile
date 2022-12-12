@@ -7,4 +7,4 @@ COPY ./scripts/ ${WORKDIR}/
 COPY ./app/ ${WORKDIR}/app/
 
 # コンテナ内でパッケージを一括インストール
-RUN cd app && npm update npm && npm ci && npm run build
+RUN cd app && npm update npm && npm ci
