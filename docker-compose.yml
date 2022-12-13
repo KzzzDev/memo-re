@@ -4,8 +4,7 @@ services:
   web:
     container_name: nginx
     build:
-      context: ./
-      dockerfile: ./web/Dockerfile
+      context: ./web
     restart: always
     ports:
       - "8000:8000"
@@ -15,8 +14,8 @@ services:
       - ./web/conf:/etc/nginx/conf.d
       - ./web/logs/nginx/:/var/log/nginx/
       - ./web/uwsgi_params:/etc/nginx/uwsgi_params
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+      - static_volume:/usr/share/nginx/html/static
+      - media_volume:/usr/share/nginx/html/media
     networks:
       - django_net
     depends_on:
@@ -39,24 +38,6 @@ services:
       - django_net
     depends_on:
       - db
-
-  front:
-    container_name: vue
-    build:
-      context: ./front
-      dockerfile: ./Dockerfile
-    ports:
-      - 8080:8080
-    expose:
-      - "3000"
-    command: 'sh scripts/start.sh'
-    volumes:
-      - ./front:/code
-      - ./front:/app/:cashed
-    networks:
-      - django_net
-    depends_on:
-      - back
 
   db:
     container_name: mysql
