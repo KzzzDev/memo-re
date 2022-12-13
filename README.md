@@ -1,8 +1,8 @@
 # memo:Re
 
 <div align="center">
-    <img src="./docs/logo.svg" alt="Lighthouse logo" height="210" style="display: block">
-    <span style="font-weight: bold">memo:R</span>
+    <img src="./docs/logo.svg" alt="memo:Re logo" height="210" style="display: block">
+    <p style="font-weight: bold">memo:Re</p>
 </div>
 
 ## インストール
