@@ -530,4 +530,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/git,visualstudiocode,node,vue,python,django,webstorm+all
 
-!app/lib/
+!web/app/lib/
