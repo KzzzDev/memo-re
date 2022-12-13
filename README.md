@@ -11,57 +11,31 @@ git clone https://github.com/Kazumasa1/memo-re.git
 
 ### ディレクトリ構成
 
-```bash
+```sh
 memo-re
-├── README.md
-├── back
-│   ├── Dockerfile
-│   ├── app  # ← Djangoのプロジェクト
-│   │   ├── api
-│   │   ├── config
-│   │   ├── manage.py
-│   │   ├── media
-│   │   ├── static
-│   │   └── templates
-│   ├── media
-│   ├── requirements.txt
-│   ├── scripts
-│   │   └── start.sh  # ← docker-compose up で実行される Django起動シェル
-│   └── static
-├── db
-│   ├── Dockerfile
-│   └── my.cnf
-├── docker-compose.yml
-├── front
-│   ├── Dockerfile
-│   ├── app  # ← Vueのプロジェクト
-│   │   ├── App.vue
-│   │   ├── README.md
-│   │   ├── component
-│   │   ├── dist  # ← docker-compose build 後に生成されるディレクトリ
-│   │   ├── env.d.ts
-│   │   ├── index.html
-│   │   ├── lib
-│   │   ├── main.ts
-│   │   ├── node_modules
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   ├── plugin
-│   │   ├── public
-│   │   ├── tsconfig.json
-│   │   ├── tsconfig.node.json
-│   │   ├── views
-│   │   └── vite.config.ts
-│   └── scripts
-│       └── start.sh  # ← docker-compose up で実行される Vue起動シェル
-└── web
-    ├── Dockerfile
-    ├── conf
-    │   └── app_nginx.conf
-    ├── logs
-    │   └── nginx
-    └── uwsgi_params
+├─── README.md
+├─── back
+│   ├─── app                    # Djangoのプロジェクト
+│   │   ├─── api
+│   │   │   └─── migrations
+│   │   ├─── config
+│   │   └─── templates
+│   └─── scripts                # docker-compose up で実行される Django起動シェル
+├─── db
+└─── web
+    ├─── app                    # Vueのプロジェクト
+    │   ├─── component
+    │   ├─── lib
+    │   ├─── plugin
+    │   ├─── public
+    │   │   └─── locales
+    │   └─── views
+    │       ├─── brain
+    │       ├─── friend
+    │       └─── user
+    └─── conf
 ```
+
 ### Notice
 
 フロントの方でVueのプロジェクトを変更する際は```memo-re/front/```の```app```ディレクトリを変更してください。現状では、そのまま入れ替えてもらって大丈夫です。
