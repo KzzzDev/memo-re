@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  web:
+    container_name: nginx
+    build:
+      context: ./web
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./web/conf:/etc/nginx/conf.d
+      - ./web/logs/nginx/:/var/log/nginx/
+      - ./web/uwsgi_params:/etc/nginx/uwsgi_params
+      - static_volume:/usr/share/nginx/html/static
+      - media_volume:/usr/share/nginx/html/media
+    networks:
+      - django_net
+    depends_on:
+      - back
+
+  back:
+    container_name: django
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+    command: 'sh scripts/start.sh'
+    restart: always
+    volumes:
+      - ./back:/usr/src/app
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
+    expose:
+      - "8001"
+    networks:
+      - django_net
+    depends_on:
+      - db
+
+  db:
+    container_name: mysql
+    build: ./db
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - django_net
+    volumes:
+      - db_volume:/var/lib/mysql
+
+networks:
+  django_net:
+    driver: bridge
+
+volumes:
+  django_statics:
+    driver: local
+  static_volume:
+  media_volume:
+  db_volume:

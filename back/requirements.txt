@@ -1,0 +1,13 @@
+Django==3.2
+mysqlclient == 2.1.1
+scrapy-djangoitem==1.1.1
+scrapy==2.4
+scrapyd==1.2.0
+djangorestframework==3.12.4
+djangorestframework-jwt==1.11.0
+django-cors-headers==3.7.0
+django-webpack-loader==1.0.0
+uwsgi==2.0.19.1
+markdown==3.3.4
+django-filter==2.4.0
+Pygments==2.9.0
