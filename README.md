@@ -17,8 +17,6 @@ git clone https://github.com/Kazumasa1/memo-re.git
 
 ```bash
 cd memo-re
-docker-compose build --no-cache
-docker rmi $(docker images --filter "dangling=true" -q)
 docker-compose up -d
 ```
 
