@@ -1,10 +1,5 @@
 # memo:Re
 
-<div align="center">
-    <img src="./docs/logo.svg" alt="memo:Re logo" height="210" style="display: block">
-    <p style="font-weight: bold">memo:Re</p>
-</div>
-
 ## インストール
 
 ```sh
@@ -62,3 +57,10 @@ memo-re
 - [@nagi-lc3](https://github.com/nagi-lc3)
 - [@reone19](https://github.com/reone19)
 - [@sean-dp](https://github.com/sean-dp)
+
+---
+
+<div align="center">
+    <img src="./docs/logo.svg" alt="memo:Re logo" height="210" style="display: block">
+    <p style="font-weight: bold">memo:Re</p>
+</div>
