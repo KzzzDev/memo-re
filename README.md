@@ -1,13 +1,30 @@
 # memo:Re
-味噌展プロジェクト
 
-## Installation
+<div align="center">
+    <img src="./docs/logo.svg" alt="Lighthouse logo" height="210" style="display: block">
+    <span style="font-weight: bold">memo:R</span>
+</div>
 
-```bash
+## インストール
+
+```sh
 git clone https://github.com/Kazumasa1/memo-re.git
 ```
 
-## Requirement
+## 使い方
+
+次のコマンドを実行してDocker コンテナを構築します。
+
+```bash
+cd memo-re
+docker-compose build --no-cache
+docker rmi $(docker images --filter "dangling=true" -q)
+docker-compose up -d
+```
+
+## 動作環境
+
+- Nginx(Django): http://localhost:8000
 
 ### ディレクトリ構成
 
@@ -36,29 +53,7 @@ memo-re
     └─── conf
 ```
 
-### Notice
-
-フロントの方でVueのプロジェクトを変更する際は```memo-re/front/```の```app```ディレクトリを変更してください。現状では、そのまま入れ替えてもらって大丈夫です。
-
-## Usage
-
-### Set up
-
-次のコマンドを実行してDocker コンテナを構築します。
-
-```bash
-cd memo-re
-docker-compose build --no-cache
-docker rmi $(docker images --filter "dangling=true" -q)
-docker-compose up -d
-```
-
-### Memo
-
-- Nginx(Django): http://localhost:8000
-- Vue: http://localhost:8080 or http://localhost:5173
-
-## Author
+## 作者
 
 - [@Kazumasa1](https://github.com/Kazumasa1)
 - [@KleinChiu](https://github.com/KleinChiu)
@@ -69,10 +64,3 @@ docker-compose up -d
 - [@nagi-lc3](https://github.com/nagi-lc3)
 - [@reone19](https://github.com/reone19)
 - [@sean-dp](https://github.com/sean-dp)
-
----
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/70145199/207083588-8d3fdcd3-1f3d-40ed-8b8f-c29f53f41f71.svg" alt="Lighthouse logo" height="210">
-    <br>
-    <b>memo:R</b>
-</p>
