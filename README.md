@@ -24,27 +24,23 @@ docker-compose up -d
 
 ```sh
 memo-re
-├─── README.md
-├─── back
-│   ├─── app                    # Djangoのプロジェクト
-│   │   ├─── api
-│   │   │   └─── migrations
-│   │   ├─── config
-│   │   └─── templates
-│   └─── scripts                # docker-compose up で実行される Django起動シェル
-├─── db
-└─── web
-    ├─── app                    # Vueのプロジェクト
-    │   ├─── component
-    │   ├─── lib
-    │   ├─── plugin
-    │   ├─── public
-    │   │   └─── locales
-    │   └─── views
-    │       ├─── brain
-    │       ├─── friend
-    │       └─── user
-    └─── conf
+├── README.md
+├── back
+│   ├── Dockerfile
+│   ├── app			# Djangoのプロジェクト
+│   ├── requirements.txt
+│   ├── scripts			# docker-compose up で実行される Django起動シェル
+│   └── templates
+├── db
+│   ├── Dockerfile
+│   └── my.cnf
+├── docker-compose.yml
+└── web
+    ├── Dockerfile
+    ├── app			# Vueのプロジェクト
+    ├── conf
+    ├── logs
+    └── uwsgi_params
 ```
 
 ## 作者
