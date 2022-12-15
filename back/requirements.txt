@@ -1,7 +1,7 @@
 Django==3.2.16
 mysqlclient == 2.1.1
 scrapy-djangoitem==1.1.1
-scrapy==2.4
+scrapy==2.7.1
 scrapyd==1.2.0
 djangorestframework==3.12.4
 djangorestframework-jwt==1.11.0
