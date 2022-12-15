@@ -1,4 +1,4 @@
-Django==3.2
+Django==3.2.16
 mysqlclient == 2.1.1
 scrapy-djangoitem==1.1.1
 scrapy==2.4
