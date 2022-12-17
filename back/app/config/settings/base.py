@@ -15,7 +15,6 @@ PROJECT_NAME = os.path.basename(BASE_DIR)
 ###############
 
 env = environ.Env()
-# Read .env if exists
 env.read_env('.env')
 
 ############
@@ -76,7 +75,6 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [os.path.join(BASE_DIR, "templates")],
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {

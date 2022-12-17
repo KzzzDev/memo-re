@@ -6,7 +6,7 @@ from .base import *
 
 DEBUG = False
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
@@ -24,11 +24,11 @@ MEDIA_ROOT = '/usr/share/nginx/html/media'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env.get_value('MYSQL_DB_NAME'),
-        'USER': env.get_value('MYSQL_USER_NAME'),
-        'PASSWORD': env.get_value('MYSQL_USER_PASSWORD'),
-        'HOST': env.get_value('MYSQL_HOST_PRODUCTION'),
-        'PORT': env.get_value('MYSQL_PORT'),
+        'NAME': env('MYSQL_DB_NAME'),
+        'USER': env('MYSQL_USER_NAME'),
+        'PASSWORD': env('MYSQL_USER_PASSWORD'),
+        'HOST': env('MYSQL_HOST_PRODUCTION'),
+        'PORT': env('MYSQL_PORT'),
     }
 }
 DATABASES['default']['TIME_ZONE'] = 'Asia/Tokyo'

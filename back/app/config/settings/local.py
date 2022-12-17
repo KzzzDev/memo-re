@@ -15,7 +15,6 @@ ALLOWED_HOSTS = ['*']
 ################
 
 STATIC_ROOT = BASE_DIR / 'static'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = BASE_DIR / 'media'
 
 ############
@@ -25,11 +24,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env.get_value('MYSQL_DB_NAME'),
-        'USER': env.get_value('MYSQL_USER_NAME'),
-        'PASSWORD': env.get_value('MYSQL_USER_PASSWORD'),
-        'HOST': env.get_value('MYSQL_HOST_LOCAL'),
-        'PORT': env.get_value('MYSQL_PORT'),
+        'NAME': env('MYSQL_DB_NAME'),
+        'USER': env('MYSQL_USER_NAME'),
+        'PASSWORD': env('MYSQL_USER_PASSWORD'),
+        'HOST': env('MYSQL_HOST_LOCAL'),
+        'PORT': env('MYSQL_PORT'),
     }
 }
 DATABASES['default']['TIME_ZONE'] = 'Asia/Tokyo'
