@@ -97,7 +97,7 @@ DATABASES = {
         'USER': env.get_value('MYSQL_USER_NAME'),
         'PASSWORD': env.get_value('MYSQL_USER_PASSWORD'),
         'HOST': env.get_value('MYSQL_HOST_LOCAL'),
-        'PORT': env.get_value('MYSQL_PORT_LOCAL')
+        'PORT': env.get_value('MYSQL_PORT')
     }
 }
 
