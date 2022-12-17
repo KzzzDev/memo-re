@@ -4,7 +4,13 @@ RUN npm ci
 COPY ./app/ .
 RUN npm run build
 
+
 FROM nginx:1.14.1
+
+# 開発ディレクトリ設定
+ENV WORKDIR /usr/share/nginx/
+WORKDIR ${WORKDIR}
+
 RUN mkdir /usr/share/nginx/html/static
 RUN mkdir /usr/share/nginx/html/static/assets
 RUN mkdir /usr/share/nginx/html/static/locales

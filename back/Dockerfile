@@ -15,3 +15,10 @@ RUN pip install --upgrade pip && \
     pip install coreapi django-cors-headers python-jose
 
 COPY ./app/ ${WORKDIR}/
+
+# django-debug-toolbar
+# staticファイルのロード先を別フォルダに設定しているため、CSSが効かない問題を解決
+# https://unisia-se.com/detail/33/
+CMD ["cp","-r", \
+     "/usr/local/lib/python3.9/site-packages/debug_toolbar/static/debug_toolbar", \
+     "/usr/src/app/app/static"]
