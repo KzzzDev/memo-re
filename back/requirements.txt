@@ -12,3 +12,8 @@ markdown==3.3.4
 django-filter==2.4.0
 Pygments==2.9.0
 django-environ==0.9.0
+djangorestframework-simplejwt==5.2.2
+djoser==2.1.0
+django-jazzmin==2.6.0
+django-extensions==3.2.1
+Werkzeug==2.2.2
