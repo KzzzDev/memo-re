@@ -11,3 +11,8 @@ uwsgi==2.0.19.1
 markdown==3.3.4
 django-filter==2.4.0
 Pygments==2.9.0
+djangorestframework-simplejwt
+djoser
+django-jazzmin
+django-extensions
+Werkzeug
