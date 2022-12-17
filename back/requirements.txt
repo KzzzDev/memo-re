@@ -16,3 +16,4 @@ djoser
 django-jazzmin
 django-extensions
 Werkzeug
+django-environ==0.9.0
