@@ -12,7 +12,7 @@ git clone https://github.com/Kazumasa1/memo-re.git
 
 ```bash
 cd memo-re
-docker-compose build --no-cashe
+docker-compose build --no-cache
 docker-compose up -d
 ```
 
