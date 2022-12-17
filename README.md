@@ -43,6 +43,10 @@ memo-re
     └── uwsgi_params
 ```
 
+### システム構成図
+
+<img src="./docs/system.png" alt="memo:Re logo" width="550">
+
 ## 作者
 
 - [@Kazumasa1](https://github.com/Kazumasa1)
