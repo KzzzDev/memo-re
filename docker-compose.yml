@@ -33,9 +33,9 @@ services:
     restart: always
     volumes:
       - ./back:/usr/src/app
-      - templates_volume:/usr/src/app/templates
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+      - templates_volume:/usr/src/app/app/templates
+      - static_volume:/usr/src/app/app/static
+      - media_volume:/usr/src/app/app/media
     expose:
       - "8001"
     networks:

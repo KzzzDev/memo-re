@@ -4,9 +4,9 @@ from .base import *
 # Security settings #
 #####################
 
-SECRET_KEY = '<fake-secret-key>'
-
 DEBUG = True
+
+SECRET_KEY = '<fake-secret-key>'
 
 ALLOWED_HOSTS = ['*']
 
@@ -27,7 +27,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': env.get_value('MYSQL_DB_NAME'),
         'USER': env.get_value('MYSQL_USER_NAME'),
-        'PASSWORD': env.get_value('MYSQL_PASSWORD'),
+        'PASSWORD': env.get_value('MYSQL_USER_PASSWORD'),
         'HOST': env.get_value('MYSQL_HOST_LOCAL'),
         'PORT': env.get_value('MYSQL_PORT'),
     }
@@ -36,6 +36,14 @@ DATABASES['default']['TIME_ZONE'] = 'Asia/Tokyo'
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 DATABASES['default']['sql_mode'] = 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO'
 # DATABASES['default']['init_command'] = 'STRICT_TRANS_TABLES'
+
+#####################
+# Django Extensions #
+#####################
+
+INSTALLED_APPS += (
+    'django_extensions',
+)
 
 ###########
 # Logging #

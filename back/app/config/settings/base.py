@@ -54,8 +54,8 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
 
     # My applications
-    'api_login.apps.Api_loginConfig',
-    'users.apps.UsersConfig',
+    # 'api_login.apps.Api_loginConfig',
+    # 'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +139,7 @@ USE_TZ = True
 ################
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 
 ##################
@@ -169,14 +169,6 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8080',
-)
-
-#####################
-# Django Extensions #
-#####################
-
-INSTALLED_APPS += (
-    'django_extensions',
 )
 
 #######################
