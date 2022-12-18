@@ -14,11 +14,15 @@ git clone https://github.com/Kazumasa1/memo-re.git
 cd memo-re
 docker-compose build --no-cache
 docker-compose up -d
+docker-compose restart back
 ```
 
 ## 動作環境
 
 - Nginx(Django): http://localhost:8000
+- Nginx(Django)管理者サイト: http://localhost:8000/admin
+  - メールアドレス: admin@example.com
+  - パスワード: admin
 
 ### ディレクトリ構成
 
