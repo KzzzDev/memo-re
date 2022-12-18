@@ -9,6 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html')),
     # path('login/', include('api_login.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+    # path('api/v1/', include('apiv1.urls')),
     re_path('', RedirectView.as_view(url='/')),
 ]
 
