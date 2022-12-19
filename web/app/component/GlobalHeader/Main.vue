@@ -72,7 +72,7 @@ header {
 
 .notice-count {
   width: 20px;
-  background: red;
+  background: #FC7474 0 0 no-repeat padding-box;
   height: 20px;
   display: flex;
   justify-content: center;
