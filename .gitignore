@@ -539,5 +539,4 @@ fabric.properties
 back/app/schema.yml
 
 # マイグレーションファイル
-migrations/
-
+000*.py
