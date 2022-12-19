@@ -54,8 +54,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     # My applications
-    'accounts'
-    # 'apiv1.apps.Apiv1Config',
+    'accounts.apps.AccountsConfig',
+    'apiv1.apps.Apiv1Config',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
