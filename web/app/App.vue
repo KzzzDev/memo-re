@@ -15,8 +15,8 @@ export default {
 
 <style>
   main{
-    /*仮でヘッダーの大きさを20％に指定。*/
-    width: 80%;
-    margin-left: 20%;
+    /*仮でヘッダーの大きさを15％に指定。*/
+    width: 85%;
+    margin-left: 15%;
   }
 </style>

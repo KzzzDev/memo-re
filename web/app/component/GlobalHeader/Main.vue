@@ -1,12 +1,15 @@
 <template>
   <header>
-    <div class="icon-menu">
-      <img src="" alt="logo image" id="header-logo">
+    <div class="logo-area">
+      <img src="../../public/images/logo.png" alt="logo image" id="header-logo" >
     </div>
-    <div class="link-menu">
-      <header-link  />
+    <div class="link-area">
+      <header-link category="Profile" />
+      <header-link category="Make" />
+      <header-link category="Share" />
+      <header-link category="Search" />
     </div>
-    <div class="notice-menu">
+    <div class="notice-area">
 
     </div>
   </header>
@@ -23,7 +26,8 @@ export default {
 
 <style scoped>
   header{
-    width: 20%;
+    background: #505058;
+    width: 15%;
     height: 100%;
     position: fixed;
     top: 0;
@@ -31,5 +35,25 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .logo-area{
+    height: 33%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #header-logo{
+    width: 200px;
+  }
+
+  .link-area{
+    width: 100%;
+    height: 50%;
+  }
+  .notice-area{
+    width: 100%;
+    height: 17%;
   }
 </style>
