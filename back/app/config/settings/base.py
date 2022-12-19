@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
 
     # My applications
-    'memore.apps.MemoreConfig',
+    # 'memore.apps.MemoreConfig',
     'accounts'
     # 'api_login.apps.Api_loginConfig',
     # 'users.apps.UsersConfig',
