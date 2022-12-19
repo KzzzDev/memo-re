@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd app
+python manage.py makemigrations
 python manage.py makemigrations accounts
 # python manage.py makemigrations app
 python manage.py migrate
@@ -14,6 +15,7 @@ python manage.py collectstatic --noinput
 # cp -r /usr/local/lib/python3.9/site-packages/django/contrib/admin/static/admin/ /usr/src/app/app/static
 
 python manage.py custom_createsuperuser --email admin@example.com --password admin
+python manage.py spectacular --file schema.yml
 
 # configアプリuWSGIに接続。「--py-autoreload 1」でファイル等に変更があった際は自動リロード
 uwsgi --socket :8001 \

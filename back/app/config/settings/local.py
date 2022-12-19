@@ -44,6 +44,18 @@ INSTALLED_APPS += (
     'django_extensions',
 )
 
+###################
+# drf-spectacular #
+###################
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'memo:re_API',
+    'DESCRIPTION': '未来創造展「memo:re」のAPIドキュメントです。',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+
 ###########
 # Logging #
 ###########
