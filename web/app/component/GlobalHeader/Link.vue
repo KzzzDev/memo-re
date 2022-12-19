@@ -1,23 +1,32 @@
 <template>
   <div class="header-link">
-    <img src="" alt="" class="icon">
-    <p>{{name}}</p>
+
+    <p>{{ category }}</p>
   </div>
 </template>
 
-<script lang="ts">
-  import {defineComponent} from "vue"
-  export default defineComponent({
-    name:"header-link",
+<script lang="ts" setup>
+type Category = "Profile" | "Make" | "Share" | "Search" | "Info"
 
-  })
+const props = defineProps<{
+  category: Category
+}>();
+
+const imagePath = ""
+
 </script>
 
 <style scoped>
-.header-link{
+.header-link {
   width: 100%;
+  height: 30px;
   display: flex;
   justify-content: center;
 }
 
+p {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
 </style>

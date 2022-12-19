@@ -27,7 +27,7 @@ export default {
 <style scoped>
   header{
     background: #505058;
-    width: 15%;
+    width: 12%;
     height: 100%;
     position: fixed;
     top: 0;
@@ -45,7 +45,7 @@ export default {
   }
 
   #header-logo{
-    width: 200px;
+    width: 80px;
   }
 
   .link-area{
