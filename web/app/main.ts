@@ -1,19 +1,20 @@
-import { createApp } from "vue";
+import {createApp} from "vue";
 
 import App from "./App.vue";
 
-import { i18n, router, memoRe } from "./plugin";
+import {i18n, router, memoRe} from "./plugin";
 
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
-import {faUserSecret} from "@fortawesome/free-solid-svg-icons";
+import {faUser, faPenToSquare} from "@fortawesome/free-regular-svg-icons";
+import {faArrowUpFromBracket, faUserGroup, faMagnifyingGlass,faCircleInfo} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUserSecret)
+library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass,faCircleInfo)
 
 
 createApp(App)
+    .component('font-awesome-icon', FontAwesomeIcon)
     .use(i18n)
     .use(router)
     .use(memoRe)
-    .component("font-awesome-icon",FontAwesomeIcon)
     .mount("#app");
