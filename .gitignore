@@ -532,10 +532,12 @@ fabric.properties
 
 !web/app/lib/
 
+
 # 追記
 
 # APIドキュメント
 back/app/schema.yml
 
 # マイグレーションファイル
-migrations/*
+migrations/
+
