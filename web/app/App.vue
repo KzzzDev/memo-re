@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import GlobalHeader from "./component/GlobalHeader/Main.vue";
+import GlobalHeader from "./component/GlobalHeader.vue";
 
 export default {
   components: {GlobalHeader}

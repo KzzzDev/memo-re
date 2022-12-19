@@ -1,13 +1,10 @@
 <template>
   <header>
     <div class="logo-area">
-      <img src="../../public/images/logo.png" alt="logo image" id="header-logo" >
+      <img src="../public/images/logo.png" alt="logo image" id="header-logo" >
     </div>
     <div class="link-area">
-      <header-link category="Profile" />
-      <header-link category="Make" />
-      <header-link category="Share" />
-      <header-link category="Search" />
+      
     </div>
     <div class="notice-area">
 
@@ -16,7 +13,6 @@
 </template>
 
 <script lang="ts">
-import HeaderLink from "./Link.vue";
 
 export default {
   name:"GlobalHeader",
