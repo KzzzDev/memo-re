@@ -4,17 +4,19 @@
       <img src="../../public/images/logo.png" alt="logo image" id="header-logo">
     </div>
     <div class="link-area">
-      <header-link link-text="User" />
-      <header-link link-text="Make" />
-      <header-link link-text="Share" />
-      <header-link link-text="Friend" />
-      <header-link link-text="Search" />
-      <header-link link-text="Info" />
+      <header-link link-text="User"/>
+      <header-link link-text="Make"/>
+      <header-link link-text="Share"/>
+      <header-link link-text="Friend"/>
+      <header-link link-text="Search"/>
+      <header-link link-text="Info"/>
 
     </div>
     <div class="notice-area">
-
+      <div class="notice-count">4</div>
+      <font-awesome-icon icon="fa-solid fa-bell" inverse size="3x"/>
     </div>
+
   </header>
 </template>
 
@@ -23,7 +25,7 @@ import HeaderLink from "./Link.vue"
 
 export default {
   name: "GlobalHeader",
-  components:{HeaderLink}
+  components: {HeaderLink}
 }
 </script>
 
@@ -41,7 +43,7 @@ header {
 }
 
 .logo-area {
-  height: 33%;
+  height: 30%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -61,6 +63,26 @@ header {
 
 .notice-area {
   width: 100%;
-  height: 17%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
 }
+
+.notice-count {
+  width: 20px;
+  background: red;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: absolute;
+  left: 115px;
+  top: 0;
+  font-size: 10px
+}
+
+
 </style>
