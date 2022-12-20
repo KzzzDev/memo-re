@@ -6,6 +6,9 @@
 git clone https://github.com/Kazumasa1/memo-re.git
 ```
 
+## envの設定
+- ”.env.sample" を ".env"に変更してコードを書き加えてください。
+
 ## 使い方
 
 次のコマンドを実行してDocker コンテナを構築します。
@@ -20,9 +23,16 @@ docker-compose restart back
 ## 動作環境
 
 - Nginx(Django): http://localhost:8000
+
 - Nginx(Django)管理者サイト: http://localhost:8000/admin
   - メールアドレス: admin@example.com
   - パスワード: admin
+
+- Nginx(Django)APIドキュメントダウンロード: http://localhost:8000/api/schema/
+
+- Nginx(Django)APIドキュメント:swaggerUIで閲覧およびテスト http://localhost:8000/api/schema/swagger-ui/
+
+- Nginx(Django)APIドキュメント:redocで閲覧およびテスト http://localhost:8000/api/schema/redoc/
 
 ### ディレクトリ構成
 
@@ -33,7 +43,7 @@ memo-re
 │   ├── Dockerfile
 │   ├── app			# Djangoのプロジェクト
 │   ├── requirements.txt
-│   ├── scripts			# docker-compose up で実行される Django起動シェル
+│   ├── start.sh	# docker-compose up で実行される Django起動シェル
 │   └── templates
 ├── db
 │   ├── Dockerfile

@@ -51,12 +51,11 @@ INSTALLED_APPS = [
     'corsheaders',  # CORS
     'rest_framework',
     'rest_framework_jwt',
+    'drf_spectacular',
 
     # My applications
-    # 'memore.apps.MemoreConfig',
-    'accounts'
-    # 'api_login.apps.Api_loginConfig',
-    # 'users.apps.UsersConfig',
+    'accounts.apps.AccountsConfig',
+    'apiv1.apps.Apiv1Config',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -155,6 +154,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -175,7 +175,7 @@ SIMPLE_JWT = {
 
 DJOSER = {
     # メールアドレスでログイン
-    'LOGIN_FIELD': 'email',
+    # 'LOGIN_FIELD': 'email',
     # # アカウント本登録メール
     # 'SEND_ACTIVATION_EMAIL': True,
     # # アカウント本登録完了メール
@@ -217,8 +217,6 @@ DJOSER = {
     #     'username_changed_confirmation': 'accounts.email.UsernameChangedConfirmationEmail',
     # },
 }
-
-# AUTH_USER_MODEL = 'accounts.UserAccount'
 
 ########
 # CORS #

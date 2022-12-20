@@ -12,11 +12,11 @@ djangorestframework==3.12.4
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==4.6.0
 djoser==2.1.0
+drf-spectacular==0.25.1
 markdown==3.3.4
 mysqlclient == 2.1.1
 scrapy-djangoitem==1.1.1
 scrapy==2.7.1
 scrapyd==1.2.0
 uwsgi==2.0.19.1
-markdown==3.3.4
 Pygments==2.9.0
