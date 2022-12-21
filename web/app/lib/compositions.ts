@@ -50,6 +50,8 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
   return { data, error, refresh };
 };
 
+type UseErroOptions = Partial<{ immediately: boolean; defaultMessage: string }>;
+
 /**
  * @param initial Initial value of the composition.
  * @param rules Validation rule, return whether the value is invalid or error message.
@@ -59,7 +61,7 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
 export const useError = <T>(
   initial: T,
   rules: ((value: UnwrapRef<T>) => boolean | string)[],
-  options = { immediately: true, defaultMessage: "" }
+  options: UseErroOptions = { immediately: true, defaultMessage: "" }
 ) => {
   const data = ref(initial);
   const error = ref<string | undefined>(undefined);
