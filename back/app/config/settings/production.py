@@ -36,6 +36,25 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 DATABASES['default']['sql_mode'] = 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO'
 # DATABASES['default']['init_command'] = 'STRICT_TRANS_TABLES'
 
+##################
+# REST Framework #
+##################
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # Browsable APIの非表示
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
+
+
 ###########
 # Logging #
 ###########
@@ -79,12 +98,3 @@ LOGGING = {
         },
     },
 }
-
-###################
-# Stripe settings #
-###################
-
-# Stripe 公開可能キー
-# STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-# Stripe シークレットキー
-# STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')

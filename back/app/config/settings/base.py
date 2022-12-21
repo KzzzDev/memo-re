@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
 #################
 
 INSTALLED_APPS = [
+    'jazzmin',  # 管理サイトのデザイン
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,16 +47,18 @@ INSTALLED_APPS = [
     # 'django_tables2',
     # 'django_cleanup',
     # 'imagekit',
-    'jazzmin',  # 管理サイトのデザイン
     'djoser',  # JWT
     'corsheaders',  # CORS
     'rest_framework',
     'rest_framework_jwt',
+    'drf_spectacular',
 
     # My applications
-    # 'api_login.apps.Api_loginConfig',
-    # 'users.apps.UsersConfig',
+    'accounts.apps.AccountsConfig',
+    'apiv1.apps.Apiv1Config',
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     # CORS
@@ -151,11 +154,68 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+}
+
+SIMPLE_JWT = {
+    # アクセストークン(1時間)
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    # リフレッシュトークン(3日)
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
+    # 認証タイプ
+    'AUTH_HEADER_TYPES': ('JWT', ),
+    # 認証トークン
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', )
+}
+
+DJOSER = {
+    # メールアドレスでログイン
+    # 'LOGIN_FIELD': 'email',
+    # # アカウント本登録メール
+    # 'SEND_ACTIVATION_EMAIL': True,
+    # # アカウント本登録完了メール
+    # 'SEND_CONFIRMATION_EMAIL': True,
+    # # メールアドレス変更完了メール
+    # 'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    # # パスワード変更完了メール
+    # 'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    # # アカウント登録時に確認用パスワード必須
+    # 'USER_CREATE_PASSWORD_RETYPE': True,
+    # # メールアドレス変更時に確認用メールアドレス必須
+    # 'SET_USERNAME_RETYPE': True,
+    # # パスワード変更時に確認用パスワード必須
+    # 'SET_PASSWORD_RETYPE': True,
+    # # アカウント本登録用URL
+    # 'ACTIVATION_URL': 'activate/{uid}/{token}',
+    # # メールアドレスリセット完了用URL
+    # 'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    # # パスワードリセット完了用URL
+    # 'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    # # カスタムユーザー用シリアライザー
+    # 'SERIALIZERS': {
+    #     'user_create': 'accounts.serializers.UserSerializer',
+    #     'user': 'accounts.serializers.UserSerializer',
+    #     'current_user': 'accounts.serializers.UserSerializer',
+    # },
+    # 'EMAIL': {
+    #     # アカウント本登録
+    #     'activation': 'accounts.email.ActivationEmail',
+    #     # アカウント本登録完了
+    #     'confirmation': 'accounts.email.ConfirmationEmail',
+    #     # パスワードリセット
+    #     'password_reset': 'accounts.email.PasswordResetEmail',
+    #     # パスワードリセット完了
+    #     'password_changed_confirmation': 'accounts.email.PasswordChangedConfirmationEmail',
+    #     # メールアドレスリセット
+    #     'username_reset': 'accounts.email.UsernameResetEmail',
+    #     # メールアドレスリセット完了
+    #     'username_changed_confirmation': 'accounts.email.UsernameChangedConfirmationEmail',
+    # },
 }
 
 ########
