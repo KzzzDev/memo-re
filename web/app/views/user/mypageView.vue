@@ -7,7 +7,7 @@
   <template v-if="editing">
     <input type="text" placeholder="E-mail" v-model="email" />
     <p class="error">{{ emailE.error.value }}</p>
-    <input type="password" placeholder="Password" v-model="pass" />
+    <input type="password" placeholder="Password" v-model="password" />
     <p class="error">{{ passE.error.value }}</p>
     <input type="password" placeholder="確認用Password" v-model="passC" />
     <p class="error">{{ passCE.error.value }}</p>
@@ -22,18 +22,22 @@
 
 <script setup lang="ts">
 import validator from "validator";
-import { ref } from "vue";
+import { inject, ref } from "vue";
 
-import { not, useError } from "../../lib";
+import { UserInfo, UserInfoKey } from "../../App.vue";
+import { not, useBackend, useError } from "../../lib";
+import { updateUserInfo } from "../../lib/network";
 
-const editing = ref(false);
+// ユーザーの情報は入手出来なかったら、ログインに転移されるはずなので、あると信じる
+const userInfo = inject(UserInfoKey) as UserInfo;
+const editing = ref(true);
 
-const { data: email, ...emailE } = useError("alicewhite@example.com", [not(validator.isEmail)], {
+const { data: email, ...emailE } = useError(userInfo.value.email, [not(validator.isEmail)], {
   defaultMessage: "メールアドレスを入力してください",
   immediately: false,
 });
 
-const { data: pass, ...passE } = useError(
+const { data: password, ...passE } = useError(
   "",
   [
     (str) => validator.isEmpty(str) && "パスワードを入力してください",
@@ -42,11 +46,30 @@ const { data: pass, ...passE } = useError(
   { immediately: false }
 );
 
-const { data: passC, ...passCE } = useError("", [(str) => str != pass.value && "入力したパスワードと一致しません"], {
-  immediately: false,
-});
+const { data: passC, ...passCE } = useError(
+  "",
+  [(str) => str != password.value && "入力したパスワードと一致しません"],
+  {
+    immediately: false,
+  }
+);
 
-const tryUpdateInfo = () => {};
+const tryUpdateInfo = () => {
+  const fields = [emailE, passE, passCE];
+
+  fields.map((err) => err.start());
+
+  if (!fields.map((fld) => !!fld.error.value).reduce((prev, next) => prev || next)) {
+    updateInfo()
+      .then(() => {}) // NOTE: 成功したら
+      .catch(() => {}); // NOTE: 失敗したら
+  }
+};
+
+const { refresh: updateInfo } = useBackend(updateUserInfo, false, userInfo.value.id ?? "current", {
+  email,
+  password,
+});
 </script>
 
 <style scoped></style>
