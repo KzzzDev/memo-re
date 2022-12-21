@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     # My applications
     'accounts.apps.AccountsConfig',
     'apiv1.apps.Apiv1Config',
+    'memore.apps.MemoreConfig',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'

@@ -1,10 +1,13 @@
-from django.contrib.auth.models import AbstractUser, UserManager
-from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from .validators import UnicodeUseridValidator, UnicodeUsernameValidator
 
 
 class UserManager(UserManager):
+    """認証をusernameからemailに変更"""
+
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
@@ -39,18 +42,27 @@ class CustomUser(AbstractUser):
         verbose_name = verbose_name_plural = 'カスタムユーザー'
 
     username_validator = UnicodeUsernameValidator()
+    userid_validator = UnicodeUseridValidator()
 
+    userid = models.CharField(
+        _("ユーザーID"),
+        max_length=30,
+        primary_key=True,
+        help_text=_("この項目は必須です。"),
+        validators=[userid_validator],
+        unique=True
+    )
     username = models.CharField(
         _("username"),
         max_length=150,
         help_text=_("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."),
         validators=[username_validator],
     )
-    # user_ida = models.CharField(_("user ID"), max_length=30)
-
     email = models.EmailField(_('email address'), unique=True)
+    tag = models.CharField(_('タグ'), max_length=150, blank=True, null=True)
 
     objects = UserManager()
-
+    # usernameからemail認証に変更
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    # createsuperuserでemailのの他に必須な項目
+    REQUIRED_FIELDS = ["password", "userid", "username"]

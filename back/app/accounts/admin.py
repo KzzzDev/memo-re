@@ -4,11 +4,11 @@ from .models import CustomUser
 
 class CustomerAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'email', 'username', 'date_joined', 'last_login',
+        'userid', 'username', 'email', 'tag', 'date_joined', 'last_login',
         'is_superuser', 'is_staff', 'is_active')
-    list_display_links = ('id', 'email')
+    list_display_links = ('userid', 'username', 'email',)
     search_fields = (
-        'id', 'email', 'username', 'date_joined', 'last_login',
+        'userid', 'username', 'email', 'tag', 'date_joined', 'last_login',
         'is_superuser', 'is_staff', 'is_active')
     list_filter = (
         'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active')
