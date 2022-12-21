@@ -40,4 +40,4 @@ if settings.DEBUG:
             name='redoc'),
     ]
 
-urlpatterns += re_path('', RedirectView.as_view(url='/')),
+# urlpatterns += re_path('', RedirectView.as_view(url='/')),
