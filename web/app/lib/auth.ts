@@ -1,4 +1,4 @@
-const { TOKEN_KEY: tokenKey } = process.env;
+const tokenKey = process.env.TOKEN_KEY;
 
 export const setToken = (token?: string) => token && localStorage.setItem(tokenKey, token);
 
