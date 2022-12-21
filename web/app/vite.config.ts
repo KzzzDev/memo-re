@@ -9,6 +9,7 @@ export default defineConfig({
   base: "/",
   build: {
     outDir: resolve(__dirname, 'dist'),
+    assetsDir: 'static',
     cssCodeSplit: false,
     rollupOptions: {
       external: ["vue"],

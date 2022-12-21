@@ -4,7 +4,8 @@
   "description": "未来創造展",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
