@@ -3,7 +3,7 @@ import { onMounted, reactive, ref, Ref, shallowRef, UnwrapRef, watch, WatchStopH
 import { APIResponse, ErrorResponse } from "./network";
 
 type NestedRefs<T> = {
-  [key in keyof T]: T[key] extends object ? NestedRefs<T[key]> : Ref<T[key]>;
+  [key in keyof T]: T[key] extends object ? NestedRefs<T[key]> : Ref<T[key]> | T[key];
 };
 
 type BackendCall = (...params: any[]) => Promise<APIResponse<any>>;
@@ -41,6 +41,7 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
       .catch((err) => {
         error.value = err;
         data.value = undefined;
+        return Promise.reject();
       });
 
   if (immediately) {
