@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-area">
-      <img src="../../public/images/logo.png" alt="logo image" id="header-logo">
+      <img src="../../public/media/logo.png" alt="logo image" id="header-logo">
     </div>
     <div class="link-area">
       <header-link link-text="Profile"/>
