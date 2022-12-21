@@ -5,6 +5,7 @@
     </div>
     <div class="link-text-box">
       <p>{{ linkText }}</p>
+      <p v-if="noticeCount>0">{{ noticeCount }}</p>
     </div>
   </div>
 
@@ -16,7 +17,9 @@ export default {
   name: "headerLink",
   data() {
     return {
-      icon: ""
+      icon: "",
+      linkHref: "",
+      noticeCount: 0
     }
   },
   props: {
@@ -26,24 +29,46 @@ export default {
   },
   mounted() {
     switch (this.linkText) {
-      case "User":
+      case "Profile":
         this.icon = "fa-regular fa-user"
+        this.linkHref = "/mypage"
         break
       case "Make":
         this.icon = "fa-regular fa-pen-to-square"
+        this.linkHref = "/create"
         break;
       case "Share":
         this.icon = "fa-solid fa-arrow-up-from-bracket"
+        this.linkHref = "/share"
         break;
       case "Friend":
         this.icon = "fa-solid fa-user-group"
+        this.linkHref = "/friends"
         break;
       case "Search":
         this.icon = "fa-solid fa-magnifying-glass"
+        this.linkHref = "/search"
         break;
       case "Info":
         this.icon = "fa-solid fa-circle-info"
+        this.linkHref = "/info"
         break;
+
+      case "Logout":
+        this.icon = "fa-solid fa-right-from-bracket"
+        this.linkHref = "/logout"
+        break;
+      case "Notice":
+        this.icon = "fa-solid fa-bell"
+        this.linkHref = "/notice"
+        this.getNoticeCount()
+        break;
+    }
+  },
+  methods: {
+    getNoticeCount() {
+      // API処理
+      this.noticeCount = 4
     }
   }
 }

@@ -4,17 +4,15 @@
       <img src="../../public/images/logo.png" alt="logo image" id="header-logo">
     </div>
     <div class="link-area">
-      <header-link link-text="User"/>
+      <header-link link-text="Profile"/>
       <header-link link-text="Make"/>
-      <header-link link-text="Share"/>
       <header-link link-text="Friend"/>
       <header-link link-text="Search"/>
-      <header-link link-text="Info"/>
+      <header-link link-text="Notice"/>
 
     </div>
-    <div class="notice-area">
-      <div class="notice-count">4</div>
-      <font-awesome-icon icon="fa-solid fa-bell" inverse size="3x"/>
+    <div class="logout-area">
+       <header-link link-text="Logout" />
     </div>
 
   </header>
@@ -70,19 +68,7 @@ header {
   position: relative;
 }
 
-.notice-count {
-  width: 20px;
-  background: #FC7474 0 0 no-repeat padding-box;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  position: absolute;
-  left: 115px;
-  top: 0;
-  font-size: 10px
-}
+
 
 
 </style>
