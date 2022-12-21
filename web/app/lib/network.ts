@@ -104,7 +104,7 @@ export const registerUser = (info: UserCredential & { name: string }) => access(
 export const getUserInfo = (userId?: UserId) =>
   access<{ user: User & Pick<UserCredential, "email"> }>(`users/${userId ?? "current"}`);
 
-export const updateUserInfo = (userId: UserId, info: User & UserCredential) =>
+export const updateUserInfo = (userId: UserId, info: Partial<User & UserCredential>) =>
   access(`users/${userId}`, info, { method: "POST" });
 // #endregion
 
