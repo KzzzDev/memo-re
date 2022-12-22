@@ -1,90 +1,67 @@
 # memo:Re
-味噌展プロジェクト
 
-## Installation
+## インストール
 
-```bash
+```sh
 git clone https://github.com/Kazumasa1/memo-re.git
 ```
 
-## Requirement
+## envの設定
+- ”.env.sample" を ".env"に変更してコードを書き加えてください。
 
-### ディレクトリ構成
-
-```bash
-memo-re
-├── README.md
-├── back
-│   ├── Dockerfile
-│   ├── app  # ← Djangoのプロジェクト
-│   │   ├── api
-│   │   ├── config
-│   │   ├── manage.py
-│   │   ├── media
-│   │   ├── static
-│   │   └── templates
-│   ├── media
-│   ├── requirements.txt
-│   ├── scripts
-│   │   └── start.sh  # ← docker-compose up で実行される Django起動シェル
-│   └── static
-├── db
-│   ├── Dockerfile
-│   └── my.cnf
-├── docker-compose.yml
-├── front
-│   ├── Dockerfile
-│   ├── app  # ← Vueのプロジェクト
-│   │   ├── App.vue
-│   │   ├── README.md
-│   │   ├── component
-│   │   ├── dist  # ← docker-compose build 後に生成されるディレクトリ
-│   │   ├── env.d.ts
-│   │   ├── index.html
-│   │   ├── lib
-│   │   ├── main.ts
-│   │   ├── node_modules
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   ├── plugin
-│   │   ├── public
-│   │   ├── tsconfig.json
-│   │   ├── tsconfig.node.json
-│   │   ├── views
-│   │   └── vite.config.ts
-│   └── scripts
-│       └── start.sh  # ← docker-compose up で実行される Vue起動シェル
-└── web
-    ├── Dockerfile
-    ├── conf
-    │   └── app_nginx.conf
-    ├── logs
-    │   └── nginx
-    └── uwsgi_params
-```
-### Notice
-
-フロントの方でVueのプロジェクトを変更する際は```memo-re/front/```の```app```ディレクトリを変更してください。現状では、そのまま入れ替えてもらって大丈夫です。
-
-## Usage
-
-### Set up
+## 使い方
 
 次のコマンドを実行してDocker コンテナを構築します。
 
 ```bash
 cd memo-re
 docker-compose build --no-cache
-docker rmi $(docker images --filter "dangling=true" -q)
 docker-compose up -d
+docker-compose restart back
 ```
 
-### Memo
+## 動作環境
 
 - Nginx(Django): http://localhost:8000
-- Vue: http://localhost:8080 or http://localhost:5173
 
-## Author
+- Nginx(Django)管理者サイト: http://localhost:8000/admin
+  - メールアドレス: admin@example.com
+  - パスワード: admin
+
+- Nginx(Django)APIドキュメントダウンロード: http://localhost:8000/api/schema/
+
+- Nginx(Django)APIドキュメント:swaggerUIで閲覧およびテスト http://localhost:8000/api/schema/swagger-ui/
+
+- Nginx(Django)APIドキュメント:redocで閲覧およびテスト http://localhost:8000/api/schema/redoc/
+
+### ディレクトリ構成
+
+```sh
+memo-re
+├── README.md
+├── back
+│   ├── Dockerfile
+│   ├── app			# Djangoのプロジェクト
+│   ├── requirements.txt
+│   ├── start.sh	# docker-compose up で実行される Django起動シェル
+│   └── templates
+├── db
+│   ├── Dockerfile
+│   └── my.cnf
+├── docker-compose.yml
+└── web
+    ├── Dockerfile
+    ├── app			# Vueのプロジェクト
+    ├── conf
+    ├── logs
+    └── uwsgi_params
+```
+
+### システム構成図
+
+<img src="./docs/system.png" alt="memo:Re logo" width="550">
+
+## 作者
 
 - [@Kazumasa1](https://github.com/Kazumasa1)
 - [@KleinChiu](https://github.com/KleinChiu)
@@ -97,8 +74,8 @@ docker-compose up -d
 - [@sean-dp](https://github.com/sean-dp)
 
 ---
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/70145199/207083588-8d3fdcd3-1f3d-40ed-8b8f-c29f53f41f71.svg" alt="Lighthouse logo" height="210">
-    <br>
-    <b>memo:R</b>
-</p>
+
+<div align="center">
+    <img src="./docs/logo.svg" alt="memo:Re logo" height="210" style="display: block">
+    <p style="font-weight: bold">memo:Re</p>
+</div>

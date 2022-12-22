@@ -6,7 +6,7 @@ EXPOSE 8000
 # 開発ディレクトリ設定
 ENV WORKDIR /usr/src/app
 WORKDIR ${WORKDIR}
-COPY ./scripts/ ${WORKDIR}/
+COPY start.sh ${WORKDIR}/
 
 # コンテナ内でパッケージを一括インストール
 COPY requirements.txt ${WORKDIR}

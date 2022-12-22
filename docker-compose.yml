@@ -5,6 +5,7 @@ services:
     container_name: nginx
     build:
       context: ./web
+      dockerfile: ./Dockerfile
     restart: always
     ports:
       - "8000:8000"
@@ -14,6 +15,7 @@ services:
       - ./web/conf:/etc/nginx/conf.d
       - ./web/logs/nginx/:/var/log/nginx/
       - ./web/uwsgi_params:/etc/nginx/uwsgi_params
+      - templates_volume:/usr/share/nginx/html/
       - static_volume:/usr/share/nginx/html/static
       - media_volume:/usr/share/nginx/html/media
     networks:
@@ -26,12 +28,14 @@ services:
     build:
       context: ./back
       dockerfile: ./Dockerfile
-    command: 'sh scripts/start.sh'
+    env_file: .env
+    command: 'sh start.sh'
     restart: always
     volumes:
       - ./back:/usr/src/app
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+      - templates_volume:/usr/src/app/app/templates
+      - static_volume:/usr/src/app/app/static
+      - media_volume:/usr/src/app/app/media
     expose:
       - "8001"
     networks:
@@ -41,8 +45,14 @@ services:
 
   db:
     container_name: mysql
-    build: ./db
-    command: --default-authentication-plugin=mysql_native_password
+    build:
+      context: ./db
+      dockerfile: ./Dockerfile
+      args:
+        - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+        - MYSQL_USER_NAME=${MYSQL_USER_NAME}
+        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - django_net
     volumes:
@@ -55,6 +65,7 @@ networks:
 volumes:
   django_statics:
     driver: local
+  templates_volume:
   static_volume:
   media_volume:
   db_volume:

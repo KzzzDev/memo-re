@@ -1,6 +1,5 @@
 <template>
-  <header></header>
-
+  <GlobalHeader />
   <main>
     <router-view @update:user-info="refreshUser" />
   </main>
@@ -26,8 +25,11 @@ export type UserInfo = Ref<_UserInfo>;
 
 <script setup lang="ts">
 import { provide, ref, watch } from "vue";
+
 import { useBackend } from "./lib";
 import { getUserInfo } from "./lib/network";
+
+import GlobalHeader from "./component/GlobalHeader/Main.vue";
 
 // #region Provide user info across the app
 const { data: userRes, refresh: refreshUser } = useBackend(getUserInfo);
@@ -37,4 +39,10 @@ provide(UserInfoKey, userInfo);
 // #endregion
 </script>
 
-<style></style>
+<style>
+main {
+  /*仮でヘッダーの大きさを12％に指定。*/
+  width: 88%;
+  margin-left: 12%;
+}
+</style>
