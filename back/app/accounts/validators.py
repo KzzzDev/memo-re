@@ -14,9 +14,8 @@ class UnicodeUsernameValidator(validators.RegexValidator):
 
 @deconstructible
 class UnicodeUseridValidator(validators.RegexValidator):
-    regex = r"^[\w.@+-]+\Z"
+    regex = r"^[\w]+\Z"
     message = _(
-        "Enter a valid userid. This value may contain only letters, "
-        "numbers, and @/./+/-/_ characters."
+        "入力できる文字はアルファベット、数字、アンダースコアのみです。"
     )
     flags = 0
