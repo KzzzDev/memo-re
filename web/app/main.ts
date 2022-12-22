@@ -2,7 +2,7 @@ import {createApp} from "vue";
 
 import App from "./App.vue";
 
-import {i18n, router, memoRe} from "./plugin";
+import {router, memoRe} from "./plugin";
 import "./index.css"
 
 import {library} from "@fortawesome/fontawesome-svg-core";
@@ -22,7 +22,6 @@ library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyi
 
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
-    .use(i18n)
     .use(router)
     .use(memoRe)
     .mount("#app");
