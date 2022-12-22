@@ -1,20 +1,23 @@
 from django.contrib.auth.management.commands import createsuperuser
 from django.core.management import CommandError
 
+
 # https://jumpyoshim.hatenablog.com/entry/how-to-automate-createsuperuser-on-django
 
 
 class Command(createsuperuser.Command):
+    """custom_createsuperuserコマンド"""
+
     help = 'Create a superuser with a password non-interactively'
 
-    def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
-        parser.add_argument(
-            '--password',
-            dest='password',
-            default=None,
-            help='Specifies the password for the superuser.',
-        )
+    # def add_arguments(self, parser):
+    #     super(Command, self).add_arguments(parser)
+    #     parser.add_argument(
+    #         '--password',
+    #         dest='password',
+    #         default=None,
+    #         help='Specifies the password for the superuser.',
+    #     )
 
     def handle(self, *args, **options):
         options.setdefault('interactive', False)
@@ -24,7 +27,7 @@ class Command(createsuperuser.Command):
         username = options.get('username')
         database = options.get('database')
 
-        if not (email and password):
+        if not (email and password and userid and username):
             raise CommandError(
                 '--email, --password, --userid, and --username are required options'
             )
@@ -36,9 +39,14 @@ class Command(createsuperuser.Command):
             'username': username,
         }
 
-        exists = self.UserModel._default_manager.db_manager(
-            database).filter(serid=userid).exists() or self.UserModel._default_manager.db_manager(
-            database).filter(email=email).exists()
-        if not exists:
-            self.UserModel._default_manager.db_manager(
-                database).create_superuser(**user_data)
+        exists_email = self.UserModel._default_manager.db_manager(database).filter(email=email).exists()
+        exists_userid = self.UserModel._default_manager.db_manager(database).filter(userid=userid).exists()
+
+        if exists_email and exists_userid:
+            raise CommandError('This email and userid already exists.')
+        elif exists_email:
+            raise CommandError('This email already exists.')
+        elif exists_userid:
+            raise CommandError('This userid already exists.')
+        else:
+            self.UserModel._default_manager.db_manager(database).create_superuser(**user_data)
