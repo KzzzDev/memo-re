@@ -1,8 +1,9 @@
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from .validators import UnicodeUseridValidator, UnicodeUsernameValidator
+from imagekit.models import ImageSpecField
+from pilkit.processors import ResizeToFill
 
 
 class UserManager(UserManager):
@@ -50,7 +51,6 @@ class CustomUser(AbstractUser):
         primary_key=True,
         help_text=_("この項目は必須です。半角アルファベット、半角数字、アンダースコアで30文字以下にしてください。"),
         validators=[userid_validator],
-        # error_messages=
         unique=True
     )
     username = models.CharField(
@@ -58,9 +58,14 @@ class CustomUser(AbstractUser):
         max_length=30,
         help_text=_("この項目は必須です。半角アルファベット、半角数字、@/./+/-/_ で30文字以下にしてください。"),
         validators=[username_validator],
-        # error_messages=
     )
     email = models.EmailField(_('email address'), unique=True)
+    icon = models.ImageField(_('アイコン'), upload_to='icon', default='icon/default.jpg')
+    icon_thumbnail = ImageSpecField(
+        source='icon',
+        processors=[ResizeToFill(300, 300)],
+        format='JPEG',
+    )
     tag = models.CharField(_('タグ'), max_length=150, blank=True, null=True)
 
     objects = UserManager()

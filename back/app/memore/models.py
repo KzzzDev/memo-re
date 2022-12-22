@@ -49,3 +49,27 @@ class Friend(models.Model):
                 )
         except ObjectDoesNotExist:
             pass
+
+
+# class Note(models.Model):
+#     """ノートモデル"""
+#
+#     id =
+#
+#     class Meta(object):
+#         db_table = 'note'
+#         verbose_name = verbose_name_plural = 'ノート'
+#
+#     title =
+#     keyword =
+#
+#
+#     def __str__(self):
+#         return str(self.id)
+#
+#
+# class NoteShare(models.Model):
+#
+#
+#     def __str__(self):
+#         return str(self.)

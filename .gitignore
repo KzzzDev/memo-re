@@ -541,3 +541,6 @@ fabric.properties
 # マイグレーションファイル
 migrations/
 !migrations/__init__.py
+
+# mediaのicon
+!media/icon/dafault.jpg

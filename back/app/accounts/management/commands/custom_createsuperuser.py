@@ -1,19 +1,15 @@
 from django.contrib.auth.management.commands import createsuperuser
 from django.core.management import CommandError
-from accounts.models import CustomUser
 
 
 # https://jumpyoshim.hatenablog.com/entry/how-to-automate-createsuperuser-on-django
+from accounts.models import CustomUser
 
 
 class Command(createsuperuser.Command):
     """custom_createsuperuserコマンド"""
 
     help = 'Create a superuser with a password non-interactively'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.CustomUserModel = None
 
     # def add_arguments(self, parser):
     #     super(Command, self).add_arguments(parser)
@@ -23,6 +19,10 @@ class Command(createsuperuser.Command):
     #         default=None,
     #         help='Specifies the password for the superuser.',
     #     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.CustomUserModel = None
 
     def handle(self, *args, **options):
         options.setdefault('interactive', False)
@@ -54,5 +54,4 @@ class Command(createsuperuser.Command):
         elif exists_userid:
             raise CommandError('This userid already exists.')
         else:
-            # スーパーユーザーを登録
-            self.CustomUserModel.db_manager(database).create_superuser(**user_data)
+            CustomUser.objects.create_superuser(**user_data)

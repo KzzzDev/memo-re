@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     # 'django_boost',
     # 'import_export',
     # 'django_tables2',
-    # 'django_cleanup',
-    # 'imagekit',
+    'imagekit',
+    'django_cleanup',
     'djoser',  # JWT
     'corsheaders',  # CORS
     'rest_framework',
