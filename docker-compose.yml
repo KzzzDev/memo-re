@@ -43,7 +43,8 @@ services:
     networks:
       - django_net
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     container_name: mysql
@@ -55,6 +56,10 @@ services:
         - MYSQL_USER_NAME=${MYSQL_USER_NAME}
         - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      retries: 60
+      interval: "1s"
     networks:
       - django_net
     volumes:
