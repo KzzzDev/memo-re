@@ -1,5 +1,5 @@
 FROM node:16.18.0-alpine3.16 AS build
-COPY ./app/package*.json .
+COPY ./app/package*.json ./
 RUN npm ci
 COPY ./app/ .
 RUN npm run build
