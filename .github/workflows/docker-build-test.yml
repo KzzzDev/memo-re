@@ -1,10 +1,6 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches:
-      - "ci-docker"
-
   pull_request:
     branches: 
       - "develop"
@@ -19,13 +15,13 @@ jobs:
     - name: Build the frontend image
       run: cd web && docker build . --file Dockerfile
   
-  backend-build-test:
-    runs-on: ubuntu-latest
+  # backend-build-test:
+  #   runs-on: ubuntu-latest
   
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Prepare .env file
-      run: echo > .env
-    - name: Build the backend image
-      run: cd back && docker build . --file Dockerfile
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v3
+  #   - name: Prepare .env file
+  #     run: echo > .env
+  #   - name: Build the backend image
+  #     run: cd back && docker build . --file Dockerfile
