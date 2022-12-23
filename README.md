@@ -7,7 +7,7 @@ git clone https://github.com/Kazumasa1/memo-re.git
 ```
 
 ## envの設定
-- ”.env.sample" を ".env"に変更してコードを書き加えてください。
+”.env.sample" を ".env"に変更してコードを書き加えてください。
 
 ## 使い方
 
@@ -15,24 +15,23 @@ git clone https://github.com/Kazumasa1/memo-re.git
 
 ```bash
 cd memo-re
-docker-compose build --no-cache
-docker-compose up -d
-docker-compose restart back
+docker compose build --no-cache
+docker compose up -d
 ```
 
 ## 動作環境
 
-- Nginx(Django): http://localhost:8000
+Nginx(Django): http://localhost:8000
 
-- Nginx(Django)管理者サイト: http://localhost:8000/admin
-  - メールアドレス: admin@example.com
-  - パスワード: admin
+Nginx(Django)管理者サイト: http://localhost:8000/admin
+ - メールアドレス: admin@example.com
+ - パスワード: admin
 
-- Nginx(Django)APIドキュメントダウンロード: http://localhost:8000/api/schema/
+Nginx(Django)APIドキュメントダウンロード: http://localhost:8000/api/schema/
 
-- Nginx(Django)APIドキュメント:swaggerUIで閲覧およびテスト http://localhost:8000/api/schema/swagger-ui/
+Nginx(Django)APIドキュメント:swaggerUIで閲覧およびテスト http://localhost:8000/api/schema/swagger-ui/
 
-- Nginx(Django)APIドキュメント:redocで閲覧およびテスト http://localhost:8000/api/schema/redoc/
+Nginx(Django)APIドキュメント:redocで閲覧およびテスト http://localhost:8000/api/schema/redoc/
 
 ### ディレクトリ構成
 
