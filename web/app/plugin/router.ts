@@ -5,37 +5,37 @@ export default createRouter({
     routes: [
         {
             path: "/",
-            component: import("../views/user/loginView.vue"),
+            component: () => import("../views/user/loginView.vue"),
             name: "login"
         },
         {
             path: "/signUp",
-            component: import("../views/user/signUpView.vue"),
+            component: () => import("../views/user/signUpView.vue"),
             name: "signUp"
         },
         {
             path: "/mypage",
-            component: import("../views/user/mypageView.vue"),
+            component: () => import("../views/user/mypageView.vue"),
             name: "mypage"
         },
         {
             path: "/friends",
-            component: import("../views/friend/listView.vue"),
+            component: () => import("../views/friend/listView.vue"),
             name: "friend list"
         },
         {
             path: "/brain",
-            component: import("../views/brain/listView.vue"),
+            component: () => import("../views/brain/listView.vue"),
             name: "brain list"
         },
         {
             path: "/brains/:id",
-            component: import("../views/brain/statusView.vue"),
+            component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
         },
         {
             path: "/create",
-            component: import("../views/brain/createView.vue"),
+            component: () => import("../views/brain/createView.vue"),
             name: "create view"
         }
     ],
