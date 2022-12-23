@@ -10,17 +10,22 @@ on:
       - "develop"
 
 jobs:
-
-  build-test:
-
+  frontend-build-test:
     runs-on: ubuntu-latest
-
+  
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Build the frontend image
+      run: cd web && docker build . --file Dockerfile
+  
+  backend-build-test:
+    runs-on: ubuntu-latest
+  
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Prepare .env file
       run: echo > .env
-    - name: Build the frontend image
-      run: cd web && docker build . --file Dockerfile
     - name: Build the backend image
       run: cd back && docker build . --file Dockerfile
