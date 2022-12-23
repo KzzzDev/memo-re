@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     # 'django_boost',
     # 'import_export',
     # 'django_tables2',
-    # 'django_cleanup',
-    # 'imagekit',
+    'imagekit',
+    'django_cleanup',
     'djoser',  # JWT
     'corsheaders',  # CORS
     'rest_framework',
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     # My applications
     'accounts.apps.AccountsConfig',
     'apiv1.apps.Apiv1Config',
+    'memore.apps.MemoreConfig',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'

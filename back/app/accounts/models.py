@@ -1,9 +1,14 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from .validators import UnicodeUseridValidator, UnicodeUsernameValidator
+from imagekit.models import ImageSpecField
+from pilkit.processors import ResizeToFill
 
 
 class UserManager(UserManager):
+    """認証をusernameからemailに変更"""
+
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
@@ -37,17 +42,37 @@ class CustomUser(AbstractUser):
         db_table = 'custom_user'
         verbose_name = verbose_name_plural = 'カスタムユーザー'
 
+    username_validator = UnicodeUsernameValidator()
+    userid_validator = UnicodeUseridValidator()
+
+    userid = models.CharField(
+        _("ユーザーID"),
+        max_length=30,
+        primary_key=True,
+        help_text=_("この項目は必須です。半角アルファベット、半角数字、アンダースコアで30文字以下にしてください。"),
+        validators=[userid_validator],
+        unique=True
+    )
     username = models.CharField(
         _("username"),
-        max_length=150,
-        blank=True,
-        help_text=_(
-            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-        ),
+        max_length=30,
+        help_text=_("この項目は必須です。半角アルファベット、半角数字、@/./+/-/_ で30文字以下にしてください。"),
+        validators=[username_validator],
     )
     email = models.EmailField(_('email address'), unique=True)
+    icon = models.ImageField(_('アイコン'), upload_to='icon', default='icon/default.jpg')
+    icon_thumbnail = ImageSpecField(
+        source='icon',
+        processors=[ResizeToFill(300, 300)],
+        format='JPEG',
+    )
+    tag = models.CharField(_('タグ'), max_length=150, blank=True, null=True)
 
     objects = UserManager()
-
+    # usernameからemail認証に変更
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    # createsuperuserでemailのの他に必須な項目
+    REQUIRED_FIELDS = ["password", "userid", "username"]
+
+    def __str__(self):
+        return self.userid
