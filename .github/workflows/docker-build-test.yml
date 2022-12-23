@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - "ci-docker"
+
+  pull_request:
+    branches: 
+      - "develop"
+
+jobs:
+
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Build the frontend image
+      run: docker build . --file web/Dockerfile
+    - name: Build the backend image
+      run: docker build . --file back/Dockerfile
+    - run: which docker-compose
+    - run: docker-compose -v
