@@ -3,7 +3,7 @@ import { onMounted, reactive, ref, Ref, shallowRef, UnwrapRef, watch, WatchStopH
 import { APIResponse, ErrorResponse } from "./network";
 
 type NestedRefs<T> = {
-  [key in keyof T]: T[key] extends object ? NestedRefs<T[key]> : Ref<T[key]>;
+  [key in keyof T]: T[key] extends object ? NestedRefs<T[key]> : Ref<T[key]> | T[key];
 };
 
 type BackendCall = (...params: any[]) => Promise<APIResponse<any>>;
@@ -41,6 +41,7 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
       .catch((err) => {
         error.value = err;
         data.value = undefined;
+        return Promise.reject();
       });
 
   if (immediately) {
@@ -49,6 +50,8 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
 
   return { data, error, refresh };
 };
+
+type UseErroOptions = Partial<{ immediately: boolean; defaultMessage: string }>;
 
 /**
  * @param initial Initial value of the composition.
@@ -59,7 +62,7 @@ export const useBackend = <T extends BackendCall>(call: T, immediately = true, .
 export const useError = <T>(
   initial: T,
   rules: ((value: UnwrapRef<T>) => boolean | string)[],
-  options = { immediately: true, defaultMessage: "" }
+  options: UseErroOptions = { immediately: true, defaultMessage: "" }
 ) => {
   const data = ref(initial);
   const error = ref<string | undefined>(undefined);
