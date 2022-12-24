@@ -7,7 +7,7 @@ git clone https://github.com/Kazumasa1/memo-re.git
 ```
 
 ## envの設定
-”.env.sample" を ".env"に変更してコードを書き加えてください。
+”.env.sample" と同じ階層に ".env" を作成してコードを書き加えてください。
 
 ## 使い方
 
