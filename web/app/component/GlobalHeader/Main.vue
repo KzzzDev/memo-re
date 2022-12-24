@@ -9,10 +9,9 @@
       <header-link link-text="Friend"/>
       <header-link link-text="Search"/>
       <header-link link-text="Notice"/>
-
     </div>
     <div class="logout-area">
-       <header-link link-text="Logout" />
+      <header-link link-text="Logout"/>
     </div>
 
   </header>
@@ -59,7 +58,7 @@ header {
 }
 
 
-.notice-area {
+.logout-area {
   width: 100%;
   height: 20%;
   display: flex;
@@ -67,8 +66,6 @@ header {
   align-items: flex-start;
   position: relative;
 }
-
-
 
 
 </style>
