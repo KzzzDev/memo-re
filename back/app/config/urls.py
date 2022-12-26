@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.views.generic import TemplateView, RedirectView
+from apiv1 import views
 
 
 urlpatterns = [
@@ -12,6 +13,11 @@ urlpatterns = [
     path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/auth/', include('rest_framework.urls')),  # DRFのログイン機能を表示
     path('api/v1/', include('apiv1.urls')),
+    path('api/v1/friends/', views.FriendRetrieveAPIView.as_view()),
+    path('api/v1/friends/', views.FriendDestroyAPIView.as_view()),
+    path('api/v1/friends/request/', views.FriendCreateAPIView.as_view()),
+    path('api/v1/friends/request/', views.FriendUpdateAPIView.as_view()),
+    path('api/v1/friends/request/', views.FriendRequestDestroyAPIView.as_view()),
 ]
 
 # メディアに入ってるファイルにアクセスできるようにする
