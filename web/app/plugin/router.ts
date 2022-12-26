@@ -3,10 +3,25 @@ import { createRouter, createWebHistory } from "vue-router";
 export default createRouter({
     history: createWebHistory(),
     routes: [
+        // {
+        //     path: "/",
+        //     component: () => import("../views/user/loginView.vue"),
+        //     name: "login"
+        // },
         {
             path: "/",
-            component: () => import("../views/user/loginView.vue"),
-            name: "login"
+            component: () => import("../views/friend/listView.vue"),
+            name: "friend list"
+        },
+        {
+            path: "/search",
+            component: () => import("../component/modal/search.vue"),
+            name: "search"
+        },
+        {
+            path: "/notice",
+            component: () => import("../component/modal/notice.vue"),
+            name: "notice"
         },
         {
             path: "/signUp",
@@ -17,11 +32,6 @@ export default createRouter({
             path: "/mypage",
             component: () => import("../views/user/mypageView.vue"),
             name: "mypage"
-        },
-        {
-            path: "/friends",
-            component: () => import("../views/friend/listView.vue"),
-            name: "friend list"
         },
         {
             path: "/brain",
