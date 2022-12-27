@@ -13,11 +13,6 @@ urlpatterns = [
     path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/auth/', include('rest_framework.urls')),  # DRFのログイン機能を表示
     path('api/v1/', include('apiv1.urls')),
-    path('api/v1/friends/', views.FriendRetrieveAPIView.as_view()),
-    path('api/v1/friends/', views.FriendDestroyAPIView.as_view()),
-    path('api/v1/friends/request/', views.FriendCreateAPIView.as_view()),
-    path('api/v1/friends/request/', views.FriendUpdateAPIView.as_view()),
-    path('api/v1/friends/request/', views.FriendRequestDestroyAPIView.as_view()),
 ]
 
 # メディアに入ってるファイルにアクセスできるようにする
