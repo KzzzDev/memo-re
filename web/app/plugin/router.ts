@@ -44,7 +44,7 @@ export default createRouter({
             name: "brain list"
         },
         {
-            path: "/brains/s",
+            path: "/brain/status",
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
         },
