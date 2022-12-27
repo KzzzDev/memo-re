@@ -24,6 +24,11 @@ export default createRouter({
             name: "status"
         },
         {
+            path: "/shareImage",
+            component: () => import("../component/user/shareImage.vue"),
+            name: "shareImage"
+        },
+        {
             path: "/notice",
             component: () => import("../component/modal/notice.vue"),
             name: "notice"
