@@ -19,6 +19,16 @@ export default createRouter({
             name: "search"
         },
         {
+            path: "/status",
+            component: () => import("../component/brain/statusMain.vue"),
+            name: "status"
+        },
+        {
+            path: "/shareImage",
+            component: () => import("../component/user/shareImage.vue"),
+            name: "shareImage"
+        },
+        {
             path: "/notice",
             component: () => import("../component/modal/notice.vue"),
             name: "notice"
@@ -39,9 +49,14 @@ export default createRouter({
             name: "brain list"
         },
         {
-            path: "/brains/:id",
+            path: "/brain/status",
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
+        },
+        {
+            path: "/select",
+            component: () => import("../views/brain/selectView.vue"),
+            name: "brain select"
         },
         {
             path: "/create",

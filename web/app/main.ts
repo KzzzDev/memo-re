@@ -15,10 +15,13 @@ import {
     faCircleInfo,
     faBell,
     faRightFromBracket,
-    faCircleExclamation
+    faCircleExclamation,
+    faGear,
+    faShare
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket,faCircleExclamation)
+library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket,faGear,faShare,faCircleExclamation)
+
 
 
 createApp(App)
