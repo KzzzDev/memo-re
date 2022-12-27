@@ -19,6 +19,11 @@ export default createRouter({
             name: "search"
         },
         {
+            path: "/status",
+            component: () => import("../component/brain/statusMain.vue"),
+            name: "status"
+        },
+        {
             path: "/notice",
             component: () => import("../component/modal/notice.vue"),
             name: "notice"
@@ -39,7 +44,7 @@ export default createRouter({
             name: "brain list"
         },
         {
-            path: "/brains/:id",
+            path: "/brains/s",
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
         },
