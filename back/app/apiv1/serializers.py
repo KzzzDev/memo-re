@@ -7,4 +7,4 @@ class FriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friend
-        fields = ['id', 'left', 'right']
+        fields = ['left', 'right']
