@@ -544,3 +544,5 @@ back/app/schema.yml
 # マイグレーションファイル
 migrations/
 !migrations/__init__.py
+
+.DS_Store
