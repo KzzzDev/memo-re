@@ -1,4 +1,4 @@
-const tokenKey = process.env.VITE_TOKEN_KEY;
+const tokenKey = process.env.VITE_TOKEN_KEY ?? "jwt";
 
 export const setToken = (token?: string) => token && localStorage.setItem(tokenKey, token);
 
