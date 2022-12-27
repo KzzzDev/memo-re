@@ -1,7 +1,7 @@
 import { getAuthHeader, setToken } from "./auth";
 
 //#region Prelude
-const baseUrl = process.env.API_SERVER;
+const baseUrl = process.env.VITE_API_SERVER;
 
 interface AccessOptions {
   method: "GET" | "POST" | "PUT" | "DELETE";

@@ -4,11 +4,11 @@ export declare global {
       /**
        * Base URL for API endpoints.
        */
-      readonly API_SERVER: string;
+      readonly VITE_API_SERVER: string;
       /**
        * Key to get/set JWT.
        */
-      readonly TOKEN_KEY: string;
+      readonly VITE_TOKEN_KEY: string;
       /**
        * Application name injected from package.json
        */
