@@ -20,8 +20,7 @@ import {
     faShare
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket,faGear,faShare,faCircleExclamation)
-
+library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket)
 
 
 createApp(App)
