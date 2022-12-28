@@ -8,7 +8,7 @@ class FriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friend
-        fields = ['left', 'right']
+        fields = '__all__'
 
 
 class NoteSerializer(serializers.ModelSerializer):
@@ -16,5 +16,4 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ['id', 'title', 'keyword', 'text',
-                  'image', 'category', 'is_active', 'creator_id']
+        fields = '__all__'
