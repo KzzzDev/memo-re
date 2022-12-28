@@ -3,15 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 export default createRouter({
     history: createWebHistory(),
     routes: [
-        // {
-        //     path: "/",
-        //     component: () => import("../views/user/loginView.vue"),
-        //     name: "login"
-        // },
         {
             path: "/",
-            component: () => import("../views/friend/listView.vue"),
-            name: "friend list"
+            component: () => import("../views/user/loginView.vue"),
+            name: "login"
         },
         {
             path: "/search",

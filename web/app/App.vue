@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import { Ref } from "vue";
-
 import { User, UserCredential } from "./lib/network";
 
 /**

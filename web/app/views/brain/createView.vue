@@ -1,131 +1,126 @@
 <template>
-  <div class="form-wrapper">
-    <div class="image-generate-preview">
-      <img src="" alt="">
+  <div v-if="!Flags.Preview">
+    <div class="w-full flex justify-center">
+      <section class="flex w-1/2 mt-16 border border-black flex-col p-5">
+        <div>
+          <label for="note-title" class="block text-gray-900">題名</label>
+          <input v-model="Forms.Title" type="text" id="note-title"
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                 required>
+        </div>
+        <div>
+          <label for="note-keyword" class="block text-gray-900">キーワード</label>
+          <input v-model="Forms.Keyword" type="text" id="note-keyword"
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                 required>
+        </div>
+        <div>
+          <label for="note-memo" class="block text-gray-900">説明</label>
+          <textarea v-model="Forms.Memo" type="text" id="note-memo"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    required></textarea>
+        </div>
+        <div class="w-full flex justify-end mt-10">
+          <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2" @click="callCreateImageAPI">画像を作成</button>
+        </div>
+      </section>
+
     </div>
-
-    <div class="memory-info-input">
-      <dl>
-        <dd>
-          <input type="text" placeholder="タイトル" v-model="titleInput">
-          <p v-show="!!titleError">{{ titleError }}</p>
-        </dd>
-        <dd>
-          <select v-model="eraSelect">
-            <option value="-1" selected disabled>年代</option>
-            <option value="1">小学校</option>
-          </select>
-          <p v-show="!!eraError">{{ eraError }}</p>
-
-        </dd>
-        <dd>
-          <textarea v-model="memoTextarea"></textarea>
-          <p v-show="!!memoTextError">{{ memoTextError }}</p>
-        </dd>
-        <dd>
-          <button @click="submit">作成！</button>
-        </dd>
-      </dl>
+    <section v-if="Flags.Creating||Flags.Finished" id="creating" class="flex justify-center align-center fixed">
+      <div v-if="Flags.Creating" class="w-80 h-64 border border-black bg-white flex justify-center">
+        <font-awesome-icon icon="fa-solid fa-spinner" size="lg" spin/>
+        <p>生成中</p>
+      </div>
+      <div v-else-if="Flags.Finished" class="w-80 h-64 border border-black bg-white flex justify-center">
+        <font-awesome-icon icon="fa-solid fa-spinner" size="lg" spin/>
+        <p>生成されました！</p>
+      </div>
+    </section>
+  </div>
+    <!-- プレビュー画面に切り替え /-->
+  <div v-if="Flags.Preview">
+    <div class="flex justify-center w-full ">
+      <div class="w-full ">
+        <button>やり直す</button>
+        <button @click="callCreateNoteAPI">作成</button>
+      </div>
     </div>
-
   </div>
 </template>
 
-<script setup lang="ts">
-import {computed, watch} from "vue";
-import {useBackend, useError} from "../../lib";
+<script lang="ts">
+import {defineComponent} from "vue"
 import {createNote} from "../../lib/network";
-import validator from "validator";
 
-import {useRouter} from "vue-router";
-const {push} = useRouter()
 
-const {
-  data: titleInput,
-  error: titleError,
-  start: tStart,
-} = useError("", [validator.isEmpty], {
-  defaultMessage: "タイトルを入力してください。",
-  immediately: false,
-});
-
-const {
-  data: memoTextarea,
-  error: memoTextError,
-  start: mStart,
-} = useError("", [validator.isEmpty], {
-  defaultMessage: "テキストを入力してください。",
-  immediately: false
-})
-
-const {
-  data: eraSelect,
-  error: eraError,
-  start: eStart,
-} = useError(-1, [value => value < 0], {
-  defaultMessage: "年代を選択してください。",
-  immediately: false
-})
-
-const valid = computed(() => !(titleError.value || memoTextError.value || eraError.value));
-
-const submit = () => {
-  tStart();
-  mStart();
-  eStart();
-
-  if (valid) {
-    CreateNote()
-  }
+type Flags = {
+  Creating: boolean,
+  Finished: boolean,
+  Preview: boolean
 }
 
-const {data, error, refresh: CreateNote} = useBackend(createNote, false, {
-  title: titleInput,
-  category: eraSelect,
-  content: memoTextarea
-});
-watch(data, (value) => !!value && push({path: "/list"}));
+type Forms = {
+  Title: string,
+  Keyword: string,
+  Memo: string
+}
+
+
+export default defineComponent({
+  data() {
+    return {
+      Flags: {
+        Creating: false,
+        Finished: false,
+        Preview: false
+      } as Flags,
+      Forms: {
+        Title: "",
+        Keyword: "",
+        Memo: ""
+      } as Forms
+    }
+
+  },
+  methods: {
+    callCreateImageAPI: async function () {
+      //
+      this.Flags.Creating = true
+      // Create Image
+      await setTimeout(() => {
+        this.Flags.Creating = false
+      }, 10000)
+      this.Flags.Creating = false
+      this.Flags.Finished = true
+
+      // noteの画像データ取得
+
+
+    },
+    callCreateNoteAPI:async function(){
+
+
+     const fetchResult =  await createNote({
+        title:this.Forms.Title,
+
+      })
+
+    }
+  }
+})
+
 
 </script>
 
 <style scoped>
-.form-wrapper {
+#creating {
+  top: 0;
+  left: 12%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  width: 88%;
+  height: 100%;
+  align-items: center;
 }
 
-.image-generate-preview {
-  width: 50%;
-  box-sizing: border-box;
-  border-right: solid 1px;
-}
-
-.memory-info-input {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-}
-
-input, select, button {
-  width: 480px;
-  height: 40px;
-  margin: 0 0 10px;
-  padding: 0 5px;
-  outline: 0;
-  background: #fff;
-  border: solid 1px #808080;
-  box-sizing: border-box;
-}
-
-textarea {
-  width: 480px;
-  height: 200px;
-  margin: 0 0 10px;
-  padding: 0 5px;
-  outline: 0;
-  background: #fff;
-  border: solid 1px #808080;
-  box-sizing: border-box;
-  resize: none;
-}
 </style>
