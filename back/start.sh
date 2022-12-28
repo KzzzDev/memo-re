@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./.env
+
 cd app
 python manage.py makemigrations
 python manage.py makemigrations accounts
@@ -8,7 +10,7 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 
 # superuser生成
-python manage.py custom_createsuperuser --email admin@example.com --password admin --userid adminid --username adminname
+python manage.py custom_createsuperuser --email $DJANGO_ADMIN_EMAIL --password $DJANGO_ADMIN_PASSWORD --userid adminid --username adminname
 # APIドキュメント生成
 python manage.py spectacular --file schema.yml
 # サムネ画像が自動で生成されないため

@@ -23,9 +23,9 @@ docker compose up -d
 
 Nginx(Django): http://localhost:8000
 
-Nginx(Django)管理者サイト: http://localhost:8000/admin
- - メールアドレス: admin@example.com
- - パスワード: admin
+Nginx(Django)管理者サイト: http://localhost:8000/${DJANGO_ADMIN_URL}
+ - メールアドレス: ${DJANGO_ADMIN_EMAIL}
+ - パスワード: ${DJANGO_ADMIN_PASSWORD}
 
 Nginx(Django)APIドキュメントダウンロード: http://localhost:8000/api/schema/
 
