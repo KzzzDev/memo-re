@@ -90,6 +90,7 @@ export default {
           break;
         case "Friend":
           // friend modal open
+          await this.$store.dispatch("toggleFriendModalState")
           break;
         case "Search":
           // search modal open

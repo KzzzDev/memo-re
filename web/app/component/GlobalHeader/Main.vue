@@ -18,7 +18,7 @@
 
   </header>
   <div id="modal-area">
-    <friend-modal />
+    <friend-modal v-if="$store.getters.isFriendModalOpen" />
   </div>
 
 </template>
@@ -77,8 +77,10 @@ header {
 
 
 #modal-area{
-  margin-left: 12%;
-  
+  position: fixed;
+  top: 0;
+  left: 12%;
+  z-index: 2;
 }
 
 </style>
