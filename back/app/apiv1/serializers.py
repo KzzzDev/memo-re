@@ -1,11 +1,10 @@
 from rest_framework import serializers
+from memore.models import Friend
 
-# from memore.models import Note
 
+class FriendSerializer(serializers.ModelSerializer):
+    """フレンドモデル用のシリアライザ"""
 
-# class NoteSerializer(serializers.ModelSerializer):
-    # """Noteモデル用のシリアライザ"""
-
-    # class Meta:
-    #     model = Book
-    #     fields = ['id', 'title', 'price']
+    class Meta:
+        model = Friend
+        fields = ['left', 'right']

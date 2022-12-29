@@ -4,8 +4,12 @@
       <font-awesome-icon :icon="icon" inverse/>
     </div>
     <div class="link-text-box">
-      <p>{{ linkText }}</p>
-      <p v-if="noticeCount>0">{{ noticeCount }}</p>
+      <router-link v-if="noLink.indexOf(linkText)===-1" :to="linkHref">
+        <p> {{ linkText }}</p>
+      </router-link>
+      <p v-else @click="linkClick">{{ linkText }}</p>
+
+      <div v-if="noticeCount>0" class="notice"><span>{{ noticeCount }}</span></div>
     </div>
   </div>
 
@@ -19,15 +23,18 @@ export default {
     return {
       icon: "",
       linkHref: "",
+      noLink: ["Notice", "Friend", "Share", "Search"],
       noticeCount: 0
     }
   },
   props: {
     linkText: {
-      type: String
+      type: String,
+      default: ""
     }
   },
-  mounted() {
+  // Mount時だと空のiconが代入されてエラーがでまくる
+  beforeMount() {
     switch (this.linkText) {
       case "Profile":
         this.icon = "fa-regular fa-user"
@@ -69,6 +76,36 @@ export default {
     getNoticeCount() {
       // API処理
       this.noticeCount = 4
+    },
+    linkClick: async function () {
+
+      switch (this.linkText) {
+        case "Profile":
+          await this.$router.push("/mypage")
+          break
+        case "Make":
+          await this.$router.push("/create")
+          break;
+        case "Share":
+          break;
+        case "Friend":
+          // friend modal open
+          await this.$store.dispatch("toggleFriendModalState")
+          break;
+        case "Search":
+          // search modal open
+          break;
+        case "Info":
+          // info
+          break;
+
+        case "Logout":
+          await this.$router.push("/logout")
+          break;
+        case "Notice":
+          // notice modal open
+          break;
+      }
     }
   }
 }
@@ -101,6 +138,18 @@ export default {
 .link-text-box p {
   font-size: 18px;
   margin: 0 0 0 16px;
+  color: #ffffff;
+}
+
+.notice {
+  margin-left: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #FC7474;
   color: #ffffff;
 }
 </style>

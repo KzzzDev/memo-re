@@ -539,8 +539,10 @@ fabric.properties
 # 追記
 
 # APIドキュメント
-# back/app/schema.yml
+back/app/schema.yml
 
 # マイグレーションファイル
 migrations/
 !migrations/__init__.py
+
+.DS_Store

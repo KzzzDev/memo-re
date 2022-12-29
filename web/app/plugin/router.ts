@@ -9,6 +9,26 @@ export default createRouter({
             name: "login"
         },
         {
+            path: "/search",
+            component: () => import("../component/modal/search.vue"),
+            name: "search"
+        },
+        {
+            path: "/status",
+            component: () => import("../component/brain/statusMain.vue"),
+            name: "status"
+        },
+        {
+            path: "/shareImage",
+            component: () => import("../component/user/shareImage.vue"),
+            name: "shareImage"
+        },
+        {
+            path: "/notice",
+            component: () => import("../component/modal/notice.vue"),
+            name: "notice"
+        },
+        {
             path: "/signUp",
             component: () => import("../views/user/signUpView.vue"),
             name: "signUp"
@@ -19,19 +39,19 @@ export default createRouter({
             name: "mypage"
         },
         {
-            path: "/friends",
-            component: () => import("../views/friend/listView.vue"),
-            name: "friend list"
-        },
-        {
             path: "/brain",
             component: () => import("../views/brain/listView.vue"),
             name: "brain list"
         },
         {
-            path: "/brains/:id",
+            path: "/brain/status",
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
+        },
+        {
+            path: "/select",
+            component: () => import("../views/brain/selectView.vue"),
+            name: "brain select"
         },
         {
             path: "/create",
