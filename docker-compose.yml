@@ -6,6 +6,9 @@ services:
     build:
       context: ./web
       dockerfile: ./Dockerfile
+      args:
+        - VITE_API_SERVER=${VITE_API_SERVER}
+        - VITE_TOKEN_KEY=${VITE_TOKEN_KEY}
     env_file: .env
     restart: always
     ports:
