@@ -8,11 +8,7 @@ export default createRouter({
             component: () => import("../views/user/loginView.vue"),
             name: "login"
         },
-        {
-            path: "/search",
-            component: () => import("../component/modal/search.vue"),
-            name: "search"
-        },
+
         {
             path: "/status",
             component: () => import("../component/brain/statusMain.vue"),
@@ -23,11 +19,7 @@ export default createRouter({
             component: () => import("../component/user/shareImage.vue"),
             name: "shareImage"
         },
-        {
-            path: "/notice",
-            component: () => import("../component/modal/notice.vue"),
-            name: "notice"
-        },
+
         {
             path: "/signUp",
             component: () => import("../views/user/signUpView.vue"),
