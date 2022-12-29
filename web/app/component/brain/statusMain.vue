@@ -24,7 +24,7 @@
                 ピクニックピクニック楽しいピクニック来年もたくさ
                 ん歩きたいな！
             </p>
-            <button class="bg-pink-400 text-white rounded-md text-center w-32 py-1 absolute bottom-0 right-36">記憶を共有</button>
+            <button v-if="!previewMode" class="bg-pink-400 text-white rounded-md text-center w-32 py-1 absolute bottom-0 right-36">記憶を共有</button>
         </div>
         <div class="right-contents w-5/12">
           <img src="../../public/images/img001.png" alt="" class="w-10/12 h-8/12">
@@ -32,8 +32,17 @@
     </div>
 </template>
 
-<script setup lang="js">
-
+<script lang="js">
+import {defineComponent} from "vue"
+  export default defineComponent({
+    name:"status-main",
+    props:{
+      previewMode:{
+        type:Boolean,
+        default:false
+      }
+    }
+  })
 </script>
 
 <style scoped>

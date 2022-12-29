@@ -21,28 +21,34 @@
                     required></textarea>
         </div>
         <div class="w-full flex justify-end mt-10">
-          <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2" @click="callCreateImageAPI">画像を作成</button>
+          <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2 shadow" @click="callCreateImageAPI">画像を作成
+          </button>
         </div>
       </section>
 
     </div>
     <section v-if="Flags.Creating||Flags.Finished" id="creating" class="flex justify-center align-center fixed">
-      <div v-if="Flags.Creating" class="w-80 h-64 border border-black bg-white flex justify-center">
-        <font-awesome-icon icon="fa-solid fa-spinner" size="lg" spin/>
+      <div v-if="Flags.Creating" class="w-80 h-64 border border-black bg-white flex align- flex-col p-5 justify-around">
+        <font-awesome-icon icon="fa-solid fa-spinner" size="6x" spin/>
         <p>生成中</p>
       </div>
-      <div v-else-if="Flags.Finished" class="w-80 h-64 border border-black bg-white flex justify-center">
-        <font-awesome-icon icon="fa-solid fa-spinner" size="lg" spin/>
+      <div v-else-if="Flags.Finished"
+           class="w-80 h-64 border border-black bg-white flex align- flex-col p-5 justify-around">
+        <font-awesome-icon icon="fa-regular fa-circle-check" size="6x" />
         <p>生成されました！</p>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2 shadow" @click="Flags.Preview = true">確認する。
+        </button>
+
       </div>
     </section>
   </div>
-    <!-- プレビュー画面に切り替え /-->
+  <!-- プレビュー画面に切り替え /-->
   <div v-if="Flags.Preview">
-    <div class="flex justify-center w-full ">
-      <div class="w-full ">
-        <button>やり直す</button>
-        <button @click="callCreateNoteAPI">作成</button>
+    <div class="flex flex-col justify-center w-full ">
+      <status-main :preview-mode="true" />
+      <div class="w-full flex justify-center mt-5">
+        <button class="bg-white hover:bg-gray-100 text-gray-800  rounded px-8 py-4 m-5 shadow" >やり直す</button>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow"  @click="callCreateNoteAPI">作成</button>
       </div>
     </div>
   </div>
@@ -51,7 +57,7 @@
 <script lang="ts">
 import {defineComponent} from "vue"
 import {createNote} from "../../lib/network";
-
+import statusMain from "../../component/brain/statusMain.vue"
 
 type Flags = {
   Creating: boolean,
@@ -82,6 +88,9 @@ export default defineComponent({
     }
 
   },
+  components: {
+    statusMain
+  },
   methods: {
     callCreateImageAPI: async function () {
       //
@@ -89,19 +98,19 @@ export default defineComponent({
       // Create Image
       await setTimeout(() => {
         this.Flags.Creating = false
-      }, 10000)
-      this.Flags.Creating = false
-      this.Flags.Finished = true
+        this.Flags.Finished = true
+
+      }, 2000)
 
       // noteの画像データ取得
 
 
     },
-    callCreateNoteAPI:async function(){
+    callCreateNoteAPI: async function () {
 
 
-     const fetchResult =  await createNote({
-        title:this.Forms.Title,
+      const fetchResult = await createNote({
+        title: this.Forms.Title,
 
       })
 
@@ -123,4 +132,9 @@ export default defineComponent({
   align-items: center;
 }
 
+
+#note-memo {
+  height: 180px;
+  resize: none;
+}
 </style>
