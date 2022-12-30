@@ -1,6 +1,8 @@
 FROM node:16.18.0-alpine3.16 AS build
 COPY ./app/package*.json ./
 RUN npm ci
+ARG VITE_API_SERVER
+ARG VITE_TOKEN_KEY
 COPY ./app/ .
 RUN npm run build
 
