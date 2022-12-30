@@ -148,7 +148,11 @@ MEDIA_URL = '/media/'
 ##################
 
 REST_FRAMEWORK = {
-    # JWT
+    # デフォルトのアクセス制限
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    # 認証にJWTを利用
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
@@ -156,10 +160,9 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-
 SIMPLE_JWT = {
     # 認証タイプ
-    'AUTH_HEADER_TYPES': ('JWT', ),
+    'AUTH_HEADER_TYPES': ('JWT',),
     # アクセストークン(1時間)
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     # リフレッシュトークン(3日)
