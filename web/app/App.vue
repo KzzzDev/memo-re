@@ -40,8 +40,8 @@ provide(UserInfoKey, userInfo);
 
 <style>
 main {
-  /*仮でヘッダーの大きさを12％に指定。*/
-  width: 88%;
-  margin-left: 12%;
+
+  width: 85%;
+  margin-left: 15%;
 }
 </style>
