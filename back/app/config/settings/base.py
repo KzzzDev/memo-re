@@ -45,13 +45,12 @@ INSTALLED_APPS = [
     # 'django_boost',
     # 'import_export',
     # 'django_tables2',
-    'imagekit',
-    'django_cleanup',
+    'imagekit',  # サムネ生成
+    'django_cleanup',  # 画像の自動消去
     'djoser',  # JWT
     'corsheaders',  # CORS
     'rest_framework',
-    'rest_framework_jwt',
-    'drf_spectacular',
+    'drf_spectacular',  # APIドキュメント
 
     # My applications
     'accounts.apps.AccountsConfig',
@@ -149,29 +148,24 @@ MEDIA_URL = '/media/'
 ##################
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    # JWT
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    # APIドキュメント作成
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-}
 
 SIMPLE_JWT = {
+    # 認証タイプ
+    'AUTH_HEADER_TYPES': ('JWT', ),
     # アクセストークン(1時間)
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     # リフレッシュトークン(3日)
     'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
-    # 認証タイプ
-    'AUTH_HEADER_TYPES': ('JWT', ),
-    # 認証トークン
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', )
+    # デフォルトのidを id -> userid に変更
+    # 'USER_ID_FIELD': 'userid',
 }
 
 DJOSER = {
