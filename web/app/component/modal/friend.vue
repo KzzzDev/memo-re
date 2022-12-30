@@ -31,8 +31,10 @@
     </div>
 </template>
 
-<script setup lang="ts">
-
+<script lang="js">
+export default {
+  name:"friend-modal"
+}
 </script>
 
 <style scoped>

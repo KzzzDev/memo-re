@@ -1,7 +1,9 @@
 <template>
   <header>
     <div class="logo-area">
-      <img src="../../public/images/logo.png" alt="logo image" id="header-logo">
+      <router-link to="/">
+        <img src="../../public/images/logo.png" alt="logo image" id="header-logo">
+      </router-link>
     </div>
     <div class="link-area">
       <header-link link-text="Profile"/>
@@ -15,14 +17,19 @@
     </div>
 
   </header>
+  <div id="modal-area">
+    <friend-modal v-if="$store.getters.isFriendModalOpen" />
+  </div>
+
 </template>
 
 <script lang="ts">
 import HeaderLink from "./Link.vue"
+import FriendModal from "../modal/friend.vue";
 
 export default {
   name: "GlobalHeader",
-  components: {HeaderLink}
+  components: {FriendModal, HeaderLink}
 }
 </script>
 
@@ -38,6 +45,7 @@ header {
   flex-direction: column;
   align-items: center;
 }
+
 
 .logo-area {
   height: 30%;
@@ -67,5 +75,12 @@ header {
   position: relative;
 }
 
+
+#modal-area{
+  position: fixed;
+  top: 0;
+  left: 12%;
+  z-index: 2;
+}
 
 </style>

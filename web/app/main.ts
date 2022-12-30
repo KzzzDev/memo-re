@@ -2,7 +2,7 @@ import {createApp} from "vue";
 
 import App from "./App.vue";
 
-import {router, memoRe} from "./plugin";
+import {router, memoRe,vuex} from "./plugin";
 import "./index.css"
 
 import {library} from "@fortawesome/fontawesome-svg-core";
@@ -20,12 +20,12 @@ import {
     faShare
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket,faGear,faShare,faCircleExclamation)
-
+library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket)
 
 
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
     .use(router)
     .use(memoRe)
+    .use(vuex)
     .mount("#app");
