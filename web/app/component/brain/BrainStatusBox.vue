@@ -29,7 +29,7 @@ export default {
   props: {
     imageURL: {
       type: String,
-      default: "../../public/images/img001.png"
+      default: "../../public/images/brains/img001.png"
     },
     brainId: {
       type: Number,

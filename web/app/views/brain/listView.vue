@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="!Flags.ShareMode">
     <div class="my-pof">
       <img src="../../public/images/img001.png" alt="" class="prof-img">
       <div class="name-friend">
@@ -17,33 +17,31 @@
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox brain-id="1"/>
-        <BrainStatusBox brain-id="2"/>
-        <BrainStatusBox brain-id="3"/>
-        <BrainStatusBox brain-id="4"/>
-        <BrainStatusBox brain-id="5"/>
+        <BrainStatusBox v-for="brains of dummyBrainArray" :brain-id="brains.brainId" :image-URL="brains.imagesUrl" />
+
       </div>
     </div>
     <div class="select-menu" v-if="this.$store.getters.getSelectMode">
       <button @click="closeSelectMode" class="back-button">戻る</button>
-      <button class="go-select-button">選択画面へ</button>
+      <button class="go-select-button" @click="shareConfirm">選択画面へ</button>
     </div>
   </div>
-  <div v-if="">
-
+  <div v-if="Flags.ShareMode">
+    <ShareSelect :SelectBrains="SelectBrains"/>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue"
 import BrainStatusBox from "../../component/brain/BrainStatusBox.vue";
+import ShareSelect from "../../component/brain/ShareSelectMenu.vue"
 
 export default defineComponent({
-  components: {BrainStatusBox},
+  components: {BrainStatusBox, ShareSelect},
   data() {
     return {
       Flags: {
-
+        ShareMode: false
       },
       dummyUserStatus: {
         userName: "ずんだもん",
@@ -51,11 +49,24 @@ export default defineComponent({
         userTag: ["おんなのこ ", "ボイスロイド"]
       },
       dummyBrainArray: [
-          {
-          brainId: 0,
-          imagesUrl: "../../public/images/img001"
-        }
-      ]
+        {
+          brainId: 1,
+          imagesUrl: "../../public/images/brains/img001.png"
+        },
+        {
+          brainId: 2,
+          imagesUrl: "../../public/images/brains/img002.png"
+        },
+        {
+          brainId: 3,
+          imagesUrl: "../../public/images/brains/img003.png"
+        },
+        {
+          brainId: 4,
+          imagesUrl: "../../public/images/brains/img004.png"
+        },
+      ],
+      SelectBrains:[]
     }
   },
   beforeMount() {
@@ -63,6 +74,7 @@ export default defineComponent({
     console.log(routePath)
   },
   mounted() {
+    this.$store.dispatch("resetSelectBrain")
     this.closeSelectMode()
 
   },
@@ -72,6 +84,20 @@ export default defineComponent({
     },
     closeSelectMode() {
       this.$store.dispatch("offSelectMode")
+    },
+    shareConfirm() {
+      //
+      const SelectBrains = []
+      const selectedBrainId = this.$store.getters.getSelectBrain
+      for (const Brain of this.dummyBrainArray){
+        console.log(selectedBrainId.indexOf(Brain.brainId))
+        if (selectedBrainId.indexOf(Brain.brainId)!=-1){
+          SelectBrains.push(Brain)
+        }
+      }
+      console.log(SelectBrains)
+      this.SelectBrains = SelectBrains
+      this.Flags.ShareMode = true
     }
   }
 })
