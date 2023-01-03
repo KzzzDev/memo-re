@@ -6,7 +6,7 @@
         <h1 class="my-name">{{ dummyUserStatus.userName }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
       </div>
-      <p class="m-id">{{dummyUserStatus.userId}}}</p>
+      <p class="m-id">{{dummyUserStatus.userId}}</p>
       <p>
         <span class="m-tag" v-for="(tag,index) in dummyUserStatus.userTag" :key="index">#{{tag}}</span>
       </p>
