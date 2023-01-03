@@ -68,22 +68,6 @@ class NoteRetrieveUpdateDestroyAPIView(MultipleFieldLookupMixin, generics.Retrie
     lookup_fields = ['userid', 'noteid']
 
 
-class NoteUpdateAPIView(MultipleFieldLookupMixin, generics.UpdateAPIView):
-    """ノート更新APIクラス"""
-
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
-    lookup_fields = ['userid', 'noteid']
-
-
-class NoteDestroyAPIView(MultipleFieldLookupMixin, generics.DestroyAPIView):
-    """ノート削除APIクラス"""
-
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
-    lookup_fields = ['userid', 'noteid']
-
-
 class NoteShareCreateDestroyAPIView(MultipleFieldLookupMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
     """ノート共有設定・共有削除APIクラス"""
 
