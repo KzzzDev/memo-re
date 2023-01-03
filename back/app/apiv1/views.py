@@ -1,5 +1,5 @@
-from rest_framework import viewsets
 from rest_framework import generics
+from rest_framework import mixins
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from memore.models import Friend
@@ -26,59 +26,42 @@ class MultipleFieldLookupMixin:
         return obj
 
 
-class FriendRetrieveAPIView(generics.RetrieveAPIView):
-    """ユーザのフレンド取得（詳細）APIクラス"""
+class FriendRetrieveAPIView(generics.RetrieveDestroyAPIView):
+    """ユーザのフレンドリスト取得・フレンド削除APIクラス"""
 
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
 
 
-class FriendDestroyAPIView(generics.DestroyAPIView):
-    """ユーザのフレンド削除APIクラス"""
+class FriendRequestAPIView(mixins.CreateModelMixin, mixins.UpdateModelMixin,  mixins.DestroyModelMixin, generics.GenericAPIView):
+    """ユーザのフレンド申請・申請承認・申請取消APIクラス"""
 
-    queryset = Friend.objects.all()
     serializer_class = FriendSerializer
-
-
-class FriendCreateAPIView(generics.CreateAPIView):
-    """ユーザのフレンド登録APIクラス"""
-
     queryset = Friend.objects.all()
-    serializer_class = FriendSerializer
+
+    def post(self, request, *args, **kwargs):
+        """フレンド申請"""
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        """フレンド申請承認"""
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        """フレンド申請取消"""
+        return self.destroy(request, *args, **kwargs)
 
 
-class FriendUpdateAPIView(generics.UpdateAPIView):
-    """ユーザのフレンド申請承認APIクラス"""
-
-    queryset = Friend.objects.all()
-    serializer_class = FriendSerializer
-
-
-class FriendRequestDestroyAPIView(generics.DestroyAPIView):
-    """ユーザのフレンド申請承認APIクラス"""
-
-    queryset = Friend.objects.all()
-    serializer_class = FriendSerializer
-
-
-class NoteListAPIView(generics.ListAPIView):
-    """ブレイン取得APIクラス"""
+class NoteListCreateAPIView(generics.ListCreateAPIView):
+    """ブレイン取得・ノート作成APIクラス"""
 
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     lookup_field = 'userid'
 
 
-class NoteCreateAPIView(generics.CreateAPIView):
-    """ノート作成APIクラス"""
-
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
-    lookup_field = 'userid'
-
-
-class NoteRetrieveAPIView(MultipleFieldLookupMixin, generics.RetrieveAPIView):
-    """ノート取得APIクラス"""
+class NoteRetrieveUpdateDestroyAPIView(MultipleFieldLookupMixin, generics.RetrieveUpdateDestroyAPIView):
+    """ノート取得・更新・削除APIクラス"""
 
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
@@ -101,17 +84,17 @@ class NoteDestroyAPIView(MultipleFieldLookupMixin, generics.DestroyAPIView):
     lookup_fields = ['userid', 'noteid']
 
 
-class NoteShareCreateAPIView(MultipleFieldLookupMixin, generics.CreateAPIView):
-    """ノート共有設定APIクラス"""
+class NoteShareCreateDestroyAPIView(MultipleFieldLookupMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    """ノート共有設定・共有削除APIクラス"""
 
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     lookup_fields = ['userid', 'noteid']
 
+    def post(self, request, *args, **kwargs):
+        """ノート共有設定"""
+        return self.create(request, *args, **kwargs)
 
-class NoteShareDestroyAPIView(MultipleFieldLookupMixin, generics.DestroyAPIView):
-    """ノート共有削除APIクラス"""
-
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
-    lookup_fields = ['userid', 'noteid']
+    def delete(self, request, *args, **kwargs):
+        """ノート共有削除"""
+        return self.destroy(request, *args, **kwargs)
