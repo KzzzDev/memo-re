@@ -3,7 +3,7 @@
     <div v-if="!this.isActive" class="shadow-filter"></div>
 
     <img :src="imageURL" alt="images" class="list-img">
-    <input v-model="isActive" :name="'cb-'+brainId" class="img-checkbox"
+    <input @change="change" v-model="isActive" :name="'cb-'+brainId" class="img-checkbox"
            type="checkbox" :id="'img-'+brainId"/>
     <label :for="'img-'+brainId"/>
 
@@ -36,6 +36,16 @@ export default {
       default: 0
     }
   },
+  methods: {
+    change: async function () {
+      console.log(this.isActive)
+      if (this.isActive) {
+        await this.$store.dispatch("appendSelectBrain", this.brainId)
+        return
+      }
+      await this.$store.dispatch("removeSelectBrain", this.brainId)
+    }
+  }
 
 }
 </script>

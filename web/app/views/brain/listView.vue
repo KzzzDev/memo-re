@@ -24,6 +24,10 @@
         <BrainStatusBox brain-id="5"/>
       </div>
     </div>
+    <div class="select-menu" v-if="this.$store.getters.getShareMode">
+      <button @click="closeShareMode" class="back-button">戻る</button>
+      <button class="go-select-button">選択画面へ</button>
+    </div>
   </div>
 </template>
 
@@ -52,11 +56,15 @@ export default defineComponent({
     console.log(routePath)
   },
   mounted() {
-    this.$store.dispatch("offShareMode")
+    this.closeShareMode()
+
   },
   methods: {
     toggleShareMode() {
       this.$store.dispatch("toggleShareMode")
+    },
+    closeShareMode(){
+      this.$store.dispatch("offShareMode")
     }
   }
 })
@@ -134,6 +142,40 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
+}
+
+
+.select-menu{
+  position: fixed;
+  width: 100%;
+  height: 250px;
+  left: 12%;
+  padding-right: 12%;
+  /*無理やりサイドメニュー分の長さのPaddingを追加して要素自体ではなく画面全体から見て中央に配置出来るようにする*/
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.back-button{
+  width: 150px;
+  height: 50px;
+  background: #3D5093;
+  margin: 15px;
+  font-size: 18px;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.go-select-button{
+  width: 150px;
+  height: 50px;
+  background: #BE3455;
+  margin: 15px;
+  font-size: 18px;
+  color: #ffffff;
+  border-radius: 10px;
 }
 
 </style>

@@ -8,7 +8,8 @@ const Store = createStore({
                 Search: false,
                 Notice: false
             },
-            ShareMode:false
+            ShareMode:false,
+            SelectedBrainId:[1]
         }
     },
     getters: {
@@ -23,6 +24,9 @@ const Store = createStore({
         },
         getShareMode(state){
             return state.ShareMode
+        },
+        getSelectBrain(state){
+            return state.SelectedBrainId
         }
     },
     mutations: {
@@ -48,7 +52,26 @@ const Store = createStore({
         },
         offShareMode(state){
            state.ShareMode = false
+        },
+        appendSelectBrain(state,BrainId){
+            let appendList = this.state.SelectedBrainId
+            console.log(appendList)
+
+           appendList.push(parseInt(BrainId))
+            state.SelectedBrainId = appendList
+        },
+        removeSelectBrain(state,BrainId){
+            let removedList = [];
+            removedList.push()
+            for (const extractBrainId of state.SelectedBrainId){
+                console.log(extractBrainId)
+                if (extractBrainId != BrainId){
+                    removedList.push(parseInt(extractBrainId))
+                }
+            }
+            state.SelectedBrainId = removedList
         }
+
     },
     actions: {
         toggleFriendModalState(context) {
@@ -65,6 +88,12 @@ const Store = createStore({
         },
         offShareMode(context){
             context.commit("offShareMode")
+        },
+        appendSelectBrain(context,BrainId){
+            context.commit("appendSelectBrain",BrainId)
+        },
+        removeSelectBrain(context,BrainId){
+            context.commit("removeSelectBrain",BrainId)
         }
     }
 })
