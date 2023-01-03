@@ -94,6 +94,7 @@ export default {
           break;
         case "Search":
           // search modal open
+          await this.$store.dispatch("toggleSearchModalState")
           break;
         case "Info":
           // info
@@ -104,6 +105,7 @@ export default {
           break;
         case "Notice":
           // notice modal open
+          await this.$store.dispatch("toggleNoticeModalState")
           break;
       }
     }

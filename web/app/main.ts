@@ -2,12 +2,12 @@ import {createApp} from "vue";
 
 import App from "./App.vue";
 
-import {router, memoRe,vuex} from "./plugin";
+import {router, memoRe, vuex} from "./plugin";
 import "./index.css"
 
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
-import {faUser, faPenToSquare} from "@fortawesome/free-regular-svg-icons";
+import {faUser, faPenToSquare,faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {
     faArrowUpFromBracket,
     faUserGroup,
@@ -17,10 +17,25 @@ import {
     faRightFromBracket,
     faCircleExclamation,
     faGear,
-    faShare
+    faShare,
+    faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faPenToSquare, faArrowUpFromBracket, faUserGroup, faMagnifyingGlass, faCircleInfo, faBell, faRightFromBracket)
+library.add(
+    faUser,
+    faPenToSquare,
+    faArrowUpFromBracket,
+    faUserGroup,
+    faMagnifyingGlass,
+    faCircleInfo,
+    faBell,
+    faRightFromBracket,
+    faCircleExclamation,
+    faGear,
+    faShare,
+    faSpinner,
+    faCircleCheck
+)
 
 
 createApp(App)
