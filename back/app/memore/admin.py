@@ -12,8 +12,8 @@ class FriendAdmin(admin.ModelAdmin):
 class NoteAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
     list_display_links = ('id',)
-    search_fields = ('id', 'title', 'creator__userid', 'keyword', 'text', 'image', 'category', 'is_active')
-    list_filter = ('id', 'title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
+    search_fields = ('title', 'creator__userid', 'keyword', 'text', 'image', 'category', 'is_active')
+    list_filter = ('title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
 
 
 class NoteShareAdmin(admin.ModelAdmin):
