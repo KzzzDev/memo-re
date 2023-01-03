@@ -8,7 +8,7 @@ const Store = createStore({
                 Search: false,
                 Notice: false
             },
-            ShareMode:false,
+            SelectMode:false,
             SelectedBrainId:[1]
         }
     },
@@ -22,8 +22,8 @@ const Store = createStore({
         isNoticeModalOpen(state) {
             return state.ModalFlags.Notice
         },
-        getShareMode(state){
-            return state.ShareMode
+        getSelectMode(state){
+            return state.SelectMode
         },
         getSelectBrain(state){
             return state.SelectedBrainId
@@ -47,11 +47,11 @@ const Store = createStore({
             state.ModalFlags.Search = false
             state.ModalFlags.Notice = !state.ModalFlags.Notice
         },
-        updateShareMode(state){
-            state.ShareMode = !state.ShareMode
+        updateSelectMode(state){
+            state.SelectMode = !state.SelectMode
         },
-        offShareMode(state){
-           state.ShareMode = false
+        offSelectMode(state){
+           state.SelectMode = false
         },
         appendSelectBrain(state,BrainId){
             let appendList = this.state.SelectedBrainId
@@ -65,6 +65,7 @@ const Store = createStore({
             removedList.push()
             for (const extractBrainId of state.SelectedBrainId){
                 console.log(extractBrainId)
+                // !==にするとextractはint BrainIdはstringとして扱われるので
                 if (extractBrainId != BrainId){
                     removedList.push(parseInt(extractBrainId))
                 }
@@ -83,11 +84,11 @@ const Store = createStore({
         toggleNoticeModalState(context) {
             context.commit("updateNoticeModalFlag")
         },
-        toggleShareMode(context){
-            context.commit("updateShareMode")
+        toggleSelectMode(context){
+            context.commit("updateSelectMode")
         },
-        offShareMode(context){
-            context.commit("offShareMode")
+        offSelectMode(context){
+            context.commit("offSelectMode")
         },
         appendSelectBrain(context,BrainId){
             context.commit("appendSelectBrain",BrainId)

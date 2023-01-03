@@ -6,14 +6,14 @@
         <h1 class="my-name">{{ dummyUserStatus.userName }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
       </div>
-      <p class="m-id">{{dummyUserStatus.userId}}</p>
+      <p class="m-id">{{ dummyUserStatus.userId }}</p>
       <p>
-        <span class="m-tag" v-for="(tag,index) in dummyUserStatus.userTag" :key="index">#{{tag}}</span>
+        <span class="m-tag" v-for="(tag,index) in dummyUserStatus.userTag" :key="index">#{{ tag }}</span>
       </p>
     </div>
     <div class="my-list">
       <h1 class="list-h1">すべての記憶</h1>
-      <button class="img-select" @click="toggleShareMode">共有したい記憶を選択
+      <button class="img-select" @click="toggleSelectMode">共有したい記憶を選択
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
@@ -24,10 +24,13 @@
         <BrainStatusBox brain-id="5"/>
       </div>
     </div>
-    <div class="select-menu" v-if="this.$store.getters.getShareMode">
-      <button @click="closeShareMode" class="back-button">戻る</button>
+    <div class="select-menu" v-if="this.$store.getters.getSelectMode">
+      <button @click="closeSelectMode" class="back-button">戻る</button>
       <button class="go-select-button">選択画面へ</button>
     </div>
+  </div>
+  <div v-if="">
+
   </div>
 </template>
 
@@ -39,15 +42,19 @@ export default defineComponent({
   components: {BrainStatusBox},
   data() {
     return {
-      dummyUserStatus:{
-        userName:"ずんだもん",
-        userId:"Cocororororororo",
-        userTag:["おんなのこ ","ボイスロイド"]
+      Flags: {
+
       },
-      dummyBrainArray: [{
-        brainId: 0,
-        imagesUrl:"../../public/images/img001"
-      }
+      dummyUserStatus: {
+        userName: "ずんだもん",
+        userId: "Cocororororororo",
+        userTag: ["おんなのこ ", "ボイスロイド"]
+      },
+      dummyBrainArray: [
+          {
+          brainId: 0,
+          imagesUrl: "../../public/images/img001"
+        }
       ]
     }
   },
@@ -56,15 +63,15 @@ export default defineComponent({
     console.log(routePath)
   },
   mounted() {
-    this.closeShareMode()
+    this.closeSelectMode()
 
   },
   methods: {
-    toggleShareMode() {
-      this.$store.dispatch("toggleShareMode")
+    toggleSelectMode() {
+      this.$store.dispatch("toggleSelectMode")
     },
-    closeShareMode(){
-      this.$store.dispatch("offShareMode")
+    closeSelectMode() {
+      this.$store.dispatch("offSelectMode")
     }
   }
 })
@@ -145,7 +152,7 @@ export default defineComponent({
 }
 
 
-.select-menu{
+.select-menu {
   position: fixed;
   width: 100%;
   height: 250px;
@@ -158,7 +165,7 @@ export default defineComponent({
   align-items: flex-start;
 }
 
-.back-button{
+.back-button {
   width: 150px;
   height: 50px;
   background: #3D5093;
@@ -168,7 +175,7 @@ export default defineComponent({
   border-radius: 10px;
 }
 
-.go-select-button{
+.go-select-button {
   width: 150px;
   height: 50px;
   background: #BE3455;

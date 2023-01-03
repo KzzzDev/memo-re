@@ -1,5 +1,5 @@
 <template>
-  <div class="img-box" v-if="$store.getters.getShareMode">
+  <div class="img-box" v-if="$store.getters.getSelectMode">
     <div v-if="!this.isActive" class="shadow-filter"></div>
 
     <img :src="imageURL" alt="images" class="list-img">
