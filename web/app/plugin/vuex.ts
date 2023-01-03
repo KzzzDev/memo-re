@@ -7,7 +7,8 @@ const Store = createStore({
                 Friend: false,
                 Search: false,
                 Notice: false
-            }
+            },
+            ShareMode:false
         }
     },
     getters: {
@@ -19,6 +20,9 @@ const Store = createStore({
         },
         isNoticeModalOpen(state) {
             return state.ModalFlags.Notice
+        },
+        getShareMode(state){
+            return state.ShareMode
         }
     },
     mutations: {
@@ -38,6 +42,12 @@ const Store = createStore({
             state.ModalFlags.Friend = false
             state.ModalFlags.Search = false
             state.ModalFlags.Notice = !state.ModalFlags.Notice
+        },
+        updateShareMode(state){
+            state.ShareMode = !state.ShareMode
+        },
+        offShareMode(state){
+           state.ShareMode = false
         }
     },
     actions: {
@@ -50,6 +60,12 @@ const Store = createStore({
         toggleNoticeModalState(context) {
             context.commit("updateNoticeModalFlag")
         },
+        toggleShareMode(context){
+            context.commit("updateShareMode")
+        },
+        offShareMode(context){
+            context.commit("offShareMode")
+        }
     }
 })
 

@@ -27,13 +27,14 @@ export default createRouter({
         },
         {
             path: "/mypage",
-            component: () => import("../views/user/mypageView.vue"),
+            component: () => import("../views/brain/listView.vue"),
             name: "mypage"
         },
         {
-            path: "/brain",
+            path: "/brain/:UserId",
             component: () => import("../views/brain/listView.vue"),
             name: "brain list"
+            // MypageとPathが同じだがcomponent内でRouteを確認し処理を変えるようにしてます。
         },
         {
             path: "/brain/status",
