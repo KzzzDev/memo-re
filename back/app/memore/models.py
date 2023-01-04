@@ -13,7 +13,8 @@ class Friend(models.Model):
 
         constraints = [
             # leftとrightでユニーク制約
-            models.UniqueConstraint(fields=['left', 'right'], name='unique_friend')
+            models.UniqueConstraint(
+                fields=['left', 'right'], name='unique_friend')
         ]
 
     left = models.ForeignKey(
@@ -76,8 +77,10 @@ class Note(models.Model):
         blank=True, null=True,
         # validators=[keyword_validator],
     )
-    text = models.ImageField(_('テキスト'), upload_to='text', blank=True, null=True)
-    image = models.ImageField(_('画像'), upload_to='image', blank=True, null=True)
+    text = models.ImageField(
+        _('テキスト'), upload_to='text', blank=True, null=True)
+    image = models.ImageField(
+        _('画像'), upload_to='image', blank=True, null=True)
     category = models.IntegerField(
         _("カテゴリ"),
         blank=True, null=True
@@ -104,7 +107,8 @@ class NoteShare(models.Model):
 
         constraints = [
             # user_idとnote_idでユニーク制約
-            models.UniqueConstraint(fields=['user_id', 'note_id'], name='unique_note_share')
+            models.UniqueConstraint(
+                fields=['user_id', 'note_id'], name='unique_note_share')
         ]
 
     user_id = models.ForeignKey(

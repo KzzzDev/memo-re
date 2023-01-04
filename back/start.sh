@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source ./.env
-
 cd app
 python manage.py makemigrations
 python manage.py makemigrations accounts
