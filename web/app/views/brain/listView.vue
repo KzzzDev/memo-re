@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" v-if="!Flags.ShareMode">
+  <div class="wrapper" v-if="!Flags.ShareMode&&!this.$store.getters.getShareConfirmMode">
     <div class="my-pof">
       <img src="../../public/images/brains/img001.png" alt="" class="prof-img">
       <div class="name-friend">
@@ -26,18 +26,24 @@
       <button class="go-select-button" @click="shareConfirm">選択画面へ</button>
     </div>
   </div>
-  <div v-if="Flags.ShareMode">
+  <div v-if="Flags.ShareMode&&!this.$store.getters.getShareConfirmMode">
     <ShareSelect :SelectBrains="SelectBrains"/>
   </div>
+
+  <div id="share-confirm" v-if="this.$store.getters.getShareConfirmMode">
+    <ShareConfirmMenu/>
+  </div>
+
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue"
 import BrainStatusBox from "../../component/brain/BrainStatusBox.vue";
 import ShareSelect from "../../component/brain/ShareSelectMenu.vue"
+import ShareConfirmMenu from "../../component/brain/ShareConfirmMenu.vue";
 
 export default defineComponent({
-  components: {BrainStatusBox, ShareSelect},
+  components: {ShareConfirmMenu, BrainStatusBox, ShareSelect},
   data() {
     return {
       Flags: {

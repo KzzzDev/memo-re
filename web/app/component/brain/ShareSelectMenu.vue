@@ -12,7 +12,7 @@
         </div>
         <div class="user-wrap p-16 w-11/12  mt-16 border-4 border-dashed flex flex-wrap justify-start gap-10">
             <FriendIcon v-for="friend of dummyFriendList" :key="friend.id" :FriendData="friend" />
-
+          
         </div>
     </div>
 </template>
