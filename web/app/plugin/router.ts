@@ -41,11 +41,7 @@ export default createRouter({
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
         },
-        {
-            path: "/select",
-            component: () => import("../views/brain/selectView.vue"),
-            name: "brain select"
-        },
+
         {
             path: "/create",
             component: () => import("../views/brain/createView.vue"),

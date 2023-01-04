@@ -8,8 +8,12 @@ const Store = createStore({
                 Search: false,
                 Notice: false
             },
-            SelectMode:false,
-            SelectedBrainId:[1]
+            ShareFlags: {
+                SelectMode: false,
+                ShareConfirmMode: false
+            },
+            SelectMode: false,
+            SelectedBrainId: []
         }
     },
     getters: {
@@ -22,16 +26,19 @@ const Store = createStore({
         isNoticeModalOpen(state) {
             return state.ModalFlags.Notice
         },
-        getSelectMode(state){
-            return state.SelectMode
+        getSelectMode(state) {
+            return state.ShareFlags.SelectMode
         },
-        getSelectBrain(state){
+        getShareConfirmMode(state) {
+            return state.ShareFlags.ShareConfirmMode
+        },
+        getSelectBrain(state) {
             return state.SelectedBrainId
         }
     },
     mutations: {
+        // -------------------------------------------------------------------------------------------------------------
         updateFriendModalFlag(state) {
-
             state.ModalFlags.Friend = !state.ModalFlags.Friend
             state.ModalFlags.Search = false
             state.ModalFlags.Notice = false
@@ -47,32 +54,50 @@ const Store = createStore({
             state.ModalFlags.Search = false
             state.ModalFlags.Notice = !state.ModalFlags.Notice
         },
-        updateSelectMode(state){
-            state.SelectMode = !state.SelectMode
+        // -------------------------------------------------------------------------------------------------------------
+        toggleSelectMode(state) {
+            state.ShareFlags.SelectMode = !state.ShareFlags.SelectMode
         },
-        offSelectMode(state){
-           state.SelectMode = false
+        offSelectMode(state) {
+            state.ShareFlags.SelectMode = false
         },
-        appendSelectBrain(state,BrainId){
+
+        onShareConfirmMode(state) {
+            state.ShareFlags.SelectMode = false
+            state.ShareFlags.ShareConfirmMode = true
+        },
+        offShareConfirmMode(state) {
+            state.ShareFlags.ShareConfirmMode = false
+        },
+
+        initShareFlags(state) {
+            state.ShareFlags.SelectMode = false
+            state.ShareFlags.ShareConfirmMode = false
+        },
+        // -------------------------------------------------------------------------------------------------------------
+        resetSelectBrain(state) {
+            state.SelectedBrainId = []
+        },
+        appendSelectBrain(state, BrainId) {
             let appendList = this.state.SelectedBrainId
             console.log(appendList)
 
-           appendList.push(parseInt(BrainId))
+            appendList.push(parseInt(BrainId))
             state.SelectedBrainId = appendList
         },
-        removeSelectBrain(state,BrainId){
+        removeSelectBrain(state, BrainId) {
             let removedList = [];
             removedList.push()
-            for (const extractBrainId of state.SelectedBrainId){
+            for (const extractBrainId of state.SelectedBrainId) {
                 console.log(extractBrainId)
                 // !==にするとextractはint BrainIdはstringとして扱われるので
-                if (extractBrainId != BrainId){
+                if (extractBrainId != BrainId) {
                     removedList.push(parseInt(extractBrainId))
                 }
             }
             state.SelectedBrainId = removedList
         }
-
+        // -------------------------------------------------------------------------------------------------------------
     },
     actions: {
         toggleFriendModalState(context) {
@@ -84,17 +109,29 @@ const Store = createStore({
         toggleNoticeModalState(context) {
             context.commit("updateNoticeModalFlag")
         },
-        toggleSelectMode(context){
-            context.commit("updateSelectMode")
+        initShareFlags(context) {
+            context.commit("initShareFlags")
         },
-        offSelectMode(context){
+        toggleSelectMode(context) {
+            context.commit("toggleSelectMode")
+        },
+        offSelectMode(context) {
             context.commit("offSelectMode")
         },
-        appendSelectBrain(context,BrainId){
-            context.commit("appendSelectBrain",BrainId)
+        onShareConfirmMode(context) {
+            context.commit("onShareConfirmMode")
         },
-        removeSelectBrain(context,BrainId){
-            context.commit("removeSelectBrain",BrainId)
+        offShareConfirmMode(context) {
+            context.commit("offShareConfirmMode")
+        },
+        appendSelectBrain(context, BrainId) {
+            context.commit("appendSelectBrain", BrainId)
+        },
+        removeSelectBrain(context, BrainId) {
+            context.commit("removeSelectBrain", BrainId)
+        },
+        resetSelectBrain(context) {
+            context.commit("resetSelectBrain")
         }
     }
 })

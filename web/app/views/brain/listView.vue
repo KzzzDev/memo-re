@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" v-if="!Flags.ShareMode">
     <div class="my-pof">
-      <img src="../../public/images/img001.png" alt="" class="prof-img">
+      <img src="../../public/images/brains/img001.png" alt="" class="prof-img">
       <div class="name-friend">
         <h1 class="my-name">{{ dummyUserStatus.userName }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
@@ -75,7 +75,7 @@ export default defineComponent({
   },
   mounted() {
     this.$store.dispatch("resetSelectBrain")
-    this.closeSelectMode()
+    this.$store.dispatch("initShareFlags")
 
   },
   methods: {
