@@ -3,17 +3,23 @@ from .models import Friend, Note, NoteShare
 
 
 class FriendAdmin(admin.ModelAdmin):
-    list_display = ('left', 'right', 'is_active')
-    list_display_links = ('left', 'right',)
-    search_fields = ('left__userid', 'right__userid', 'is_active')
-    list_filter = ('left', 'right', 'is_active')
+    list_display = ('userid_id', 'friend', 'approval',
+                    'register_at', 'is_deleted')
+    list_display_links = ('userid_id', 'friend',)
+    search_fields = ('userid_id__userid', 'friend__userid',
+                     'approval', 'register_at', 'is_deleted')
+    list_filter = ('userid_id', 'friend', 'approval',
+                   'register_at', 'is_deleted')
 
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
+    list_display = ('id', 'title', 'creator', 'keyword',
+                    'text', 'image', 'category', 'is_active')
     list_display_links = ('id',)
-    search_fields = ('title', 'creator__userid', 'keyword', 'text', 'image', 'category', 'is_active')
-    list_filter = ('title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
+    search_fields = ('title', 'creator__userid', 'keyword',
+                     'text', 'image', 'category', 'is_active')
+    list_filter = ('title', 'creator', 'keyword', 'text',
+                   'image', 'category', 'is_active')
 
 
 class NoteShareAdmin(admin.ModelAdmin):
