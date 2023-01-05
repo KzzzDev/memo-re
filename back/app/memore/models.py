@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError, NON_FIELD_ERRORS, ObjectDoes
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from accounts.models import CustomUser
+from django.utils import timezone
 
 
 class Friend(models.Model):
@@ -12,41 +13,51 @@ class Friend(models.Model):
         verbose_name = verbose_name_plural = 'フレンド'
 
         constraints = [
-            # leftとrightでユニーク制約
+            # useridとfriendでユニーク制約
             models.UniqueConstraint(
-                fields=['left', 'right'], name='unique_friend')
+                fields=['userid', 'friend'], name='unique_friend')
         ]
 
-    left = models.ForeignKey(
+    userid = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザー（自分）",
-        related_name="left",
+        related_name="userid_id",
         on_delete=models.CASCADE,
     )
-    right = models.ForeignKey(
+    friend = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザー（相手）",
-        related_name="right",
+        related_name="friend",
         on_delete=models.CASCADE
     )
-    is_active = models.BooleanField(
-        _("active"),
-        default=True,
+    approval = models.BooleanField(
+        _("approval"),
+        default=False,
         help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
+            "登録状態"
+        ),
+    )
+    register_at = models.DateTimeField(
+        default=timezone.now(),
+        help_text='登録日付'
+    )
+    is_deleted = models.BooleanField(
+        _("deleted"),
+        default=False,
+        help_text=_(
+            "論理削除"
         ),
     )
 
     def __str__(self):
-        return str(self.left) + "+" + str(self.right)
+        return str(self.userid) + "+" + str(self.friend)
 
-    # 未入力の際のエラーとleftとrightが同じ際のエラーをまとめたもの
+    # 未入力の際のエラーとuseridとfriendが同じ際のエラーをまとめたもの
     def clean(self):
         try:
-            if self.left == self.right:
+            if self.userid == self.friend:
                 raise ValidationError(
-                    {'right': "自分と相手が同じユーザーです。"},
+                    {'friend': "自分と相手が同じユーザーです。"},
                 )
         except ObjectDoesNotExist:
             pass
