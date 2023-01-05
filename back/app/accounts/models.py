@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from .validators import UnicodeUseridValidator, UnicodeUsernameValidator
+from .validators import UnicodeUsernameValidator
 from imagekit.models import ImageSpecField
 from pilkit.processors import ResizeToFill
 
@@ -43,15 +43,15 @@ class CustomUser(AbstractUser):
         verbose_name = verbose_name_plural = 'カスタムユーザー'
 
     username_validator = UnicodeUsernameValidator()
-    userid_validator = UnicodeUseridValidator()
+    # userid_validator = UnicodeUseridValidator()
 
-    userid = models.CharField(
-        _("ユーザーID"),
-        max_length=30,
-        help_text=_("この項目は必須です。半角アルファベット、半角数字、アンダースコアで30文字以下にしてください。"),
-        validators=[userid_validator],
-        unique=True
-    )
+    # userid = models.CharField(
+    #     _("ユーザーID"),
+    #     max_length=30,
+    #     help_text=_("この項目は必須です。半角アルファベット、半角数字、アンダースコアで30文字以下にしてください。"),
+    #     validators=[userid_validator],
+    #     unique=True
+    # )
     username = models.CharField(
         _("username"),
         max_length=30,
@@ -71,7 +71,7 @@ class CustomUser(AbstractUser):
     # usernameからemail認証に変更
     USERNAME_FIELD = 'email'
     # createsuperuserでemailの他に必須な項目
-    REQUIRED_FIELDS = ["password", "userid", "username"]
+    REQUIRED_FIELDS = ["password", "username"]
 
     def __str__(self):
-        return self.userid
+        return str(self.id)

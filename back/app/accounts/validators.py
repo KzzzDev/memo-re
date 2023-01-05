@@ -12,10 +12,11 @@ class UnicodeUsernameValidator(validators.RegexValidator):
     )
     flags = 0
 
-@deconstructible
-class UnicodeUseridValidator(validators.RegexValidator):
-    regex = r"^[\w]+\Z"
-    message = _(
-        "入力できる文字はアルファベット、数字、アンダースコアのみです。"
-    )
-    flags = 0
+
+# @deconstructible
+# class UnicodeUseridValidator(validators.RegexValidator):
+#     regex = r"^[\w]+\Z"
+#     message = _(
+#         "入力できる文字はアルファベット、数字、アンダースコアのみです。"
+#     )
+#     flags = 0

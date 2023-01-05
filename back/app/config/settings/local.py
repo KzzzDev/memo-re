@@ -56,6 +56,13 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
+########
+# CORS #
+########
+
+# クロスオリジン許可
+CORS_ORIGIN_ALLOW_ALL = True
+
 ###########
 # Logging #
 ###########
