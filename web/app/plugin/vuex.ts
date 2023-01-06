@@ -39,6 +39,9 @@ const Store = createStore({
         },
         getSelectBrain(state) {
             return state.SelectedBrainId
+        },
+        getSendUserData(state){
+            return state.SendUserData
         }
     },
     mutations: {

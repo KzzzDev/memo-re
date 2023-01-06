@@ -5,19 +5,8 @@ export default createRouter({
     routes: [
         {
             path: "/",
-            component: () => import("../views/user/loginView.vue"),
+            component: () => import("../views/user/signUpView.vue"),
             name: "login"
-        },
-
-        {
-            path: "/status",
-            component: () => import("../component/brain/statusMain.vue"),
-            name: "status"
-        },
-        {
-            path: "/shareImage",
-            component: () => import("../component/user/shareImage.vue"),
-            name: "shareImage"
         },
 
         {
@@ -31,13 +20,14 @@ export default createRouter({
             name: "mypage"
         },
         {
+            //
             path: "/brain/:UserId",
             component: () => import("../views/brain/listView.vue"),
             name: "brain list"
-            // MypageとPathが同じだがcomponent内でRouteを確認し処理を変えるようにしてます。
         },
         {
-            path: "/brain/status",
+            //ノート詳細
+            path: "/note/:NoteId",
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
         },

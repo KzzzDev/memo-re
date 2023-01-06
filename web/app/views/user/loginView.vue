@@ -1,18 +1,9 @@
 <template>
-  <form @submit.prevent="tryLogin">
-    <label>
-      メールアドレス
-      <input type="text" autocomplete="username" v-model="email" />
-    </label>
-    <p class="error" v-if="!!eError">{{ eError }}</p>
-    <label>
-      パスワード
-      <input type="password" autocomplete="password" v-model="password" />
-    </label>
-    <p class="error" v-if="!!pError">{{ pError }}</p>
-    <p v-if="!!error" class="error">メールアドレスかパスワードが間違っている</p>
-    <input type="submit" value="ログイン" />
-  </form>
+  <div class="w-full">
+    <div class="modal">
+
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -57,4 +48,7 @@ const { data, error, refresh: login } = useBackend(logIn, false, { email, passwo
 watch(data, (value) => !!value && push({ path: "/mypage" }));
 </script>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>

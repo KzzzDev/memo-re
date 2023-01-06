@@ -31,7 +31,7 @@
   </div>
 
   <div id="share-confirm" v-if="this.$store.getters.getShareConfirmMode">
-    <ShareConfirmMenu/>
+    <ShareConfirmMenu :SelectBrains="SelectBrains" @init="init" />
   </div>
 
 </template>
@@ -104,6 +104,11 @@ export default defineComponent({
       console.log(SelectBrains)
       this.SelectBrains = SelectBrains
       this.Flags.ShareMode = true
+    },
+    init(){
+      this.Flags.ShareMode = false
+      this.SelectBrains = []
+      this.$store.dispatch("initShareFlags")
     }
   }
 })

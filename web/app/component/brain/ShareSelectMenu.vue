@@ -12,7 +12,7 @@
         </div>
         <div class="user-wrap p-16 w-11/12  mt-16 border-4 border-dashed flex flex-wrap justify-start gap-10">
             <FriendIcon v-for="friend of dummyFriendList" :key="friend.id" :FriendData="friend" />
-          
+
         </div>
     </div>
 </template>
@@ -35,9 +35,13 @@ export default defineComponent({
         },
         {
           name:"東北ずん子",
-          icon:"../../public/images/zundamon.jpg",
+          icon:"../../public/images/girl.png",
           id:"2"
         },
+        {
+          name:"AI子",
+          icon: "../../public/images/brains/img003.png"
+        }
       ]
     }
   },

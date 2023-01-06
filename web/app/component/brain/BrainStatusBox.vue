@@ -10,7 +10,7 @@
 
   </div>
   <div class="img-box" v-else>
-    <router-link :to="'/brain/status/'+brainId">
+    <router-link :to="'/note/'+brainId">
       <img :src="imageURL" alt="images" class="list-img">
     </router-link>
 
