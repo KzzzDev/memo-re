@@ -15,13 +15,13 @@
             <h1 class="text-xs pl-2 pb-2 font-semibold">フレンドリスト</h1>
             <ul>
                 <li>
-                    <a class="flex flex-row pl-8 py-2 border-y border-neutral-300" href="">
+                    <router-link class="flex flex-row pl-8 py-2 border-y border-neutral-300" to="/brain/2">
                         <img class="w-10 h-10 rounded-full object-cover mr-3 bg-white" src="../../public/images/girl.png">
                         <div>
                             <h1 class="font-semibold">ユーザーA</h1>
                             <h2 class="text-xs font-light">userA</h2>
                         </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>

@@ -7,7 +7,7 @@
         <img :src="this.$store.getters.getSendUserData.icon" alt="" class="w-28 h-28 shadow-lg rounded-full mx-auto">
         <p class="user-name text-center my-4">{{ this.$store.getters.getSendUserData.name }}</p>
         <div class="img-wrap flex justify-center gap-4">
-          <img v-for="(brain,index) of SelectBrains" :key="index" :src="brain.imagesUrl" alt=""
+          <img v-for="(brain,index) of SelectBrains" :key="index" :src="brain.image_uri" alt=""
                class="w-24 h-24 shadow-lg" draggable="false">
         </div>
       </div>

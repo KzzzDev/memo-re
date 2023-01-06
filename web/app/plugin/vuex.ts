@@ -51,6 +51,9 @@ const Store = createStore({
             state.ModalFlags.Search = false
             state.ModalFlags.Notice = false
         },
+        offFriendModal(state){
+          state.ModalFlags.Friend = false
+        },
         updateSearchModalFlag(state) {
             state.ModalFlags.Friend = false
             state.ModalFlags.Search = !state.ModalFlags.Search
@@ -124,6 +127,10 @@ const Store = createStore({
         // フレンドモーダルの表示を切り替える処理
         toggleFriendModalState(context) {
             context.commit("updateFriendModalFlag")
+        },
+        // フレンドモーダルを閉じる
+        offFriendModalState(context){
+            context.commit("offFriendModal")
         },
         // 検索モーダルの表示を切り替える処理
         toggleSearchModalState(context) {
