@@ -16,7 +16,8 @@
       <p class="main-txt mt-10 w-96">
         {{ noteStatus.text_uri }}
       </p>
-      <button v-if="!previewMode&&isFriend" class="bg-pink-400 text-white rounded-md text-center w-32 py-1 absolute bottom-0 right-36">
+      <button @click="$emit('request')"
+          v-if="!previewMode&&isFriend" class="bg-pink-400 text-white rounded-md text-center w-32 py-1 absolute bottom-0 right-36">
         記憶をもらう
       </button>
     </div>
