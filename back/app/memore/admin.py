@@ -3,24 +3,28 @@ from .models import Friend, Note, NoteShare
 
 
 class FriendAdmin(admin.ModelAdmin):
-    list_display = ('left', 'right', 'is_active')
-    list_display_links = ('left', 'right',)
-    search_fields = ('left__userid', 'right__userid', 'is_active')
-    list_filter = ('left', 'right', 'is_active')
+    list_display = ('id', 'own', 'friend', 'approval', 'register_at')
+    list_display_links = ('id',)
+    search_fields = ('own__id', 'friend__id', 'approval', 'register_at')
+    list_filter = ('own', 'friend', 'approval', 'register_at')
 
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
+    list_display = ('id', 'user', 'title', 'keyword', 'text_uri',
+                    'image_uri', 'created_at', 'is_active', 'is_public')
     list_display_links = ('id',)
-    search_fields = ('title', 'creator__userid', 'keyword', 'text', 'image', 'category', 'is_active')
-    list_filter = ('title', 'creator', 'keyword', 'text', 'image', 'category', 'is_active')
+    search_fields = ('user__id', 'title', 'keyword', 'text_uri',
+                     'image_uri', 'created_at', 'is_active', 'is_public')
+    list_filter = ('user', 'title', 'keyword', 'text_uri',
+                   'image_uri', 'created_at', 'is_active', 'is_public')
 
 
 class NoteShareAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'note_id', 'is_active')
-    list_display_links = ('user_id', 'note_id',)
-    search_fields = ('user_id__userid', 'note_id__id', 'is_active')
-    list_filter = ('user_id', 'note_id', 'is_active')
+    list_display = ('id', 'own', 'friend', 'note', 'notified', 'apply')
+    list_display_links = ('id',)
+    search_fields = ('own__id', 'friend__id',
+                     'note__id', 'notified', 'apply')
+    list_filter = ('own', 'friend', 'note', 'notified', 'apply')
 
 
 admin.site.register(Friend, FriendAdmin)
