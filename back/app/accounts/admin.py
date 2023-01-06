@@ -6,29 +6,29 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
-        (_('一般'), {'fields': ('userid', 'password', 'username', 'email', 'icon', 'tag',)}),
-        (_('日時'), {'fields': ('date_joined', 'last_login')}),
+        (_('一般'), {'fields': ('password', 'username', 'email', 'icon_uri', 'tag',)}),
+        (_('日時'), {'fields': ('created_at', 'updated_at')}),
         (_('権限'), {'fields': (
             'is_superuser', 'is_staff', 'is_active', 'groups', 'user_permissions',), },),)
     add_fieldsets = ((None, {
         'classes': ('wide',),
-        'fields': ('userid', 'password1', 'password2', 'username', 'email', 'icon', 'tag', 'is_superuser', 'is_staff',
+        'fields': ('password1', 'password2', 'username', 'email', 'icon_uri', 'tag', 'is_superuser', 'is_staff',
                    'is_active'),
     },),)
     list_display = (
-        'id', 'userid', 'username', 'email', 'icon', 'tag', 'date_joined', 'last_login',
+        'id', 'username', 'email', 'icon_uri', 'tag', 'created_at', 'updated_at',
         'is_superuser', 'is_staff', 'is_active'
     )
     list_display_links = ('id',)
     search_fields = (
-        'userid', 'username', 'email', 'icon', 'tag', 'date_joined', 'last_login',
+        'username', 'email', 'icon_uri', 'tag', 'created_at', 'updated_at',
         'is_superuser', 'is_staff', 'is_active'
     )
     list_filter = (
-        'userid', 'username', 'email', 'icon', 'tag', 'date_joined', 'last_login',
+        'username', 'email', 'icon_uri', 'tag', 'created_at', 'updated_at',
         'is_superuser', 'is_staff', 'is_active'
     )
-    ordering = ("userid",)
+    ordering = ()
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
