@@ -15,16 +15,16 @@ class Friend(models.Model):
         constraints = [
             # own_idとfriend_idでユニーク制約
             models.UniqueConstraint(
-                fields=['own_id', 'friend_id'], name='unique_friend')
+                fields=['own', 'friend'], name='unique_friend')
         ]
 
-    own_id = models.ForeignKey(
+    own = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザ（自分）",
         related_name="friend_own_id",
         on_delete=models.CASCADE,
     )
-    friend_id = models.ForeignKey(
+    friend = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザ（相手）",
         related_name="friend_friend_id",
@@ -47,9 +47,9 @@ class Friend(models.Model):
     # 未入力の際のエラーとown_idとfriend_idが同じ際のエラーをまとめたもの
     def clean(self):
         try:
-            if self.own_id == self.friend_id:
+            if self.own == self.friend:
                 raise ValidationError(
-                    {'friend_id': "自分と相手が同じユーザーです。"},
+                    {'friend': "自分と相手が同じユーザーです。"},
                 )
         except ObjectDoesNotExist:
             pass
@@ -62,13 +62,12 @@ class Note(models.Model):
         db_table = 'note'
         verbose_name = verbose_name_plural = 'ノート'
 
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザID",
         related_name="note_user_id",
         on_delete=models.CASCADE,
     )
-
     title = models.CharField(
         _("タイトル"),
         max_length=255,
@@ -114,22 +113,22 @@ class NoteShare(models.Model):
         constraints = [
             # own_idとfriend_idとnote_idでユニーク制約
             models.UniqueConstraint(
-                fields=['own_id', 'friend_id', 'note_id'], name='unique_noteshare')
+                fields=['own', 'friend', 'note'], name='unique_noteshare')
         ]
 
-    own_id = models.ForeignKey(
+    own = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザ（自分）",
         related_name="noteshare_own_id",
         on_delete=models.CASCADE,
     )
-    friend_id = models.ForeignKey(
+    friend = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザ（相手）",
         related_name="noteshare_friend_id",
         on_delete=models.CASCADE,
     )
-    note_id = models.ForeignKey(
+    note = models.ForeignKey(
         Note,
         verbose_name="ノートID",
         related_name="noteshare_note_id",
@@ -150,9 +149,9 @@ class NoteShare(models.Model):
     # 未入力の際のエラーとown_idとfriend_idが同じ際のエラーをまとめたもの
     def clean(self):
         try:
-            if self.own_id == self.friend_id:
+            if self.own == self.friend:
                 raise ValidationError(
-                    {'friend_id': "自分と相手が同じユーザーです。"},
+                    {'friend': "自分と相手が同じユーザーです。"},
                 )
         except ObjectDoesNotExist:
             pass
