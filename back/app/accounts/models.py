@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .validators import UnicodeUsernameValidator
 from imagekit.models import ImageSpecField
@@ -42,7 +43,7 @@ class CustomUser(AbstractUser):
         db_table = 'custom_user'
         verbose_name = verbose_name_plural = 'カスタムユーザー'
 
-    username_validator = UnicodeUsernameValidator()
+    # username_validator = UnicodeUsernameValidator()
     # userid_validator = UnicodeUseridValidator()
 
     # userid = models.CharField(
@@ -53,19 +54,21 @@ class CustomUser(AbstractUser):
     #     unique=True
     # )
     username = models.CharField(
-        _("username"),
-        max_length=30,
-        help_text=_("この項目は必須です。半角アルファベット、半角数字、@/./+/-/_ で30文字以下にしてください。"),
-        validators=[username_validator],
+        _("ユーザ名"),
+        max_length=255,
+        # help_text=_("この項目は必須です。半角アルファベット、半角数字、@/./+/-/_ で30文字以下にしてください。"),
+        # validators=[username_validator],
     )
-    email = models.EmailField(_('email address'), unique=True)
-    icon = models.ImageField(_('アイコン'), upload_to='icon', default='icon/default.jpg')
+    email = models.EmailField(_('email address'), max_length=255, unique=True)
+    icon_uri = models.ImageField(_('アイコンパス'), max_length=255, upload_to='icon', default='icon/default.jpg')
     icon_thumbnail = ImageSpecField(
-        source='icon',
+        source='icon_uri',
         processors=[ResizeToFill(300, 300)],
         format='JPEG',
     )
-    tag = models.CharField(_('タグ'), max_length=150, blank=True, null=True)
+    tag = models.CharField(_('タグ'), max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(_("作成日"), default=timezone.now)
+    updated_at = models.DateTimeField(_("更新日"), blank=True, null=True)
 
     objects = UserManager()
     # usernameからemail認証に変更
