@@ -1,22 +1,19 @@
 <template>
   <div class="img-box" v-if="$store.getters.getSelectMode">
-    <div v-if="!this.isActive" class="shadow-filter"></div>
+    <div v-if="!this.isActive" class="shadow-filter"  @click="change"></div>
 
-    <img :src="imageURL" alt="images" class="list-img">
-    <p class="title">{{title}}</p>
-    <input @change="change" v-model="isActive" :name="'cb-'+noteId" class="img-checkbox"
+    <img :src="imageURL" alt="images" class="list-img" @click="change">
+<!--    <p class="title">{{title}}</p>-->
+    <input @click="change" v-model="isActive" :name="'cb-'+noteId" class="img-checkbox"
            type="checkbox" :id="'img-'+noteId"/>
     <label :for="'img-'+noteId"/>
 
-
   </div>
-  <div class="img-box" v-else>
-
-
-    <router-link :to="'/note/'+noteId">
+  <div class="img-box"  v-else>
+    <router-link :to="'/note/'+noteId" >
       <img :src="imageURL" alt="images" class="list-img">
     </router-link>
-    <p class="title">{{title}}</p>
+<!--    <p class="title">{{title}}</p>-->
   </div>
 </template>
 
@@ -48,9 +45,11 @@ export default {
       console.log(this.isActive)
       if (this.isActive) {
         await this.$store.dispatch("appendSelectBrain", this.noteId)
-        return
       }
-      await this.$store.dispatch("removeSelectBrain", this.noteId)
+      else {
+        await this.$store.dispatch("removeSelectBrain", this.noteId)
+      }
+      this.isActive = !this.isActive
     }
   }
 
@@ -132,6 +131,7 @@ input[type="checkbox"]:checked + label::after {
 }
 
 .title{
+  position: absolute;
   margin-top: 2px;
   font-size: 12px;
   bottom: 0;

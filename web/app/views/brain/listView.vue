@@ -208,7 +208,6 @@ export default defineComponent({
 
 
 .select-menu {
-  position: fixed;
   width: 100%;
   height: 250px;
   left: 12%;
@@ -218,9 +217,13 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: flex-start;
+
 }
 
 .back-button {
+  position: fixed;
+  bottom: 100px;
+  right: 25%;
   width: 150px;
   height: 50px;
   background: #3D5093;
@@ -231,6 +234,9 @@ export default defineComponent({
 }
 
 .go-select-button {
+  position: fixed;
+  bottom: 100px;
+  left: 45%;
   width: 150px;
   height: 50px;
   background: #BE3455;
