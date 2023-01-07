@@ -254,6 +254,7 @@ export const insertNoteData = function (noteData) {
     noteList.push(noteData)
     localStorage.setItem("noteList", JSON.stringify(noteList))
 
+
 }
 
 export const getFriendList = function (id) {
