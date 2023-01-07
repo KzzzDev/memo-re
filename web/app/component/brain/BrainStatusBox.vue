@@ -3,6 +3,7 @@
     <div v-if="!this.isActive" class="shadow-filter"></div>
 
     <img :src="imageURL" alt="images" class="list-img">
+    <p class="title">{{title}}</p>
     <input @change="change" v-model="isActive" :name="'cb-'+noteId" class="img-checkbox"
            type="checkbox" :id="'img-'+noteId"/>
     <label :for="'img-'+noteId"/>
@@ -10,10 +11,12 @@
 
   </div>
   <div class="img-box" v-else>
+
+
     <router-link :to="'/note/'+noteId">
       <img :src="imageURL" alt="images" class="list-img">
     </router-link>
-
+    <p class="title">{{title}}</p>
   </div>
 </template>
 
@@ -27,6 +30,10 @@ export default {
     }
   },
   props: {
+    title:{
+      type:String,
+      default:"Title"
+    },
     imageURL: {
       type: String,
       default: "../../public/images/brains/img001.png"
@@ -122,6 +129,13 @@ input[type="checkbox"]:checked + label::after {
   opacity: 0.5;
   top: 0;
   left: 0;
+}
+
+.title{
+  margin-top: 2px;
+  font-size: 12px;
+  bottom: 0;
+  color: black;
 }
 
 </style>

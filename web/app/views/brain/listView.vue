@@ -17,7 +17,7 @@
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :image-URL="brains.image_uri"/>
+        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :title="brains.title" :image-URL="brains.image_uri"/>
 
       </div>
     </div>
