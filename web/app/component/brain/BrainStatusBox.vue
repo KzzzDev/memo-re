@@ -3,14 +3,14 @@
     <div v-if="!this.isActive" class="shadow-filter"></div>
 
     <img :src="imageURL" alt="images" class="list-img">
-    <input @change="change" v-model="isActive" :name="'cb-'+brainId" class="img-checkbox"
-           type="checkbox" :id="'img-'+brainId"/>
-    <label :for="'img-'+brainId"/>
+    <input @change="change" v-model="isActive" :name="'cb-'+noteId" class="img-checkbox"
+           type="checkbox" :id="'img-'+noteId"/>
+    <label :for="'img-'+noteId"/>
 
 
   </div>
   <div class="img-box" v-else>
-    <router-link :to="'/note/'+brainId">
+    <router-link :to="'/note/'+noteId">
       <img :src="imageURL" alt="images" class="list-img">
     </router-link>
 
@@ -31,7 +31,7 @@ export default {
       type: String,
       default: "../../public/images/brains/img001.png"
     },
-    brainId: {
+    noteId: {
       type: Number,
       default: 0
     }
@@ -40,10 +40,10 @@ export default {
     change: async function () {
       console.log(this.isActive)
       if (this.isActive) {
-        await this.$store.dispatch("appendSelectBrain", this.brainId)
+        await this.$store.dispatch("appendSelectBrain", this.noteId)
         return
       }
-      await this.$store.dispatch("removeSelectBrain", this.brainId)
+      await this.$store.dispatch("removeSelectBrain", this.noteId)
     }
   }
 

@@ -20,6 +20,7 @@
 <script  lang="ts">
 import {defineComponent} from "vue"
 import FriendIcon from "../../component/brain/FriendIcon.vue"
+import {getFriendList} from "../../dummy/brain";
 export default defineComponent({
   name:"ShareSelect",
   components:{
@@ -28,20 +29,7 @@ export default defineComponent({
   data(){
     return{
       dummyFriendList:[
-        {
-          name:"ずんだもん",
-          icon:"../../public/images/zundamon.jpg",
-          id:"1"
-        },
-        {
-          name:"東北ずん子",
-          icon:"../../public/images/girl.png",
-          id:"2"
-        },
-        {
-          name:"AI子",
-          icon: "../../public/images/brains/img003.png"
-        }
+
       ]
     }
   },
@@ -50,6 +38,9 @@ export default defineComponent({
       type:Array,
       default:[]
     }
+  },
+  mounted() {
+    this.dummyFriendList = getFriendList(this.$store.getters.getUserId)
   }
 })
 </script>

@@ -7,11 +7,12 @@
         <p>公開</p>
       </div>
       <div class="tag flex flex-wrap gap-2 mt-4">
-        <p class="bg-blue-500 text-white rounded-full text-center w-28 py-1"
-           v-for="(tag,index) in noteStatus.keyword.split('|')"
+        <div class="bg-blue-500 text-white rounded-full text-center w-auto px-5 py-3  flex items-center items-center"
+           v-for="(tag,index) in noteStatus.keyword.split(',')"
            :key="index"
         >
-          {{ tag }}</p>
+        <p>  {{ tag }}</p>
+        </div>
       </div>
       <p class="main-txt mt-10 w-96">
         {{ noteStatus.text_uri }}

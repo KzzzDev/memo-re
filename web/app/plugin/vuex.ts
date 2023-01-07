@@ -3,6 +3,7 @@ import {createStore} from "vuex"
 const Store = createStore({
     state() {
         return {
+            UserId:1,
             ModalFlags: {
                 Friend: false,
                 Search: false,
@@ -14,7 +15,7 @@ const Store = createStore({
             },
 
             SelectedBrainId: [],
-            SendUserData:{
+            TargetUserData:{
                 id:"",
                 name:"",
                 icon:""
@@ -22,6 +23,12 @@ const Store = createStore({
         }
     },
     getters: {
+        getUserId(state){
+            return state.UserId
+        },
+        isLogin(state){
+          return state.UserId != 0
+        },
         isFriendModalOpen(state) {
             return state.ModalFlags.Friend
         },
@@ -40,8 +47,8 @@ const Store = createStore({
         getSelectBrain(state) {
             return state.SelectedBrainId
         },
-        getSendUserData(state){
-            return state.SendUserData
+        getTargetUserData(state){
+            return state.TargetUserData
         }
     },
     mutations: {
@@ -85,15 +92,15 @@ const Store = createStore({
             state.SelectedBrainId = []
             state.ShareFlags.SelectMode = false
             state.ShareFlags.ShareConfirmMode = false
-            state.SendUserData = {
+            state.TargetUserData = {
                 id:"",
                 name:"",
                 icon:""
             }
         },
         // -------------------------------------------------------------------------------------------------------------
-        setSendUserData(state,userData){
-            state.SendUserData = userData
+        setTargetUserData(state,userData){
+            state.TargetUserData = userData
         },
         // -------------------------------------------------------------------------------------------------------------
         // 記憶共有時の画像選択情報を格納するStateの初期化
@@ -164,8 +171,8 @@ const Store = createStore({
         },
         // -------------------------------------------------------------------------------------------------------------
         // 共有時の相手側の情報
-        setSendUserData(context,userData){
-            context.commit("setSendUserData",userData)
+        setTargetUserData(context,userData){
+            context.commit("setTargetUserData",userData)
         },
         // -------------------------------------------------------------------------------------------------------------
         appendSelectBrain(context, BrainId) {

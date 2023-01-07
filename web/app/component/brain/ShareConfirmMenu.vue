@@ -4,8 +4,8 @@
       <h1 class="text-4xl text-center mb-12" v-show="!Finished">共有しますか？</h1>
       <h1 class="text-4xl text-center mb-12" v-show="Finished">共有されました！</h1>
       <div class="wrapper w-full">
-        <img :src="this.$store.getters.getSendUserData.icon" alt="" class="w-28 h-28 shadow-lg rounded-full mx-auto">
-        <p class="user-name text-center my-4">{{ this.$store.getters.getSendUserData.name }}</p>
+        <img :src="this.$store.getters.getTargetUserData.icon" alt="" class="w-28 h-28 shadow-lg rounded-full mx-auto">
+        <p class="user-name text-center my-4">{{ this.$store.getters.getTargetUserData.name }}</p>
         <div class="img-wrap flex justify-center gap-4">
           <img v-for="(brain,index) of SelectBrains" :key="index" :src="brain.image_uri" alt=""
                class="w-24 h-24 shadow-lg" draggable="false">
@@ -27,6 +27,8 @@
 
 <script>
 // ユーザーの情報をname,iconでそれぞれ一回ずつGetters叩いてるのでBeforeMountで一括取得してDataに格納してもいいかも
+import {shareNote} from "../../dummy/brain";
+
 export default {
   name: 'shareImage',
   data() {
@@ -38,6 +40,10 @@ export default {
     SelectBrains: {
       type: Array,
       default: []
+    },
+    TargetId:{
+      type:Number,
+      default: -1
     }
   },
   mounted() {
@@ -48,9 +54,12 @@ export default {
       this.$store.dispatch("offShareConfirmMode")
     },
     share() {
-
+      console.log(this.SelectBrains)
       // API処理
-
+      for (const note of this.SelectBrains){
+        console.log(note)
+        shareNote(note.noteId,this.$store.getters.getTargetUserData.userId)
+      }
       this.Finished = true
     },
     init() {

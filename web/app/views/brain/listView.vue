@@ -3,7 +3,7 @@
     <div class="my-pof">
       <img :src="dummyUserStatus.icon" alt="" class="prof-img">
       <div class="name-friend">
-        <h1 class="my-name">{{ dummyUserStatus.userName }}</h1>
+        <h1 class="my-name">{{ dummyUserStatus.name }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
       </div>
       <!--      <p class="m-id">{{ dummyUserStatus.userId }}</p>-->
@@ -17,7 +17,7 @@
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox v-for="brains of dummyBrainArray" :brain-id="brains.brainId" :image-URL="brains.image_uri"/>
+        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :image-URL="brains.image_uri"/>
 
       </div>
     </div>
@@ -42,7 +42,7 @@ import BrainStatusBox from "../../component/brain/BrainStatusBox.vue";
 import ShareSelect from "../../component/brain/ShareSelectMenu.vue"
 import ShareConfirmMenu from "../../component/brain/ShareConfirmMenu.vue";
 import {getAuthHeader} from "../../lib/auth";
-import {getUserBrain} from "../../dummy/brain";
+import {getUserBrain, getUserData} from "../../dummy/brain";
 
 export default defineComponent({
   components: {ShareConfirmMenu, BrainStatusBox, ShareSelect},
@@ -52,11 +52,9 @@ export default defineComponent({
         ShareMode: false
       },
       dummyUserStatus: {
-        userName: "ずんだもん",
-        icon: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
-        userTag: ["おんなのこ ", "ボイスロイド"]
+
       },
-      dummyBrainArray: [
+      BrainArray: [
 
       ],
       SelectBrains: []
@@ -90,12 +88,8 @@ export default defineComponent({
   methods: {
     getMyNote() {
       //      const userId =
-      this.dummyUserStatus = {
-        userName: "ずんだもん",
-        icon: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
-        userTag: ["おんなのこ ", "ボイスロイド"]
-      }
-      this.dummyBrainArray = getUserBrain(1)
+      this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
+      this.BrainArray = getUserBrain(this.$store.getters.getUserId)
     },
     getFriendNote() {
       this.$store.dispatch("offFriendModalState")
@@ -104,15 +98,9 @@ export default defineComponent({
       console.log(friendId)
 
       const URL = "/brains/" + friendId
-      console.log(getAuthHeader())
 
-      this.dummyUserStatus = {
-        userName: "A子",
-        icon: "https://images.unsplash.com/photo-1578349750407-20d97c47d702?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-        userTag: ["おんなのこ ", "HAL生"]
-      }
-
-      this.dummyBrainArray = getUserBrain(parseInt(friendId))
+      this.dummyUserStatus = getUserData(parseInt(friendId))
+      this.BrainArray = getUserBrain(parseInt(friendId))
 
     },
     toggleSelectMode() {
@@ -125,9 +113,9 @@ export default defineComponent({
       //
       const SelectBrains = []
       const selectedBrainId = this.$store.getters.getSelectBrain
-      for (const Brain of this.dummyBrainArray) {
+      for (const Brain of getUserBrain(this.$store.getters.getUserId)) {
         console.log(selectedBrainId.indexOf(Brain.brainId))
-        if (selectedBrainId.indexOf(Brain.brainId) != -1) {
+        if (selectedBrainId.indexOf(Brain.noteId) != -1) {
           SelectBrains.push(Brain)
         }
       }

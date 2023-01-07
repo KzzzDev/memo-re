@@ -2,9 +2,10 @@
   <div class="status-wrapper">
     <div class="status-info mt-24">
       <StatusMain :noteStatus="dummyNoteStatus" @request="sendRequest" />
+
     </div>
-    <div class="status-list mt-16 py-2 w-10/12 mx-auto flex gap-6">
-      <router-link v-for="note in dummyOtherNoteList" :to="'/note/'+note.brainId" :key="note.brainId">
+    <div class="status-list mt-16 py-2 w-10/12 mx-auto flex gap-6 ">
+      <router-link v-for="note in dummyOtherNoteList" :to="'/note/'+note.noteId" :key="note.noteId">
         <img :src="note.image_uri" alt="" class="w-28 h-28 shadow-lg">
       </router-link>
     </div>
@@ -17,7 +18,7 @@
         <img :src="userData.icon" alt="" class="w-28 h-28 shadow-lg rounded-full mx-auto">
         <p class="user-name text-center my-4">{{ userData.name }}</p>
         <div class="img-wrap flex justify-center gap-4">
-          <img :src="dummyNoteStatus.image_uri" alt="" class="w-24 h-24 shadow-lg" draggable="false">
+           <img :src="dummyNoteStatus.image_uri" alt="" class="w-24 h-24 shadow-lg" draggable="false">
         </div>
       </div>
       <div class="button flex justify-center gap-6 mt-12" v-show="!Finished">
@@ -65,8 +66,12 @@ export default {
     const noteId = this.$route.params.NoteId
     console.log(noteId)
     this.dummyNoteStatus = getNoteStatus(parseInt(noteId))
-    this.userData =  getUserData(this.dummyNoteStatus.userId)
-    this.dummyOtherNoteList = getUserBrain(parseInt(this.dummyNoteStatus.userId))
+    if (!this.dummyNoteStatus){
+      this.$router.push("/error")
+    }
+    this.userData =  getUserData(this.$store.getters.getUserId)
+
+    this.dummyOtherNoteList = getUserBrain(this.dummyNoteStatus.userId)
 
   },
   methods:{
