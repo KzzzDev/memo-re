@@ -22,7 +22,7 @@ export default defineComponent({
   methods:{
     drop:async function(){
       //  ここでState更新
-      await this.$store.dispatch("setSendUserData",this.FriendData)
+      await this.$store.dispatch("setTargetUserData",this.FriendData)
 
       await this.$store.dispatch("onShareConfirmMode")
     }

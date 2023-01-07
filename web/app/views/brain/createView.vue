@@ -21,7 +21,8 @@
                     required></textarea>
         </div>
         <div class="w-full flex justify-end mt-10">
-          <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2 shadow" @click="callCreateImageAPI">画像を作成
+          <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2 shadow" @click="callCreateImageAPI">
+            画像を作成
           </button>
         </div>
       </section>
@@ -30,13 +31,14 @@
     <section v-if="Flags.Creating||Flags.Finished" id="creating" class="flex justify-center align-center fixed">
       <div v-if="Flags.Creating" class="w-80 h-64 border border-black bg-white flex align- flex-col p-5 justify-around">
         <font-awesome-icon icon="fa-solid fa-spinner" size="6x" spin/>
-        <p>生成中</p>
+        <p>生成中(20~30秒ほどかかります。リロードすると生成できないので気を付けてください)</p>
       </div>
       <div v-else-if="Flags.Finished"
            class="w-80 h-64 border border-black bg-white flex align- flex-col p-5 justify-around">
-        <font-awesome-icon icon="fa-regular fa-circle-check" size="6x" />
+        <font-awesome-icon icon="fa-regular fa-circle-check" size="6x"/>
         <p>生成されました！</p>
-        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2 shadow" @click="Flags.Preview = true">確認する。
+        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2 shadow" @click="Flags.Preview = true">
+          確認する。
         </button>
 
       </div>
@@ -45,10 +47,18 @@
   <!-- プレビュー画面に切り替え /-->
   <div v-if="Flags.Preview">
     <div class="flex flex-col justify-center w-full ">
-      <status-main :preview-mode="true" />
+      <status-main :note-status="NoteStatus" :preview-mode="true"/>
       <div class="w-full flex justify-center mt-5">
-        <button class="bg-white hover:bg-gray-100 text-gray-800  rounded px-8 py-4 m-5 shadow" >やり直す</button>
-        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow"  @click="callCreateNoteAPI">作成</button>
+        <button class="bg-white hover:bg-gray-100 text-gray-800  rounded px-8 py-4 m-5 shadow" @click="location.reload()">やり直す</button>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow"
+                @click="callCreateNoteAPI">作成
+        </button>
+      </div>
+    </div>
+    <div v-show="Flags.Created" class="w-full h-full fixed top-0 left-0 justify-center items-center">
+      <div class="w-1/2 h-36 flex border shadow bg-white">
+        <p>作成されました！</p>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow"><router-link to="/mypage">一覧に戻る。</router-link></button>
       </div>
     </div>
   </div>
@@ -58,11 +68,14 @@
 import {defineComponent} from "vue"
 import {createNote} from "../../lib/network";
 import statusMain from "../../component/brain/statusMain.vue"
+import axios from "axios";
+import {getNextId, insertNoteData} from "../../dummy/brain";
 
 type Flags = {
   Creating: boolean,
   Finished: boolean,
-  Preview: boolean
+  Preview: boolean,
+  Created:boolean
 }
 
 type Forms = {
@@ -78,13 +91,17 @@ export default defineComponent({
       Flags: {
         Creating: false,
         Finished: false,
-        Preview: false
+        Preview: false,
+        Created:false
       } as Flags,
       Forms: {
         Title: "",
         Keyword: "",
         Memo: ""
-      } as Forms
+      } as Forms,
+      NoteStatus:{
+
+      }
     }
 
   },
@@ -96,11 +113,37 @@ export default defineComponent({
       //
       this.Flags.Creating = true
       // Create Image
-      await setTimeout(() => {
+      const postParams = new URLSearchParams()
+      postParams.append("keyword", this.Forms.Keyword)
+      postParams.append("user_id", "test")
+      try {
+        const formatKeyword = this.Forms.Keyword
+
+        const response = await axios.post("http://20.66.79.230:8080/ai/debug/", {
+          keyword:formatKeyword.replaceAll(" ",",").replaceAll("　",","),
+          user_id:"test"
+        })
+        console.log(response)
+        const image_uri = "http://20.78.36.224/images/"+response.data.img_file
+        this.NoteStatus ={
+          title:this.Forms.Title,
+          keyword:this.Forms.Keyword.replaceAll(" ",",").replaceAll("　",","),
+          text_uri:this.Forms.Memo,
+          image_uri:image_uri,
+          userId:this.$store.getters.getUserId,
+          ownerId:this.$store.getters.getUserId,
+          noteId:getNextId()
+        }
+      }
+      catch (e){
+        console.log(e)
+      }
+      finally {
+
         this.Flags.Creating = false
         this.Flags.Finished = true
+      }
 
-      }, 2000)
 
       // noteの画像データ取得
 
@@ -108,11 +151,8 @@ export default defineComponent({
     },
     callCreateNoteAPI: async function () {
 
-
-      const fetchResult = await createNote({
-        title: this.Forms.Title,
-
-      })
+        insertNoteData(this.NoteStatus)
+      this.Flags.Created = true
 
     }
   }

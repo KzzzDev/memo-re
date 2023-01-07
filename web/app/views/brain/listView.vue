@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper" v-if="!Flags.ShareMode&&!this.$store.getters.getShareConfirmMode">
     <div class="my-pof">
-      <img src="../../public/images/brains/img001.png" alt="" class="prof-img">
+      <img :src="dummyUserStatus.icon" alt="" class="prof-img">
       <div class="name-friend">
-        <h1 class="my-name">{{ dummyUserStatus.userName }}</h1>
+        <h1 class="my-name">{{ dummyUserStatus.name }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
       </div>
-      <p class="m-id">{{ dummyUserStatus.userId }}</p>
+      <!--      <p class="m-id">{{ dummyUserStatus.userId }}</p>-->
       <p>
         <span class="m-tag" v-for="(tag,index) in dummyUserStatus.userTag" :key="index">#{{ tag }}</span>
       </p>
@@ -17,7 +17,7 @@
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox v-for="brains of dummyBrainArray" :brain-id="brains.brainId" :image-URL="brains.imagesUrl" />
+        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :image-URL="brains.image_uri"/>
 
       </div>
     </div>
@@ -31,7 +31,7 @@
   </div>
 
   <div id="share-confirm" v-if="this.$store.getters.getShareConfirmMode">
-    <ShareConfirmMenu :SelectBrains="SelectBrains" @init="init" />
+    <ShareConfirmMenu :SelectBrains="SelectBrains" @init="init"/>
   </div>
 
 </template>
@@ -41,6 +41,8 @@ import {defineComponent} from "vue"
 import BrainStatusBox from "../../component/brain/BrainStatusBox.vue";
 import ShareSelect from "../../component/brain/ShareSelectMenu.vue"
 import ShareConfirmMenu from "../../component/brain/ShareConfirmMenu.vue";
+import {getAuthHeader} from "../../lib/auth";
+import {getUserBrain, getUserData} from "../../dummy/brain";
 
 export default defineComponent({
   components: {ShareConfirmMenu, BrainStatusBox, ShareSelect},
@@ -50,34 +52,33 @@ export default defineComponent({
         ShareMode: false
       },
       dummyUserStatus: {
-        userName: "ずんだもん",
-        userId: "Cocororororororo",
-        userTag: ["おんなのこ ", "ボイスロイド"]
+
       },
-      dummyBrainArray: [
-        {
-          brainId: 1,
-          imagesUrl: "../../public/images/brains/img001.png"
-        },
-        {
-          brainId: 2,
-          imagesUrl: "../../public/images/brains/img002.png"
-        },
-        {
-          brainId: 3,
-          imagesUrl: "../../public/images/brains/img003.png"
-        },
-        {
-          brainId: 4,
-          imagesUrl: "../../public/images/brains/img004.png"
-        },
+      BrainArray: [
+
       ],
-      SelectBrains:[]
+      SelectBrains: []
+    }
+  },
+  watch: {
+    $route(to) {
+      console.log(to)
+      if (to.fullPath != "/mypage") {
+        this.getFriendNote()
+      } else {
+        this.getMyNote()
+      }
+
     }
   },
   beforeMount() {
     const routePath = this.$route
-    console.log(routePath)
+    console.log(routePath.fullPath)
+    if (routePath.fullPath != "/mypage") {
+      this.getFriendNote()
+    } else {
+      this.getMyNote()
+    }
   },
   mounted() {
     this.$store.dispatch("resetSelectBrain")
@@ -85,6 +86,23 @@ export default defineComponent({
 
   },
   methods: {
+    getMyNote() {
+      //      const userId =
+      this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
+      this.BrainArray = getUserBrain(this.$store.getters.getUserId)
+    },
+    getFriendNote() {
+      this.$store.dispatch("offFriendModalState")
+      const friendId = this.$route.params.UserId
+      // FriendId取得完了
+      console.log(friendId)
+
+      const URL = "/brains/" + friendId
+
+      this.dummyUserStatus = getUserData(parseInt(friendId))
+      this.BrainArray = getUserBrain(parseInt(friendId))
+
+    },
     toggleSelectMode() {
       this.$store.dispatch("toggleSelectMode")
     },
@@ -95,9 +113,9 @@ export default defineComponent({
       //
       const SelectBrains = []
       const selectedBrainId = this.$store.getters.getSelectBrain
-      for (const Brain of this.dummyBrainArray){
+      for (const Brain of getUserBrain(this.$store.getters.getUserId)) {
         console.log(selectedBrainId.indexOf(Brain.brainId))
-        if (selectedBrainId.indexOf(Brain.brainId)!=-1){
+        if (selectedBrainId.indexOf(Brain.noteId) != -1) {
           SelectBrains.push(Brain)
         }
       }
@@ -105,7 +123,7 @@ export default defineComponent({
       this.SelectBrains = SelectBrains
       this.Flags.ShareMode = true
     },
-    init(){
+    init() {
       this.Flags.ShareMode = false
       this.SelectBrains = []
       this.$store.dispatch("initShareFlags")
