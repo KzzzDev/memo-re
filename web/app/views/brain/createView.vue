@@ -148,7 +148,7 @@ export default defineComponent({
 
       insertNoteData(this.NoteStatus)
       // this.$router.push("/note/"+this.NoteStatus.noteId)
-      this.$router.push("/mypage/")
+      this.$router.push("/mypage")
 
     }
   }
