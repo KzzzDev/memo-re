@@ -55,12 +55,7 @@
         </button>
       </div>
     </div>
-    <div v-show="Flags.Created" class="w-full h-full fixed top-0 left-0 justify-center items-center">
-      <div class="w-1/2 h-36 flex border shadow bg-white">
-        <p>作成されました！</p>
-        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow"><router-link to="/mypage">一覧に戻る。</router-link></button>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -151,8 +146,8 @@ export default defineComponent({
     },
     callCreateNoteAPI: async function () {
 
-        insertNoteData(this.NoteStatus)
-      this.Flags.Created = true
+      insertNoteData(this.NoteStatus)
+      this.$router.push("/note/"+this.NoteStatus.noteId)
 
     }
   }

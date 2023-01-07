@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header >
     <div class="logo-area">
       <router-link to="/">
         <img src="../../public/images/logo.png" alt="logo image" id="header-logo">
@@ -40,7 +40,7 @@ export default {
 <style scoped>
 header {
   background: #505058;
-  width: 12%;
+  width: 15%;
   height: 100%;
   position: fixed;
   top: 0;

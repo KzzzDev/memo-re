@@ -8,7 +8,6 @@ export default createRouter({
             component: () => import("../views/user/signUpView.vue"),
             name: "login"
         },
-
         {
             path: "/signUp",
             component: () => import("../views/user/signUpView.vue"),
