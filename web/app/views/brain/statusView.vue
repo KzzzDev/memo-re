@@ -23,10 +23,10 @@
       </div>
       <div class="button flex justify-center gap-6 mt-12" v-show="!Finished">
         <button class="w-32 bg-gray-400 text-white py-3 rounded-md" @click="ShowRequestModal=false">キャンセル</button>
-        <button class="w-32 bg-red-700 text-white py-3 rounded-md" @click="Finished=true">申請</button>
+        <button class="w-32 bg-red-700 text-white py-3 rounded-md" @click="Finished=true;">申請</button>
       </div>
       <div class="button flex justify-center gap-6 mt-12" v-show="Finished">
-        <button class="w-32 bg-blue-700 text-white py-3 rounded-md" @click="ShowRequestModal=false">
+        <button class="w-32 bg-blue-700 text-white py-3 rounded-md" @click="complete">
           完了
         </button>
       </div>
@@ -77,6 +77,9 @@ export default {
   methods:{
     sendRequest(){
       this.ShowRequestModal = true
+    },
+    complete(){
+      this.$router.push("/mypage")
     }
   }
 };

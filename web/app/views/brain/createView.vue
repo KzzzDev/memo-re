@@ -147,7 +147,8 @@ export default defineComponent({
     callCreateNoteAPI: async function () {
 
       insertNoteData(this.NoteStatus)
-      this.$router.push("/note/"+this.NoteStatus.noteId)
+      // this.$router.push("/note/"+this.NoteStatus.noteId)
+      this.$router.push("/mypage/")
 
     }
   }
