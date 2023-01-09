@@ -1,0 +1,21 @@
+# デフォルトの改行コード
+*       text=auto
+
+*.txt   text
+
+# Linuxシェル
+*.sh    text eol=lf
+
+# Windowsシェル
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
+
+# 変更すべきでないファイル
+*.png   -text
+*.jpg   -text
+*.jar   -text
+
+# ビルドツールのLinux用シェル
+mvnm    text eol=lf
+gradlew text eol=lf
