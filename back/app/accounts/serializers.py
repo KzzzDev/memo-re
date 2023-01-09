@@ -1,9 +1,10 @@
-# from rest_framework import serializers
-# from djoser import serializers as test_ser
-# from accounts.models import CustomUser
+from djoser import serializers
+from accounts.models import CustomUser
+
 
 # djoserのシリアライザーを変更する場合
-# class CustomUserSerializer(test_ser.UserSerializer):
-#     class Meta:
-#         model = CustomUser
-#         fields = ['userid', 'icon']
+class CustomUserSerializer(serializers.UserSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'icon_uri', 'email', 'password', 'tag']
+        read_only_fields = (id,)
