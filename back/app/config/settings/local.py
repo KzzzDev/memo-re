@@ -98,7 +98,7 @@ LOGGING = {
     # その他のロガー
     'loggers': {
         # 自作アプリケーションごとにロガーを定義することも可能
-        'ctf': {
+        'memore': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
