@@ -34,7 +34,8 @@
     "vite-plugin-env-compatible": "^1.1.1",
     "vue": "^3.2.41",
     "vue-router": "^4.1.6",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
