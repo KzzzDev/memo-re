@@ -17,17 +17,6 @@ PROJECT_NAME = os.path.basename(BASE_DIR)
 env = environ.Env()
 env.read_env('.env')
 
-############
-# Security #
-############
-
-DEBUG = True
-
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-]
-
 #################
 # Core settings #
 #################
@@ -57,8 +46,6 @@ INSTALLED_APPS = [
     'apiv1.apps.Apiv1Config',
     'memore.apps.MemoreConfig',
 ]
-
-AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     # CORS
@@ -97,10 +84,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Authentication #
 ##################
 
-# AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # LOGIN_REDIRECT_URL = 'account_login'
-
 
 #######################
 # Password validation #
