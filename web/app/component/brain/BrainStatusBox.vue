@@ -4,7 +4,7 @@
 
     <img :src="imageURL" alt="images" class="list-img" @click="change">
 <!--    <p class="title">{{title}}</p>-->
-    <input @click="change" v-model="isActive" :name="'cb-'+noteId" class="img-checkbox"
+    <input @click.prevent="change" v-model="isActive" :name="'cb-'+noteId" class="img-checkbox"
            type="checkbox" :id="'img-'+noteId"/>
     <label :for="'img-'+noteId"/>
 
@@ -43,7 +43,7 @@ export default {
   methods: {
     change: async function () {
       console.log(this.isActive)
-      if (this.isActive) {
+       if (!this.isActive) {
         await this.$store.dispatch("appendSelectBrain", this.noteId)
       }
       else {

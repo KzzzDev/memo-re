@@ -13,11 +13,12 @@
     </div>
     <div class="my-list">
       <h1 class="list-h1">すべての記憶</h1>
-      <button class="img-select" @click="toggleSelectMode">共有したい記憶を選択
+      <button class="img-select" @click="toggleSelectMode" v-if="isMyBrain" >共有したい記憶を選択
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :title="brains.title" :image-URL="brains.image_uri"/>
+        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :title="brains.title"
+                        :image-URL="brains.image_uri"/>
 
       </div>
     </div>
@@ -48,15 +49,12 @@ export default defineComponent({
   components: {ShareConfirmMenu, BrainStatusBox, ShareSelect},
   data() {
     return {
+      isMyBrain:false,
       Flags: {
         ShareMode: false
       },
-      dummyUserStatus: {
-
-      },
-      BrainArray: [
-
-      ],
+      dummyUserStatus: {},
+      BrainArray: [],
       SelectBrains: []
     }
   },
@@ -87,11 +85,13 @@ export default defineComponent({
   },
   methods: {
     getMyNote() {
+      this.isMyBrain = true
       //      const userId =
       this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
       this.BrainArray = getUserBrain(this.$store.getters.getUserId)
     },
     getFriendNote() {
+      this.isMyBrain = false
       this.$store.dispatch("offFriendModalState")
       const friendId = this.$route.params.UserId
       // FriendId取得完了
@@ -203,6 +203,7 @@ export default defineComponent({
   clear: both;
   display: flex;
   flex-wrap: wrap;
+
   gap: 50px;
 }
 
@@ -222,8 +223,8 @@ export default defineComponent({
 
 .back-button {
   position: fixed;
+  left: 45%;
   bottom: 100px;
-  right: 25%;
   width: 150px;
   height: 50px;
   background: #3D5093;
@@ -236,7 +237,9 @@ export default defineComponent({
 .go-select-button {
   position: fixed;
   bottom: 100px;
-  left: 45%;
+
+  right: 25%;
+
   width: 150px;
   height: 50px;
   background: #BE3455;

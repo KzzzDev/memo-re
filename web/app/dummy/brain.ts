@@ -109,24 +109,6 @@ const noteListMaster = [
     },
     {
         noteId: 13,
-        title: "人の形に見える雲",
-        keyword: "青い空,人の形をした雲,幻想的,美しい",
-        text_uri: "あの時見た雲の記憶を蘇らせる！！",
-        userId: 2,
-        ownerId: 2,
-        image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gPz_790_P9fOY4eHmUSSI1o5nyPaq0slcEtO_aJYGguSZ_3kGurkvlRDRBtMtfxcyFyGDuQHmGKKGl3-3Olzz7MIg_daQ=w1245-h798"
-    },
-    {
-        noteId: 14,
-        title: "イケメンな俺！",
-        keyword: "イケメン,青年,鏡",
-        text_uri: "美で俺に勝てるわけない",
-        userId: 2,
-        ownerId: 2,
-        image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gM1ffGUj9ZNi1kuhBOgvYNgFBJtVYkqd01gPdIiOjF6kJXBls6ogy2qyMNMFwox1arhah3aukHpGEdIeOLMTJDRIvRApg=w1245-h798"
-    },
-    {
-        noteId: 15,
         title: "ボディービルに憧れて",
         keyword: "ボディービルダー,美しい,芸術的,現実的",
         text_uri: "名前も知らないボディービルダーだったけど、脳にこびりついて離れない",
@@ -135,7 +117,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gNk8bIY3ueu5x9k9UTlc9I1FPrHYxJfX338vkQ43R6ojYc9629JTrA52rimK5eExfCHI4_g84gm5vGjfJnNHx_EOb15=w1245-h756"
     },
     {
-        noteId: 16,
+        noteId: 14,
         title: "マグロの一本釣り",
         keyword: "マグロを釣りあげるボディービルダーの男",
         text_uri: "筋肉もりもりマッチョマンの俺がマグロを一本釣りしても、誰も信じてくれないから記憶に起こしてくれ！",
@@ -144,7 +126,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gMl8ILWsXRxtkTgAqxiX0lsbyef9UL20THGkbvEs6KZhe0GPiDu5m3Rbgb4lv3mWMA51LMaovAwoQinTa7-gZfS5HsyfA=w1245-h756"
     },
     {
-        noteId: 17,
+        noteId: 15,
         title: "森林伐採前にみた山",
         keyword: "美しい山,秋の季節,美しい紅葉,景色",
         text_uri: "こんなに美しい山が、我々の記憶から失われていく現状をどう思うだろうか？",
@@ -153,7 +135,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gM6NH8tThxwmluif9LAGc--SSc0VZ3kIHq6ecWcLCm8jbcVuLUL8phn-L9Qyopfy9Xo3Ep6zM9kcPFbqkqY9TOC-6nmMg=w1245-h756"
     },
     {
-        noteId: 18,
+        noteId: 16,
         title: "宇宙人をみた！",
         keyword: "宇宙,宇宙人,不気味",
         text_uri: "宇宙人を見たけど写真を取り忘れました！信じて！",
@@ -162,7 +144,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gPSZXA1nFP-85nq9gQLGMJGZvcR52Anai2t7dqDC3cR13o3FxBVsIGhSFSIGvrfqwczzrf0cHuXmDIrahI7g-rohj8EMg=w1245-h756"
     },
     {
-        noteId: 19,
+        noteId: 17,
         title: "お皿が割れた悲しい",
         keyword: "破壊されたお皿",
         text_uri: "お気に入りのお皿が割れて悲しかった。最後の姿を残したい。",
@@ -171,7 +153,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gMzA1izMPsFOAnlYwklNJc80mANHxDe95o2tvCUZiWH47qBANbI2EGktPDC14h2lmm026uvZzvg6m9zMVkqqA_YjKpi=w1245-h756"
     },
     {
-        noteId: 20,
+        noteId: 18,
         title: "危機一髪",
         keyword: "衝突事故,車から逃げる人",
         text_uri: "車にぶつかりそうだったけどギリギリ避けて助かった",
@@ -180,7 +162,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gMnnHMhXQr1WpB3mniELpPofupqHV5PBmBtcas0GhlWj5bxBs6BdKRvqtRFt-R50xD_a3C1FN-BxP3qBUFzHdf_s57E=w1245-h756"
     },
     {
-        noteId: 21,
+        noteId: 19,
         title: "でかい鶏",
         keyword: "人間よりでかい,巨大な鶏,鶏が見下ろす",
         text_uri: "実際そんな鶏を見たことはないけど、幼かった頃に鶏にいじめられたため、鶏にトラウマを持っています。",
@@ -189,7 +171,7 @@ const noteListMaster = [
         image_uri: "https://lh3.googleusercontent.com/u/0/drive-viewer/AFDK6gMicD-2V0Uw8Ai4Ni2GvL4CYUPFexAei2G1i2TZfHSg0G4UKemlhfmpLiATpLyioVVQatBz1RzAIjgsXNDx0Rf0hBYWXw=w1245-h756"
     },
     {
-        noteId: 22,
+        noteId: 20,
         title: "海の魚たち",
         keyword: "美しい海,魚,たくさんの魚",
         text_uri: "きれいな海でたくさんのお魚さんたちと戯れました！楽しかったです！",
@@ -209,13 +191,13 @@ const userListMaster = [
     {
         userId: 2,
         name: "A子",
-        icon: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+        icon: "https://images.unsplash.com/photo-1558865869-c93f6f8482af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=881&q=80",
         userTag: ["おんなのこ ", "ボイスロイド"]
     },
     {
         userId: 3,
         name: "B男",
-        icon: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+        icon: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
         userTag: ["おとこのこ ", "ボイスロイド"]
     },
     {
@@ -289,7 +271,7 @@ export const getUserBrain = function (id) {
         noteList = noteListMaster
         localStorage.setItem("noteList", JSON.stringify(noteListMaster))
     }
-    return noteList.filter(brain => brain.userId === id)
+    return noteList.filter(brain => brain.userId === id).reverse()
 }
 
 export const getNoteStatus = function (id) {
