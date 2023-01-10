@@ -7,3 +7,9 @@ export const getAuthHeader = () =>
     token && {
       Authorization: "Bearer " + token,
     })(localStorage.getItem(tokenKey));
+
+export const getToken = ()=>{
+    return localStorage.getItem(tokenKey)
+}
+
+

@@ -23,27 +23,28 @@
 <script lang="ts">
 import axios from "axios";
 import {defineComponent} from "vue"
+import {callAPI} from "../../lib/AxiosAccess";
+import {setToken} from "../../lib/auth";
 
 export default defineComponent({
   name: "sign up view",
   data() {
     return {
       Forms: {
-        Mail: "hoge@example.com",
-        PassWord: "aaaa1234",
+        Mail: "hogehoge@example.com",
+        PassWord: "aaaa12345",
         CheckPassWord: "",
-        UserName: "hoge"
+        UserName: "hoge2"
       }
     }
   },
   beforeMount() {
-    if (this.$store.getters.isLogin){
-      this.$router.push("/mypage")
-    }
+    // if (this.$store.getters.isLogin){
+    //   this.$router.push("/mypage")
+    // }
   },
   methods: {
     submit: async function () {
-      console.log(this.Forms)
 
       const postParams = new URLSearchParams()
       postParams.append("username",this.Forms.UserName)
@@ -54,72 +55,20 @@ export default defineComponent({
         email:this.Forms.Mail,
         password:this.Forms.PassWord,
       }
-      const res = await axios.post("http://localhost:8000/api/v1/auth/users/",body, {
 
-        headers: {
-          'accept': 'application/json',
-          "Content-Type": "application/json",
-          'X-CSRFTOKEN':'NZatQvgnw2W4iEpLS15Im5Fr0FY0kZUOjPgjxKVVrmM74nK5vraatIAe1LUvchTE'
-        },
-      })
-      console.log(res)
+      await callAPI("auth/users/","POST",false,body)
+      const jwtCreateBody = {
+        email: this.Forms.Mail,
+        password: this.Forms.PassWord
+      }
+      const res = await callAPI("auth/jwt/create/","POST", false,jwtCreateBody)
+      setToken(res.data.access)
     }
   }
 })
 </script>
 
-<!--<script setup lang="ts">-->
-<!--import validator from "validator";-->
-<!--import { computed, watch } from "vue";-->
-<!--import { useRouter } from "vue-router";-->
 
-<!--import { not, useBackend, useError } from "../../lib";-->
-<!--import { registerUser } from "../../lib/network";-->
-
-<!--const { push } = useRouter();-->
-
-<!--const {-->
-<!--  data: email,-->
-<!--  error: eError,-->
-<!--  start: eStart,-->
-<!--} = useError("", [not(validator.isEmail)], {-->
-<!--  defaultMessage: "メールアドレスを入力してください",-->
-<!--  immediately: false,-->
-<!--});-->
-<!--const {-->
-<!--  data: password,-->
-<!--  error: pError,-->
-<!--  start: pStart,-->
-<!--} = useError(-->
-<!--  "",-->
-<!--  [-->
-<!--    validator.isEmpty,-->
-<!--    (str) => !validator.isStrongPassword(str) && "８文字以上大小英数字と符号を組み合わせたパスワードにしてください",-->
-<!--  ],-->
-<!--  {-->
-<!--    defaultMessage: "パスワードを入力してください",-->
-<!--    immediately: false,-->
-<!--  }-->
-<!--);-->
-<!--const {-->
-<!--  data: name,-->
-<!--  error: nError,-->
-<!--  start: nStart,-->
-<!--} = useError("", [validator.isEmpty], { defaultMessage: "ユーザー名を入力してください", immediately: false });-->
-
-<!--const valid = computed(() => !(eError.value || pError.value || nError.value));-->
-
-<!--const trySignUp = () => {-->
-<!--  [eStart, pStart, nStart].map((fn) => fn());-->
-
-<!--  if (valid) {-->
-<!--    signUp();-->
-<!--  }-->
-<!--};-->
-
-<!--const { data, error, refresh: signUp } = useBackend(registerUser, false, { email, password, name });-->
-<!--watch(data, (value) => !!value && push({ path: "/" }));-->
-<!--</script>-->
 
 <style scoped>
 
