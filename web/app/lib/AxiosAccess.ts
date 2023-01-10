@@ -5,7 +5,7 @@ const serverAddress = "http://localhost:8000/api/v1"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
-export const callAPI = async (endPoint: string, method: Method, useAuth: boolean, postData: object) => {
+export const callAPI = async (endPoint: string, method: Method, useAuth: boolean, postData?: object) => {
     console.log("call API")
     const AxiosURL = `${serverAddress}/${endPoint}`
     const Header = useAuth ?
