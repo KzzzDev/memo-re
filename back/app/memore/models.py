@@ -38,6 +38,10 @@ class Friend(models.Model):
         _("申請ステータス"),
         default=False,
     )
+    rejection = models.BooleanField(
+        _("拒否ステータス"),
+        default=False,
+    )
     register_at = models.DateTimeField(
         _("登録日付"),
         default=timezone.now,
@@ -145,6 +149,10 @@ class NoteShare(models.Model):
     )
     apply = models.BooleanField(
         _("申請"),
+        default=False,
+    )
+    rejection = models.BooleanField(
+        _("拒否ステータス"),
         default=False,
     )
     register_at = models.DateTimeField(

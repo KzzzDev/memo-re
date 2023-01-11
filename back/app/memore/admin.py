@@ -4,11 +4,12 @@ from .models import Friend, Note, NoteShare
 
 class FriendAdmin(admin.ModelAdmin):
     list_display = ('id', 'user_from', 'user_to',
-                    'apply', 'notified', 'register_at')
+                    'apply', 'notified', 'rejection', 'register_at')
     list_display_links = ('id',)
     search_fields = ('user_from__id', 'user_to__id',
-                     'apply', 'notified', 'register_at')
-    list_filter = ('user_from', 'user_to', 'apply', 'notified', 'register_at')
+                     'apply', 'notified', 'rejection', 'register_at')
+    list_filter = ('user_from', 'user_to', 'apply',
+                   'notified', 'rejection', 'register_at')
 
 
 class NoteAdmin(admin.ModelAdmin):
@@ -23,12 +24,12 @@ class NoteAdmin(admin.ModelAdmin):
 
 class NoteShareAdmin(admin.ModelAdmin):
     list_display = ('id', 'user_from', 'user_to', 'note',
-                    'notified', 'apply', 'register_at')
+                    'notified', 'apply', 'rejection', 'register_at')
     list_display_links = ('id',)
     search_fields = ('user_from__id', 'user_to__id',
-                     'note__id', 'notified', 'apply', 'register_at')
+                     'note__id', 'notified', 'apply', 'rejection', 'register_at')
     list_filter = ('user_from', 'user_to', 'note',
-                   'notified', 'apply', 'register_at')
+                   'notified', 'apply', 'rejection', 'register_at')
 
 
 admin.site.register(Friend, FriendAdmin)
