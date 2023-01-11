@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper" v-if="!Flags.ShareMode&&!this.$store.getters.getShareConfirmMode">
     <div class="my-pof">
-      <img :src="dummyUserStatus.icon" alt="" class="prof-img">
+      <img :src="UserStatus.icon_uri" alt="" class="prof-img">
       <div class="name-friend">
-        <h1 class="my-name">{{ dummyUserStatus.name }}</h1>
+        <h1 class="my-name">{{ UserStatus.username }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
       </div>
       <!--      <p class="m-id">{{ dummyUserStatus.userId }}</p>-->
       <p>
-        <span class="m-tag" v-for="(tag,index) in dummyUserStatus.userTag" :key="index">#{{ tag }}</span>
+        <span class="m-tag" v-for="(tag,index) in UserStatus.userTag" :key="index">#{{ tag }}</span>
       </p>
     </div>
     <div class="my-list">
@@ -17,7 +17,7 @@
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :image-URL="brains.image_uri"/>
+        <BrainStatusBox v-for="brains of BrainArray" :user-id="UserStatus.id" :note-id="brains.id" :image-URL="brains.image_uri"/>
 
       </div>
     </div>
@@ -43,6 +43,7 @@ import ShareSelect from "../../component/brain/ShareSelectMenu.vue"
 import ShareConfirmMenu from "../../component/brain/ShareConfirmMenu.vue";
 import {getAuthHeader} from "../../lib/auth";
 import {getUserBrain, getUserData} from "../../dummy/brain";
+import {callAPI} from "../../lib/AxiosAccess";
 
 export default defineComponent({
   components: {ShareConfirmMenu, BrainStatusBox, ShareSelect},
@@ -51,8 +52,10 @@ export default defineComponent({
       Flags: {
         ShareMode: false
       },
-      dummyUserStatus: {
-
+      UserStatus: {
+        icon_uri:"",
+        username:"memo:Re",
+        user_tag:["HAL TOKYO","学生"]
       },
       BrainArray: [
 
@@ -86,10 +89,16 @@ export default defineComponent({
 
   },
   methods: {
-    getMyNote() {
+    getMyNote:async function() {
       //      const userId =
-      this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
-      this.BrainArray = getUserBrain(this.$store.getters.getUserId)
+      // this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
+      // this.BrainArray = getUserBrain(this.$store.getters.getUserId)
+
+      const getMyDataResponse = await callAPI("auth/users/me/","GET", true)
+      this.UserStatus = getMyDataResponse.data
+
+      const getMyBrainResponse = await callAPI("brains/"+this.$store.getters.getUserId,"GET",true)
+      this.BrainArray = getMyBrainResponse.data
     },
     getFriendNote() {
       this.$store.dispatch("offFriendModalState")

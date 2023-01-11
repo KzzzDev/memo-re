@@ -31,7 +31,7 @@ export default createRouter({
         },
         {
             //ノート詳細
-            path: "/note/:NoteId",
+            path: "/note/:UserId/:NoteId",
             component: () => import("../views/brain/statusView.vue"),
             name: "brain status"
         },

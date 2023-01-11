@@ -10,7 +10,7 @@
 
   </div>
   <div class="img-box" v-else>
-    <router-link :to="'/note/'+noteId">
+    <router-link :to="`/note/${userId}/${noteId}`">
       <img :src="imageURL" alt="images" class="list-img">
     </router-link>
 
@@ -32,6 +32,10 @@ export default {
       default: "../../public/images/brains/img001.png"
     },
     noteId: {
+      type: Number,
+      default: 0
+    },
+    userId: {
       type: Number,
       default: 0
     }
