@@ -95,7 +95,7 @@ class NoteShareCreateDestroyAPIView(MultipleFieldLookupMixin, mixins.CreateModel
 
     queryset = Note.objects.all()
     serializer_class = NoteShareSerializer
-    lookup_fields = ['own', 'note']
+    lookup_fields = ['user_from', 'note']
 
     def post(self, request, *args, **kwargs):
         """ノート共有設定"""
