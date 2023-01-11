@@ -82,9 +82,10 @@ class Note(models.Model):
         blank=True,
         null=True,
     )
-    image_uri = models.ImageField(
+    image_uri = models.CharField(
         _('画像URI'),
-        upload_to='image',
+        max_length=255,
+        # upload_to='image',
     )
     created_at = models.DateTimeField(
         _("作成日"),

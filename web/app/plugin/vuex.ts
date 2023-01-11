@@ -1,9 +1,10 @@
 import {createStore} from "vuex"
-
+import vuexPersistedState from "vuex-persistedstate"
 const Store = createStore({
+    plugins:[vuexPersistedState],
     state() {
         return {
-            UserId:1,
+            UserId:null,
             ModalFlags: {
                 Friend: false,
                 Search: false,
