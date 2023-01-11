@@ -13,7 +13,7 @@ class Friend(models.Model):
         verbose_name = verbose_name_plural = 'フレンド'
 
         constraints = [
-            # own_idとuser_to_idでユニーク制約
+            # user_from_idとuser_to_idでユニーク制約
             models.UniqueConstraint(
                 fields=['user_from', 'user_to'], name='unique_user_to')
         ]
@@ -52,7 +52,7 @@ class Friend(models.Model):
     def __str__(self):
         return str(self.id)
 
-    # 未入力の際のエラーとown_idとuser_to_idが同じ際のエラーをまとめたもの
+    # 未入力の際のエラーとuser_from_idとuser_to_idが同じ際のエラーをまとめたもの
     def clean(self):
         try:
             if self.user_from == self.user_to:
@@ -120,7 +120,7 @@ class NoteShare(models.Model):
         verbose_name = verbose_name_plural = 'ノート共有'
 
         constraints = [
-            # own_idとuser_to_idとnote_idでユニーク制約
+            # user_from_idとuser_to_idとnote_idでユニーク制約
             models.UniqueConstraint(
                 fields=['user_from', 'user_to', 'note'], name='unique_noteshare')
         ]
@@ -165,7 +165,7 @@ class NoteShare(models.Model):
     def __str__(self):
         return str(self.id)
 
-    # 未入力の際のエラーとown_idとuser_to_idが同じ際のエラーをまとめたもの
+    # 未入力の際のエラーとuser_from_idとuser_to_idが同じ際のエラーをまとめたもの
     def clean(self):
         try:
             if self.user_from == self.user_to:
