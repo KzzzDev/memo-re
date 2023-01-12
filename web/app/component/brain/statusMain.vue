@@ -49,7 +49,7 @@ export default defineComponent({
   },
   computed:{
     isFriend(){
-     return this.noteStatus.userId != 1
+     return this.noteStatus.user != this.$store.getters.getUserId
     }
   }
 })

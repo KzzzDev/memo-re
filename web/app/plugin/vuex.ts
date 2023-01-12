@@ -1,7 +1,6 @@
 import {createStore} from "vuex"
 import vuexPersistedState from "vuex-persistedstate"
 const Store = createStore({
-    plugins:[vuexPersistedState],
     state() {
         return {
             UserId:null,
@@ -53,6 +52,9 @@ const Store = createStore({
         }
     },
     mutations: {
+        setUserId(state,UserId){
+          state.UserId = UserId
+        },
         // -------------------------------------------------------------------------------------------------------------
         updateFriendModalFlag(state) {
             state.ModalFlags.Friend = !state.ModalFlags.Friend
@@ -132,6 +134,9 @@ const Store = createStore({
         // -------------------------------------------------------------------------------------------------------------
     },
     actions: {
+        setUserId(context,UserId){
+            context.commit("setUserId",UserId)
+        },
         // フレンドモーダルの表示を切り替える処理
         toggleFriendModalState(context) {
             context.commit("updateFriendModalFlag")
@@ -185,7 +190,8 @@ const Store = createStore({
         resetSelectBrain(context) {
             context.commit("resetSelectBrain")
         }
-    }
+    },
+    plugins:[vuexPersistedState()]
 })
 
 export default Store

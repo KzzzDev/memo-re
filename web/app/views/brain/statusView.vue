@@ -15,7 +15,7 @@
       <h1 class="text-4xl text-center mb-12" v-show="!Finished">共有申請しますか？</h1>
       <h1 class="text-4xl text-center mb-12" v-show="Finished">申請されました！</h1>
       <div class="wrapper w-full">
-        <img :src="userData.icon" alt="" class="w-28 h-28 shadow-lg rounded-full mx-auto">
+        <img :src="userData.icon_uri" alt="" class="w-28 h-28 shadow-lg rounded-full mx-auto">
         <p class="user-name text-center my-4">{{ userData.name }}</p>
         <div class="img-wrap flex justify-center gap-4">
            <img :src="dummyNoteStatus.image_uri" alt="" class="w-24 h-24 shadow-lg" draggable="false">
@@ -23,10 +23,10 @@
       </div>
       <div class="button flex justify-center gap-6 mt-12" v-show="!Finished">
         <button class="w-32 bg-gray-400 text-white py-3 rounded-md" @click="ShowRequestModal=false">キャンセル</button>
-        <button class="w-32 bg-red-700 text-white py-3 rounded-md" @click="Finished=true;">申請</button>
+        <button class="w-32 bg-red-700 text-white py-3 rounded-md" @click="Finished=true">申請</button>
       </div>
       <div class="button flex justify-center gap-6 mt-12" v-show="Finished">
-        <button class="w-32 bg-blue-700 text-white py-3 rounded-md" @click="complete">
+        <button class="w-32 bg-blue-700 text-white py-3 rounded-md" @click="ShowRequestModal=false">
           完了
         </button>
       </div>
@@ -38,6 +38,7 @@
 <script>
 import StatusMain from '../../component/brain/statusMain.vue';
 import {getNoteStatus, getUserBrain, getUserData} from "../../dummy/brain";
+import {callAPI} from "../../lib/AxiosAccess";
 
 export default {
   name: 'status',
@@ -57,9 +58,7 @@ export default {
   },
   watch: {
     $route(to) {
-      const noteId = to.params.NoteId
-      console.log(noteId)
-      this.dummyNoteStatus = getNoteStatus(parseInt(noteId))
+      this.getNoteData()
     }
   },
   beforeMount() {
@@ -69,17 +68,25 @@ export default {
     if (!this.dummyNoteStatus){
       this.$router.push("/error")
     }
-    this.userData =  getUserData(this.$store.getters.getUserId)
+    callAPI("auth/users/me/","GET", true).then(
+        getMyDataResponse=>{
+          this.userData =  getMyDataResponse.data
 
-    this.dummyOtherNoteList = getUserBrain(this.dummyNoteStatus.userId)
+
+        }
+    )
+
+
 
   },
   methods:{
     sendRequest(){
       this.ShowRequestModal = true
     },
-    complete(){
-      this.$router.push("/mypage")
+    getNoteData:async function(){
+      const noteId = this.$route.params.NoteId
+      const endPoint =`brains/${this.$store.getters.getUserId}/${noteId}`
+      const getNoteDataResponse = await callAPI(endPoint,"GET", true)
     }
   }
 };

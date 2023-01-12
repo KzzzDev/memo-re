@@ -49,13 +49,22 @@
     <div class="flex flex-col justify-center w-full ">
       <status-main :note-status="NoteStatus" :preview-mode="true"/>
       <div class="w-full flex justify-center mt-5">
-        <button class="bg-white hover:bg-gray-100 text-gray-800  rounded px-8 py-4 m-5 shadow" @click="location.reload()">やり直す</button>
+        <button class="bg-white hover:bg-gray-100 text-gray-800  rounded px-8 py-4 m-5 shadow"
+                @click="location.reload()">やり直す
+        </button>
         <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow"
                 @click="callCreateNoteAPI">作成
         </button>
       </div>
     </div>
-
+    <div v-show="Flags.Created" class="w-full h-full fixed top-0 left-0 justify-center items-center">
+      <div class="w-1/2 h-36 flex border shadow bg-white">
+        <p>作成されました！</p>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow">
+          <router-link to="/mypage">一覧に戻る。</router-link>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,12 +74,13 @@ import {createNote} from "../../lib/network";
 import statusMain from "../../component/brain/statusMain.vue"
 import axios from "axios";
 import {getNextId, insertNoteData} from "../../dummy/brain";
+import {callAPI} from "../../lib/AxiosAccess";
 
 type Flags = {
   Creating: boolean,
   Finished: boolean,
   Preview: boolean,
-  Created:boolean
+  Created: boolean
 }
 
 type Forms = {
@@ -87,16 +97,14 @@ export default defineComponent({
         Creating: false,
         Finished: false,
         Preview: false,
-        Created:false
+        Created: false
       } as Flags,
       Forms: {
         Title: "",
         Keyword: "",
         Memo: ""
       } as Forms,
-      NoteStatus:{
-
-      }
+      NoteStatus: {}
     }
 
   },
@@ -112,28 +120,38 @@ export default defineComponent({
       postParams.append("keyword", this.Forms.Keyword)
       postParams.append("user_id", "test")
       try {
-        const formatKeyword = this.Forms.Keyword
+        const formatKeyword = this.Forms.Keyword.replaceAll(" ", ",").replaceAll("　", ",")
 
-        const response = await axios.post("http://20.66.79.230:8080/ai/debug/", {
-          keyword:formatKeyword.replaceAll(" ",",").replaceAll("　",","),
-          user_id:"test"
+        const CreateAiImageResponse = await axios.post("http://20.66.79.230:8080/ai/debug/", {
+          keyword: formatKeyword,
+          user_id: this.$store.getters.getUserId
         })
-        console.log(response)
-        const image_uri = "http://20.78.36.224/images/"+response.data.img_file
-        this.NoteStatus ={
-          title:this.Forms.Title,
-          keyword:this.Forms.Keyword.replaceAll(" ",",").replaceAll("　",","),
-          text_uri:this.Forms.Memo,
-          image_uri:image_uri,
-          userId:this.$store.getters.getUserId,
-          ownerId:this.$store.getters.getUserId,
-          noteId:getNextId()
+        console.log(CreateAiImageResponse)
+        const image_uri = "http://20.78.36.224/images/" + CreateAiImageResponse.data.img_file
+        this.NoteStatus = {
+          title: this.Forms.Title,
+          keyword: formatKeyword,
+          text_uri: this.Forms.Memo,
+          image_uri: image_uri,
+          userId: this.$store.getters.getUserId,
+          ownerId: this.$store.getters.getUserId,
+          noteId: getNextId()
         }
-      }
-      catch (e){
+        const CreateNoteRequest =
+            {
+              "user": this.$store.getters.getUserId,
+              "title": this.Forms.Title,
+              "keyword": formatKeyword,
+              "image_uri": image_uri,
+              "text_uri": this.Forms.Memo,
+              "is_public": true
+            }
+
+        const CreateNoteResponse = await callAPI("brains/"+this.$store.getters.getUserId,"POST",true,CreateNoteRequest)
+        console.log(CreateNoteResponse)
+      } catch (e) {
         console.log(e)
-      }
-      finally {
+      } finally {
 
         this.Flags.Creating = false
         this.Flags.Finished = true
@@ -147,8 +165,7 @@ export default defineComponent({
     callCreateNoteAPI: async function () {
 
       insertNoteData(this.NoteStatus)
-      // this.$router.push("/note/"+this.NoteStatus.noteId)
-      this.$router.push("/mypage")
+      this.Flags.Created = true
 
     }
   }

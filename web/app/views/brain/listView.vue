@@ -1,24 +1,23 @@
 <template>
   <div class="wrapper" v-if="!Flags.ShareMode&&!this.$store.getters.getShareConfirmMode">
     <div class="my-pof">
-      <img :src="dummyUserStatus.icon" alt="" class="prof-img">
+      <img :src="UserStatus.icon_uri" alt="" class="prof-img">
       <div class="name-friend">
-        <h1 class="my-name">{{ dummyUserStatus.name }}</h1>
+        <h1 class="my-name">{{ UserStatus.username }}</h1>
         <font-awesome-icon icon="fa-solid fa-gear" class="black-gear" inverse/>
       </div>
       <!--      <p class="m-id">{{ dummyUserStatus.userId }}</p>-->
       <p>
-        <span class="m-tag" v-for="(tag,index) in dummyUserStatus.userTag" :key="index">#{{ tag }}</span>
+        <span class="m-tag" v-for="(tag,index) in UserStatus.userTag" :key="index">#{{ tag }}</span>
       </p>
     </div>
     <div class="my-list">
       <h1 class="list-h1">すべての記憶</h1>
-      <button class="img-select" @click="toggleSelectMode" v-if="isMyBrain" >共有したい記憶を選択
+      <button class="img-select" @click="toggleSelectMode">共有したい記憶を選択
         <font-awesome-icon icon="fa-regular fa-share" inverse/>
       </button>
       <div class="img-wrapper">
-        <BrainStatusBox v-for="brains of BrainArray" :note-id="brains.noteId" :title="brains.title"
-                        :image-URL="brains.image_uri"/>
+        <BrainStatusBox v-for="brains of BrainArray" :user-id="UserStatus.id" :note-id="brains.id" :image-URL="brains.image_uri"/>
 
       </div>
     </div>
@@ -44,17 +43,23 @@ import ShareSelect from "../../component/brain/ShareSelectMenu.vue"
 import ShareConfirmMenu from "../../component/brain/ShareConfirmMenu.vue";
 import {getAuthHeader} from "../../lib/auth";
 import {getUserBrain, getUserData} from "../../dummy/brain";
+import {callAPI} from "../../lib/AxiosAccess";
 
 export default defineComponent({
   components: {ShareConfirmMenu, BrainStatusBox, ShareSelect},
   data() {
     return {
-      isMyBrain:false,
       Flags: {
         ShareMode: false
       },
-      dummyUserStatus: {},
-      BrainArray: [],
+      UserStatus: {
+        icon_uri:"",
+        username:"memo:Re",
+        user_tag:["HAL TOKYO","学生"]
+      },
+      BrainArray: [
+
+      ],
       SelectBrains: []
     }
   },
@@ -84,14 +89,18 @@ export default defineComponent({
 
   },
   methods: {
-    getMyNote() {
-      this.isMyBrain = true
+    getMyNote:async function() {
       //      const userId =
-      this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
-      this.BrainArray = getUserBrain(this.$store.getters.getUserId)
+      // this.dummyUserStatus = getUserData(this.$store.getters.getUserId)
+      // this.BrainArray = getUserBrain(this.$store.getters.getUserId)
+
+      const getMyDataResponse = await callAPI("auth/users/me/","GET", true)
+      this.UserStatus = getMyDataResponse.data
+
+      const getMyBrainResponse = await callAPI("brains/"+this.$store.getters.getUserId,"GET",true)
+      this.BrainArray = getMyBrainResponse.data
     },
     getFriendNote() {
-      this.isMyBrain = false
       this.$store.dispatch("offFriendModalState")
       const friendId = this.$route.params.UserId
       // FriendId取得完了
@@ -203,12 +212,12 @@ export default defineComponent({
   clear: both;
   display: flex;
   flex-wrap: wrap;
-
   gap: 50px;
 }
 
 
 .select-menu {
+  position: fixed;
   width: 100%;
   height: 250px;
   left: 12%;
@@ -218,13 +227,9 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: flex-start;
-
 }
 
 .back-button {
-  position: fixed;
-  left: 45%;
-  bottom: 100px;
   width: 150px;
   height: 50px;
   background: #3D5093;
@@ -235,11 +240,6 @@ export default defineComponent({
 }
 
 .go-select-button {
-  position: fixed;
-  bottom: 100px;
-
-  right: 25%;
-
   width: 150px;
   height: 50px;
   background: #BE3455;
