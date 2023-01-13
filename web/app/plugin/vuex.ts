@@ -24,15 +24,19 @@ const Store = createStore({
         }
     },
     getters: {
+        // ユーザーID取得
         getUserId(state){
             return state.UserId
         },
+        // トースト通知を表示するかどうか
         isToastShow(state){
           return !!state.ToastMessage
         },
+        // トースト通知のメッセージ
         getToastMessage(state){
             return state.ToastMessage
         },
+        // ログインしているかどうか
         isLogin(state){
           return !!state.UserId
         },
