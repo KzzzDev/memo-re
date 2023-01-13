@@ -17,13 +17,15 @@
 
 <script lang="js">
 
+import {removeToken} from "../../lib/auth";
+
 export default {
   name: "headerLink",
   data() {
     return {
       icon: "",
       linkHref: "",
-      noLink: ["Notice", "Friend", "Share", "Search"],
+      noLink: ["Notice", "Friend", "Share", "Search","Logout"],
       noticeCount: 0
     }
   },
@@ -63,7 +65,6 @@ export default {
 
       case "Logout":
         this.icon = "fa-solid fa-right-from-bracket"
-        this.linkHref = "/logout"
         break;
       case "Notice":
         this.icon = "fa-solid fa-bell"
@@ -101,7 +102,10 @@ export default {
           break;
 
         case "Logout":
-          await this.$router.push("/logout")
+          console.log("logout")
+          await this.$store.dispatch("logout")
+          removeToken()
+            await this.$router.push("/")
           break;
         case "Notice":
           // notice modal open

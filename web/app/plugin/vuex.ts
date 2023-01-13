@@ -13,7 +13,6 @@ const Store = createStore({
                 SelectMode: false,
                 ShareConfirmMode: false
             },
-
             SelectedBrainId: [],
             TargetUserData:{
                 id:"",
@@ -27,7 +26,7 @@ const Store = createStore({
             return state.UserId
         },
         isLogin(state){
-          return state.UserId != 0
+          return !!state.UserId
         },
         isFriendModalOpen(state) {
             return state.ModalFlags.Friend
@@ -54,6 +53,9 @@ const Store = createStore({
     mutations: {
         setUserId(state,UserId){
           state.UserId = UserId
+        },
+        logout(state){
+            state.UserId = 0
         },
         // -------------------------------------------------------------------------------------------------------------
         updateFriendModalFlag(state) {
@@ -136,6 +138,9 @@ const Store = createStore({
     actions: {
         setUserId(context,UserId){
             context.commit("setUserId",UserId)
+        },
+        logout(context){
+          context.commit("logout")
         },
         // フレンドモーダルの表示を切り替える処理
         toggleFriendModalState(context) {
