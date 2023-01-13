@@ -57,12 +57,14 @@
         </button>
       </div>
     </div>
-    <div v-show="Flags.Created" class="w-full h-full fixed top-0 left-0 justify-center items-center">
-      <div class="w-1/2 h-36 flex border shadow bg-white">
+    <div v-show="Flags.Created" class="w-full h-full fixed top-0 left-0 flex justify-center items-center">
+      <div class="w-1/2 h-36 flex flex-col justify-between p-5 border shadow bg-white">
         <p>作成されました！</p>
-        <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow">
-          <router-link to="/mypage">一覧に戻る。</router-link>
-        </button>
+        <router-link to="/mypage">
+          <button class="bg-blue-500 hover:bg-blue-400 text-white rounded px-8 py-4 m-5 shadow">
+            一覧に戻る。
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -70,7 +72,6 @@
 
 <script lang="ts">
 import {defineComponent} from "vue"
-import {createNote} from "../../lib/network";
 import statusMain from "../../component/brain/statusMain.vue"
 import axios from "axios";
 import {getNextId, insertNoteData} from "../../dummy/brain";
@@ -114,6 +115,9 @@ export default defineComponent({
   methods: {
     callCreateImageAPI: async function () {
       //
+      if (!this.Forms.Keyword) {
+        return
+      }
       this.Flags.Creating = true
       // Create Image
       const postParams = new URLSearchParams()
@@ -137,18 +141,7 @@ export default defineComponent({
           ownerId: this.$store.getters.getUserId,
           noteId: getNextId()
         }
-        const CreateNoteRequest =
-            {
-              "user": this.$store.getters.getUserId,
-              "title": this.Forms.Title,
-              "keyword": formatKeyword,
-              "image_uri": image_uri,
-              "text_uri": this.Forms.Memo,
-              "is_public": true
-            }
 
-        const CreateNoteResponse = await callAPI("brains/"+this.$store.getters.getUserId,"POST",true,CreateNoteRequest)
-        console.log(CreateNoteResponse)
       } catch (e) {
         console.log(e)
       } finally {
@@ -163,8 +156,19 @@ export default defineComponent({
 
     },
     callCreateNoteAPI: async function () {
+      const CreateNoteRequest =
+          {
+            "user": this.$store.getters.getUserId,
+            "title": this.Forms.Title,
+            "keyword": formatKeyword,
+            "image_uri": image_uri,
+            "text_uri": this.Forms.Memo,
+            "is_public": true
+          }
 
-      insertNoteData(this.NoteStatus)
+      const CreateNoteResponse = await callAPI("brains/" + this.$store.getters.getUserId+"/", "POST", true, CreateNoteRequest)
+      console.log(CreateNoteResponse)
+
       this.Flags.Created = true
 
     }

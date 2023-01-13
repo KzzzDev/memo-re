@@ -86,7 +86,6 @@ export default defineComponent({
   mounted() {
     this.$store.dispatch("resetSelectBrain")
     this.$store.dispatch("initShareFlags")
-
   },
   methods: {
     getMyNote:async function() {
@@ -97,8 +96,11 @@ export default defineComponent({
       const getMyDataResponse = await callAPI("auth/users/me/","GET", true)
       this.UserStatus = getMyDataResponse.data
 
-      const getMyBrainResponse = await callAPI("brains/"+this.$store.getters.getUserId,"GET",true)
-      this.BrainArray = getMyBrainResponse.data
+      const getMyBrainResponse = await callAPI("brains/3/","GET",true)
+      if (Array.isArray(getMyDataResponse.data)){
+        this.BrainArray = getMyBrainResponse.data
+      }
+
     },
     getFriendNote() {
       this.$store.dispatch("offFriendModalState")
@@ -106,7 +108,7 @@ export default defineComponent({
       // FriendId取得完了
       console.log(friendId)
 
-      const URL = "/brains/" + friendId
+      const URL = "/brains/" + friendId +"/"
 
       this.dummyUserStatus = getUserData(parseInt(friendId))
       this.BrainArray = getUserBrain(parseInt(friendId))
