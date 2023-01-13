@@ -42,3 +42,4 @@ if settings.DEBUG:
     ]
 
 # urlpatterns += re_path('', RedirectView.as_view(url='/')),
+urlpatterns +=     re_path(r'.*', TemplateView.as_view(template_name='index.html')),
