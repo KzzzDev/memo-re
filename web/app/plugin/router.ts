@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
+import {getToken} from "../lib/auth";
 
-export default createRouter({
+const router =  createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -21,27 +22,41 @@ export default createRouter({
         {
             path: "/mypage",
             component: () => import("../views/brain/listView.vue"),
-            name: "mypage"
+            name: "mypage",
+            meta: { requiresAuth: true },
+
         },
         {
             //
             path: "/brain/:UserId",
             component: () => import("../views/brain/listView.vue"),
-            name: "brain list"
+            name: "brain list",
+            meta: { requiresAuth: true }
         },
         {
             //ノート詳細
             path: "/note/:UserId/:NoteId",
             component: () => import("../views/brain/statusView.vue"),
-            name: "brain status"
+            name: "brain status",
+            meta: { requiresAuth: true }
         },
 
         {
             path: "/create",
             component: () => import("../views/brain/createView.vue"),
-            name: "create view"
+            name: "create view",
+            meta: { requiresAuth: true }
         }
     ],
     strict: true,
 
 });
+
+router.beforeEach((to) => {
+    console.log(getToken())
+    if(to.meta.requiresAuth&& !getToken()){
+        return {name:"login"}
+    }
+})
+
+export default router
