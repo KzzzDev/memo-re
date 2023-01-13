@@ -10,6 +10,7 @@ class FriendSerializer(serializers.ModelSerializer):
     class Meta:
         model = Friend
         fields = '__all__'
+        read_only_fields = ('register_at',)
 
 
 class NoteSerializer(serializers.ModelSerializer):
