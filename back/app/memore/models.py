@@ -70,10 +70,22 @@ class Note(models.Model):
         db_table = 'note'
         verbose_name = verbose_name_plural = 'ノート'
 
+        constraints = [
+            # userとauthorでユニーク制約
+            models.UniqueConstraint(
+                fields=['user', 'author'], name='unique_user_author')
+        ]
+
     user = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザID",
         related_name="note_user_id",
+        on_delete=models.CASCADE,
+    )
+    author = models.ForeignKey(
+        CustomUser,
+        verbose_name="作成者ID",
+        related_name="author_id",
         on_delete=models.CASCADE,
     )
     title = models.CharField(
@@ -98,6 +110,9 @@ class Note(models.Model):
     created_at = models.DateTimeField(
         _("作成日"),
         default=timezone.now,
+    )
+    updated_at = models.DateTimeField(
+        _("更新日"), auto_now=True,
     )
     is_active = models.BooleanField(
         _("有効"),

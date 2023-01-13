@@ -13,13 +13,13 @@ class FriendAdmin(admin.ModelAdmin):
 
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'title', 'keyword', 'text_uri',
-                    'image_uri', 'created_at', 'is_active', 'is_public')
+    list_display = ('id', 'user', 'author', 'title', 'keyword', 'text_uri',
+                    'image_uri', 'created_at', 'updated_at', 'is_active', 'is_public')
     list_display_links = ('id',)
-    search_fields = ('user__id', 'title', 'keyword', 'text_uri',
-                     'image_uri', 'created_at', 'is_active', 'is_public')
-    list_filter = ('user', 'title', 'keyword', 'text_uri',
-                   'image_uri', 'created_at', 'is_active', 'is_public')
+    search_fields = ('user__id', 'author__id', 'title', 'keyword', 'text_uri',
+                     'image_uri', 'created_at', 'updated_at', 'is_active', 'is_public')
+    list_filter = ('user', 'author', 'title', 'keyword', 'text_uri',
+                   'image_uri', 'created_at', 'updated_at', 'is_active', 'is_public')
 
 
 class NoteShareAdmin(admin.ModelAdmin):
