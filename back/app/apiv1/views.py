@@ -94,26 +94,6 @@ class FriendRequestApplyAPIView(mixins.UpdateModelMixin, generics.GenericAPIView
         return self.partial_update(request, *args, **kwargs)
 
 
-class FriendRequestDeleteAPIView(mixins.CreateModelMixin, mixins.UpdateModelMixin,  mixins.DestroyModelMixin, generics.GenericAPIView):
-    """ユーザのフレンド申請取消APIクラス"""
-
-    serializer_class = FriendSerializer
-    queryset = Friend.objects.all()
-    lookup_field = 'user_to'
-
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDとURLパラメータのuser_toでフィルタリング
-        """
-        auth_user_id = self.request.user.id
-        user_to_id = self.kwargs['user_to']
-        return Friend.objects.filter(user_from=auth_user_id, user_to=user_to_id)
-
-    def delete(self, request, *args, **kwargs):
-        """フレンド申請取消"""
-        return self.destroy(request, *args, **kwargs)
-
-
 class NoteListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     """ノート一覧の取得・ノート作成APIクラス"""
 
