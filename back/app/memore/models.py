@@ -70,6 +70,12 @@ class Note(models.Model):
         db_table = 'note'
         verbose_name = verbose_name_plural = 'ノート'
 
+        constraints = [
+            # userとauthorでユニーク制約
+            models.UniqueConstraint(
+                fields=['user', 'author'], name='unique_user_author')
+        ]
+
     user = models.ForeignKey(
         CustomUser,
         verbose_name="ユーザID",
