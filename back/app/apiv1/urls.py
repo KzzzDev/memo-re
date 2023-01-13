@@ -11,10 +11,9 @@ router = routers.DefaultRouter()
 app_name = 'apiv1'
 urlpatterns = [
     path('', include(router.urls)),
-    path('friends/request/', FriendListRequestAPIView.as_view()),
-    path('friends/request/apply/<int:user_from>/',
+    path('friends/apply/<int:user_from>/',
          views.FriendRequestApplyAPIView.as_view()),
-    path('friends/request/delete/<int:user_to>/',
+    path('friends/delete/<int:user_to>/',
          views.FriendRequestDeleteAPIView.as_view()),
     path('friends/<int:user_to>/', views.FriendDeleteAPIView.as_view()),
     path('friends/', views.FriendListRequestAPIView.as_view()),
