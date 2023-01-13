@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex　flex-col items-center" style="padding-right: 12%">
-    <div class="modal border shadow w-1/3 flex flex-col p-10">
+    <div class="modal border shadow w-1/2 flex flex-col p-10">
       <img src="../../public/images/logo.png" class="w-24 h-24 mx-auto" alt="">
       <p class="mt-4 mb-2 mx-auto text-xl text-gray-500">サインアップ</p>
       <label for="signup-mail-address" class="mt-4 mb-2 text-xl text-gray-500">メール</label>
@@ -17,7 +17,7 @@
       <button class="w-1/2 mx-auto mt-5 p-3 bg-blue-200" type="submit" @click="submit">作成</button>
 
     </div>
-    <div class="w-1/3 flex justify-end">
+    <div class="w-1/2 flex justify-end mt-2">
       <router-link class="mr-3" to="/signIn">サインイン</router-link>
     </div>
   </div>
@@ -50,6 +50,9 @@ export default defineComponent({
       if (!this.Forms.Mail || !this.Forms.PassWord || !this.Forms.CheckPassWord || !this.Forms.UserName) {
         this.$store.dispatch("updateToast", "必要な情報が足りません。")
         return
+      }
+      if (this.Forms.PassWord != this.Forms.CheckPassWord){
+        this.$store.dispatch("updateToast","確認用パスワードが一致しません。")
       }
       try {
 
