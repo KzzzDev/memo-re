@@ -7,6 +7,7 @@ from memore.models import Note
 from memore.models import NoteShare
 from .serializers import FriendSerializer
 from .serializers import NoteSerializer
+from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
 
 
@@ -134,6 +135,8 @@ class NoteListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gene
         """ノート作成"""
         auth_user_id = self.request.user.id
         request.data['user'] = auth_user_id
+        if 'author' not in request.data:
+            request.data['author'] = auth_user_id
         return self.create(request, *args, **kwargs)
 
 
@@ -141,7 +144,7 @@ class NoteRetrieveUpdateDestroyAPIView(mixins.RetrieveModelMixin, mixins.UpdateM
     """ノート取得・更新・削除APIクラス"""
 
     queryset = Note.objects.all()
-    serializer_class = NoteSerializer
+    serializer_class = NoteEditSerializer
     lookup_field = 'id'
 
     def get_queryset(self):
@@ -165,10 +168,34 @@ class NoteRetrieveUpdateDestroyAPIView(mixins.RetrieveModelMixin, mixins.UpdateM
         return self.destroy(request, *args, **kwargs)
 
 
-class NoteShareCreateDestroyAPIView(mixins.CreateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
-    """ノート共有設定・共有削除APIクラス"""
+class NoteShareCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    """ノート共有一覧取得・設定APIクラス"""
 
-    queryset = Note.objects.all()
+    queryset = NoteShare.objects.all()
+    serializer_class = NoteShareSerializer
+
+    def get_queryset(self):
+        """
+        ログインユーザのユーザIDでフィルタリング
+        """
+        auth_user_id = self.request.user.id
+        return NoteShare.objects.filter(user_from=auth_user_id)
+
+    def get(self, request, *args, **kwargs):
+        """ノート共有一覧を取得"""
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """ノート共有設定"""
+        auth_user_id = self.request.user.id
+        request.data['user_from'] = auth_user_id
+        return self.create(request, *args, **kwargs)
+
+
+class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    """ノート共有削除APIクラス"""
+
+    queryset = NoteShare.objects.all()
     serializer_class = NoteShareSerializer
     lookup_field = 'note'
 
@@ -177,16 +204,13 @@ class NoteShareCreateDestroyAPIView(mixins.CreateModelMixin, mixins.DestroyModel
         ログインユーザのユーザIDとURLパラメータのuser_formでフィルタリング
         """
         note_id = self.kwargs['note']
+        user_to_id = self.kwargs['user_to']
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id, note=note_id)
+        return NoteShare.objects.filter(user_from=auth_user_id, note=note_id, user_to=user_to_id)
 
-    def post(self, request, *args, **kwargs):
-        """ノート共有設定"""
-        note_id = self.kwargs['note']
-        auth_user_id = self.request.user.id
-        request.data['note'] = note_id
-        request.data['user_from'] = auth_user_id
-        return self.create(request, *args, **kwargs)
+    def patch(self, request, *args, **kwargs):
+        """ノート共有の更新"""
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         """ノート共有削除"""
