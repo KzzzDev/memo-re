@@ -42,6 +42,7 @@ export default {
     }
   },
   beforeMount() {
+    this.initData()
   },
   methods: {
     initData: async function () {

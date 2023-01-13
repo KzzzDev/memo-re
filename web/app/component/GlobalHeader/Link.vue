@@ -76,7 +76,7 @@ export default {
   methods: {
     getNoticeCount() {
       // API処理
-      this.noticeCount = 4
+      this.noticeCount = 1
     },
     linkClick: async function () {
 

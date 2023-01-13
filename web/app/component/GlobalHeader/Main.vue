@@ -83,7 +83,7 @@ header {
 #modal-area {
   position: fixed;
   top: 0;
-  left: 12%;
+  left: 15%;
   z-index: 2;
 }
 

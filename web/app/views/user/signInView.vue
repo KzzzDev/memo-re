@@ -8,11 +8,8 @@
       <label for="signup-password" class="mt-4 mb-2 text-xl text-gray-500">パス</label>
       <input id="signup-password" class="bg-gray-50 p-2 rounded-xl shadow-inner" type="password"
              v-model="Forms.PassWord">
-      <label for="signup-check-password" class="mt-4 mb-2 text-xl text-gray-500">パス（確認用）</label>
-      <input id="signup-check-password" class="bg-gray-50 p-2 rounded-xl shadow-inner" type="password"
-             v-model="Forms.CheckPassWord">
 
-      <button class="w-1/2 mx-auto mt-5 p-3 bg-blue-200" type="submit" @click="submit">作成</button>
+      <button class="w-1/2 mx-auto mt-5 p-3 bg-blue-200" type="submit" @click="submit">サインイン</button>
 
     </div>
     <div class="w-1/3 flex justify-end">
@@ -33,7 +30,6 @@ export default defineComponent({
       Forms: {
         Mail: "hogehoge@example.com",
         PassWord: "aaaa12345",
-        CheckPassWord: "",
       }
     }
   },
@@ -43,11 +39,17 @@ export default defineComponent({
   },
   methods: {
     submit: async function () {
-      const jwtCreateBody = {
-        email: this.Forms.Mail,
-        password: this.Forms.PassWord
+      console.log(!this.Forms.Mail || !this.Forms.PassWord)
+      if (!!this.Forms.Mail || !!this.Forms.PassWord) {
+        this.$store.dispatch("updateToast", "必要な情報が足りません。")
+        return
       }
+
       try {
+        const jwtCreateBody = {
+          email: this.Forms.Mail,
+          password: this.Forms.PassWord
+        }
         const res = await callAPI("auth/jwt/create/", "POST", false, jwtCreateBody)
         setToken(res.data.access)
 

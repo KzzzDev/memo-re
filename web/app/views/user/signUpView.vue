@@ -47,32 +47,36 @@ export default defineComponent({
   },
   methods: {
     submit: async function () {
-
-      const postParams = new URLSearchParams()
-      postParams.append("username",this.Forms.UserName)
-      postParams.append("email",this.Forms.Mail)
-      postParams.append("password",this.Forms.PassWord)
-      const body = {
-        username:this.Forms.UserName,
-        email:this.Forms.Mail,
-        password:this.Forms.PassWord,
+      if (!this.Forms.Mail || !this.Forms.PassWord || !this.Forms.CheckPassWord || !this.Forms.UserName) {
+        this.$store.dispatch("updateToast", "必要な情報が足りません。")
+        return
       }
+      try {
 
-      await callAPI("auth/users/","POST",false,body)
-      const jwtCreateBody = {
-        email: this.Forms.Mail,
-        password: this.Forms.PassWord
+        const body = {
+          username: this.Forms.UserName,
+          email: this.Forms.Mail,
+          password: this.Forms.PassWord,
+        }
+
+        await callAPI("auth/users/", "POST", false, body)
+        const jwtCreateBody = {
+          email: this.Forms.Mail,
+          password: this.Forms.PassWord
+        }
+        const res = await callAPI("auth/jwt/create/", "POST", false, jwtCreateBody)
+        setToken(res.data.access)
+        const getMyDataResponse = await callAPI("auth/users/me/", "GET", true)
+        await this.$store.dispatch("setUserId", getMyDataResponse.data.id)
+
+        await this.$router.push("/mypage")
+      } catch (e) {
+        this.$store.dispatch("updateToast", "サインアップに失敗しました。")
       }
-      const res = await callAPI("auth/jwt/create/","POST", false,jwtCreateBody)
-      setToken(res.data.access)
-      const getMyDataResponse = await callAPI("auth/users/me/", "GET", true)
-      await this.$store.dispatch("setUserId", getMyDataResponse.data.id)
-
     }
   }
 })
 </script>
-
 
 
 <style scoped>

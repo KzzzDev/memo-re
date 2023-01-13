@@ -130,6 +130,8 @@ export default defineComponent({
           keyword: formatKeyword,
           user_id: this.$store.getters.getUserId
         })
+
+
         console.log(CreateAiImageResponse)
         const image_uri = "http://20.78.36.224/images/" + CreateAiImageResponse.data.img_file
         this.NoteStatus = {
@@ -144,6 +146,7 @@ export default defineComponent({
 
       } catch (e) {
         console.log(e)
+        this.$store.dispatch("updateToast","画像生成中にエラーが発生しました。時間を置いて再度お試しください。")
       } finally {
 
         this.Flags.Creating = false
