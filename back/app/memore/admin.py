@@ -3,10 +3,13 @@ from .models import Friend, Note, NoteShare
 
 
 class FriendAdmin(admin.ModelAdmin):
-    list_display = ('id', 'own', 'friend', 'approval', 'register_at')
+    list_display = ('id', 'user_from', 'user_to',
+                    'apply', 'notified', 'rejection', 'register_at')
     list_display_links = ('id',)
-    search_fields = ('own__id', 'friend__id', 'approval', 'register_at')
-    list_filter = ('own', 'friend', 'approval', 'register_at')
+    search_fields = ('user_from__id', 'user_to__id',
+                     'apply', 'notified', 'rejection', 'register_at')
+    list_filter = ('user_from', 'user_to', 'apply',
+                   'notified', 'rejection', 'register_at')
 
 
 class NoteAdmin(admin.ModelAdmin):
@@ -20,11 +23,13 @@ class NoteAdmin(admin.ModelAdmin):
 
 
 class NoteShareAdmin(admin.ModelAdmin):
-    list_display = ('id', 'own', 'friend', 'note', 'notified', 'apply')
+    list_display = ('id', 'user_from', 'user_to', 'note',
+                    'notified', 'apply', 'rejection', 'register_at')
     list_display_links = ('id',)
-    search_fields = ('own__id', 'friend__id',
-                     'note__id', 'notified', 'apply')
-    list_filter = ('own', 'friend', 'note', 'notified', 'apply')
+    search_fields = ('user_from__id', 'user_to__id',
+                     'note__id', 'notified', 'apply', 'rejection', 'register_at')
+    list_filter = ('user_from', 'user_to', 'note',
+                   'notified', 'apply', 'rejection', 'register_at')
 
 
 admin.site.register(Friend, FriendAdmin)

@@ -6,16 +6,16 @@ export default createRouter({
         {
             path: "/",
             component: () => import("../views/user/signInView.vue"),
-            name: "login"
+            name: "index"
         },
         {
-            path: "/login",
+            path: "/signIn",
             component: () => import("../views/user/signInView.vue"),
             name: "login"
         },
         {
             path: "/signUp",
-            component: () => import("../views/user/signInView.vue"),
+            component: () => import("../views/user/signUpView.vue"),
             name: "signUp"
         },
         {

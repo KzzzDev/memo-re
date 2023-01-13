@@ -61,11 +61,11 @@ class CustomUser(AbstractUser):
     )
     email = models.EmailField(_('email address'), max_length=255, unique=True)
     icon_uri = models.ImageField(_('アイコンパス'), max_length=255, upload_to='icon', default='icon/default.jpg')
-    icon_thumbnail = ImageSpecField(
-        source='icon_uri',
-        processors=[ResizeToFill(300, 300)],
-        format='JPEG',
-    )
+    # icon_thumbnail = ImageSpecField(
+    #     source='icon_uri',
+    #     processors=[ResizeToFill(300, 300)],
+    #     format='JPEG',
+    # )
     tag = models.CharField(_('タグ'), max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(_("作成日"), default=timezone.now)
     updated_at = models.DateTimeField(_("更新日"), blank=True, null=True)

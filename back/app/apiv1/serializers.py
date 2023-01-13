@@ -28,3 +28,4 @@ class NoteShareSerializer(serializers.ModelSerializer):
     class Meta:
         model = NoteShare
         fields = '__all__'
+        read_only_fields = ('register_at',)

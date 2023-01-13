@@ -37,7 +37,7 @@
 
 <script>
 import StatusMain from '../../component/brain/statusMain.vue';
-import {getNoteStatus, getUserBrain, getUserData} from "../../dummy/brain";
+import {getNoteStatus} from "../../dummy/brain";
 import {callAPI} from "../../lib/AxiosAccess";
 
 export default {
@@ -71,8 +71,6 @@ export default {
     callAPI("auth/users/me/","GET", true).then(
         getMyDataResponse=>{
           this.userData =  getMyDataResponse.data
-
-
         }
     )
 
