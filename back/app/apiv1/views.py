@@ -9,6 +9,7 @@ from .serializers import FriendSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
+from django.db.models import Q
 
 
 class MultipleFieldLookupMixin:
@@ -40,7 +41,7 @@ class FriendListRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, g
         ログインユーザのユーザIDでフィルタリング
         """
         auth_user_id = self.request.user.id
-        return Friend.objects.filter(user_from=auth_user_id)
+        return Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id))
 
     def get(self, request, *args, **kwargs):
         """フレンドリストを取得"""
