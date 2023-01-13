@@ -76,6 +76,12 @@ class Note(models.Model):
         related_name="note_user_id",
         on_delete=models.CASCADE,
     )
+    author = models.ForeignKey(
+        CustomUser,
+        verbose_name="作成者ID",
+        related_name="author_id",
+        on_delete=models.CASCADE,
+    )
     title = models.CharField(
         _("タイトル"),
         max_length=255,
@@ -98,6 +104,9 @@ class Note(models.Model):
     created_at = models.DateTimeField(
         _("作成日"),
         default=timezone.now,
+    )
+    updated_at = models.DateTimeField(
+        _("更新日"), auto_now=True,
     )
     is_active = models.BooleanField(
         _("有効"),
