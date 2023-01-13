@@ -1,5 +1,6 @@
 <template>
   <GlobalHeader />
+  <Toast/>
   <main>
     <router-view @update:user-info="refreshUser" />
   </main>
@@ -29,6 +30,7 @@ import { useBackend } from "./lib";
 import { getUserInfo } from "./lib/network";
 
 import GlobalHeader from "./component/GlobalHeader/Main.vue";
+import Toast from "./component/GlobalHeader/Toast.vue";
 
 // #region Provide user info across the app
 const { data: userRes, refresh: refreshUser } = useBackend(getUserInfo);

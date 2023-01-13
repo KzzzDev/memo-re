@@ -47,14 +47,19 @@ export default defineComponent({
         email: this.Forms.Mail,
         password: this.Forms.PassWord
       }
-      const res = await callAPI("auth/jwt/create/", "POST", false, jwtCreateBody)
-      setToken(res.data.access)
+      try {
+        const res = await callAPI("auth/jwt/create/", "POST", false, jwtCreateBody)
+        setToken(res.data.access)
 
+        const getMyDataResponse = await callAPI("auth/users/me/", "GET", true)
+        await this.$store.dispatch("setUserId", getMyDataResponse.data.id)
 
-      const getMyDataResponse = await callAPI("auth/users/me/", "GET", true)
-      await this.$store.dispatch("setUserId", getMyDataResponse.data.id)
+        await this.$router.push("/mypage")
+      }catch (e) {
+        console.log(e)
+        this.$store.dispatch("updateToast","ログインに失敗しました。")
+      }
 
-      await this.$router.push("/mypage")
 
     }
   }

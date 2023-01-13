@@ -3,7 +3,9 @@ import vuexPersistedState from "vuex-persistedstate"
 const Store = createStore({
     state() {
         return {
-            UserId:null,
+            UserId:0,
+            // エラー通知用のメッセージ
+            ToastMessage:"",
             ModalFlags: {
                 Friend: false,
                 Search: false,
@@ -24,6 +26,12 @@ const Store = createStore({
     getters: {
         getUserId(state){
             return state.UserId
+        },
+        isToastShow(state){
+          return !!state.ToastMessage
+        },
+        getToastMessage(state){
+            return state.ToastMessage
         },
         isLogin(state){
           return !!state.UserId
@@ -48,7 +56,8 @@ const Store = createStore({
         },
         getTargetUserData(state){
             return state.TargetUserData
-        }
+        },
+
     },
     mutations: {
         setUserId(state,UserId){
@@ -57,7 +66,9 @@ const Store = createStore({
         logout(state){
             state.UserId = 0
         },
-        // -------------------------------------------------------------------------------------------------------------
+        updateToast(state,message){
+            state.ToastMessage = message
+        },        // -------------------------------------------------------------------------------------------------------------
         updateFriendModalFlag(state) {
             state.ModalFlags.Friend = !state.ModalFlags.Friend
             state.ModalFlags.Search = false
@@ -114,7 +125,7 @@ const Store = createStore({
         },
         // 画像を追加
         appendSelectBrain(state, BrainId) {
-            let appendList = this.state.SelectedBrainId
+            let appendList:any = this.state.SelectedBrainId
             console.log(appendList)
 
             appendList.push(parseInt(BrainId))
@@ -141,6 +152,9 @@ const Store = createStore({
         },
         logout(context){
           context.commit("logout")
+        },
+        updateToast(context,message){
+            context.commit("updateToast",message)
         },
         // フレンドモーダルの表示を切り替える処理
         toggleFriendModalState(context) {

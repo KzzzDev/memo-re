@@ -228,10 +228,13 @@ const friendListMaster = {
     ]
 }
 
-export const insertNoteData = function (noteData) {
-    let noteList = JSON.parse(localStorage.getItem("noteList"))
-    if (!noteList) {
+export const insertNoteData = function (noteData: any) {
+    const lsData: string | null = localStorage.getItem("noteList")
+    let noteList: any
+    if (!lsData) {
         noteList = noteListMaster
+    } else {
+        noteList = JSON.parse(lsData)
     }
     noteList.push(noteData)
     localStorage.setItem("noteList", JSON.stringify(noteList))
