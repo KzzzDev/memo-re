@@ -9,7 +9,9 @@ app_name = 'apiv1'
 urlpatterns = [
     path('', include(router.urls)),
     path('friends/apply/<int:user_from>/',
-         views.FriendRequestApplyAPIView.as_view()),
+         views.FriendRequestAnswerAPIView.as_view()),
+    path('friends/apply', views.FriendRequestApplyListAPIView.as_view()),
+    path('friends/request', views.FriendRequestListAPIView.as_view()),
     path('friends/<int:user_to>/', views.FriendDeleteAPIView.as_view()),
     path('friends/', views.FriendListRequestAPIView.as_view()),
     path('brains/share/<int:note>/<int:user_to>/',

@@ -41,10 +41,10 @@ class FriendListRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, g
         ログインユーザのユーザIDでフィルタリング
         """
         auth_user_id = self.request.user.id
-        return Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id))
+        return Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
 
     def get(self, request, *args, **kwargs):
-        """フレンドリストを取得"""
+        """フレンドリスト（承認済み）を取得"""
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -52,6 +52,42 @@ class FriendListRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, g
         auth_user_id = self.request.user.id
         request.data['user_from'] = auth_user_id
         return self.create(request, *args, **kwargs)
+
+
+class FriendRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ログインユーザが申請中のユーザ一覧を取得するAPIクラス"""
+
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+
+    def get_queryset(self):
+        """
+        ログインユーザのユーザIDでフィルタリング
+        """
+        auth_user_id = self.request.user.id
+        return Friend.objects.filter(user_from=auth_user_id, apply=False, rejection=False)
+
+    def get(self, request, *args, **kwargs):
+        """ログインユーザが申請中のユーザ一覧を取得"""
+        return self.list(request, *args, **kwargs)
+
+
+class FriendRequestApplyListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ログインユーザの承認待ちのユーザ一覧を取得APIクラス"""
+
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+
+    def get_queryset(self):
+        """
+        ログインユーザのユーザIDでフィルタリング
+        """
+        auth_user_id = self.request.user.id
+        return Friend.objects.filter(user_to=auth_user_id, apply=False, rejection=False)
+
+    def get(self, request, *args, **kwargs):
+        """ログインユーザの承認待ちのユーザ一覧を取得"""
+        return self.list(request, *args, **kwargs)
 
 
 class FriendDeleteAPIView(mixins.DestroyModelMixin, generics.GenericAPIView):
@@ -75,7 +111,7 @@ class FriendDeleteAPIView(mixins.DestroyModelMixin, generics.GenericAPIView):
         return self.destroy(request, *args, **kwargs)
 
 
-class FriendRequestApplyAPIView(mixins.UpdateModelMixin, generics.GenericAPIView):
+class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIView):
     """ユーザのフレンド申請承認APIクラス"""
 
     serializer_class = FriendSerializer
