@@ -195,7 +195,8 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
         """
         ログインユーザのユーザIDでフィルタリング
         """
-        return NoteShare.objects.filter(apply=True, rejection=False)
+        auth_user_id = self.request.user.id
+        return NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True, rejection=False)
 
     def get(self, request, *args, **kwargs):
         """承認済みのノート共有一覧を取得"""
