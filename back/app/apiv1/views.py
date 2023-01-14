@@ -185,8 +185,31 @@ class NoteRetrieveUpdateDestroyAPIView(mixins.RetrieveModelMixin, mixins.UpdateM
         return self.destroy(request, *args, **kwargs)
 
 
-class NoteShareCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    """ノート共有一覧取得・設定APIクラス"""
+class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    """承認済みのノート共有一覧取得・設定するAPIクラス"""
+
+    queryset = NoteShare.objects.all()
+    serializer_class = NoteShareSerializer
+
+    def get_queryset(self):
+        """
+        ログインユーザのユーザIDでフィルタリング
+        """
+        return NoteShare.objects.filter(apply=True, rejection=False)
+
+    def get(self, request, *args, **kwargs):
+        """承認済みのノート共有一覧を取得"""
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """ノート共有設定"""
+        auth_user_id = self.request.user.id
+        request.data['user_from'] = auth_user_id
+        return self.create(request, *args, **kwargs)
+
+
+class NoteShareRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """申請中のノート共有一覧を取得するAPIクラス"""
 
     queryset = NoteShare.objects.all()
     serializer_class = NoteShareSerializer
@@ -196,17 +219,29 @@ class NoteShareCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gen
         ログインユーザのユーザIDでフィルタリング
         """
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id)
+        return NoteShare.objects.filter(user_from=auth_user_id, apply=False, rejection=False)
 
     def get(self, request, *args, **kwargs):
-        """ノート共有一覧を取得"""
+        """申請中のノート共有一覧を取得"""
         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        """ノート共有設定"""
+
+class NoteShareRequestAnswerListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """フレンドからのノート共有申請の一覧を取得するAPIクラス"""
+
+    queryset = NoteShare.objects.all()
+    serializer_class = NoteShareSerializer
+
+    def get_queryset(self):
+        """
+        ログインユーザのユーザIDでフィルタリング
+        """
         auth_user_id = self.request.user.id
-        request.data['user_from'] = auth_user_id
-        return self.create(request, *args, **kwargs)
+        return NoteShare.objects.filter(user_to=auth_user_id, apply=False, rejection=False)
+
+    def get(self, request, *args, **kwargs):
+        """フレンドからのノート共有申請の一覧を取得"""
+        return self.list(request, *args, **kwargs)
 
 
 class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
