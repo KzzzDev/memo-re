@@ -10,6 +10,7 @@ from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
 from django.db.models import Q
+from rest_framework.response import Response
 
 
 class MultipleFieldLookupMixin:
@@ -132,7 +133,7 @@ class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIVie
 
 
 class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """フレンドのノート一覧の取得APIクラス"""
+    """他ユーザのノート一覧の取得APIクラス"""
 
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
@@ -140,13 +141,18 @@ class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
 
     def get_queryset(self):
         """
-        フレンドのユーザIDでフィルタリング
+        URLパラメータで渡されたユーザIDでフィルタリング
         """
-        friend_user_id = self.kwargs['id']
-        return Note.objects.filter(user=friend_user_id, is_public=True)
+        user_id = self.kwargs['id']
+        queryset = Note.objects.filter(
+            user=user_id, is_public=True)
+        if queryset.exists():
+            return queryset
+        else:
+            return False
 
     def get(self, request, *args, **kwargs):
-        """フレンドのノート一覧を取得"""
+        """他ユーザのノート一覧を取得"""
         return self.list(request, *args, **kwargs)
 
 
