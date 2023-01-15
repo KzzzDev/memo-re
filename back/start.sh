@@ -12,7 +12,7 @@ python manage.py custom_createsuperuser --email $DJANGO_ADMIN_EMAIL --password $
 # APIドキュメント生成
 python manage.py spectacular --file schema.yml
 # サムネ画像が自動で生成されないため
-python manage.py generateimages
+# python manage.py generateimages
 # ER図生成（linux環境をdockerに入れていないのでできなかった）
 # python manage.py graph_models -a -o er.png
 

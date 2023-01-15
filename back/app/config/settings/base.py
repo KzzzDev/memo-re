@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     # 'django_boost',
     # 'import_export',
     # 'django_tables2',
-    'imagekit',  # サムネ生成
+    # 'imagekit',  # サムネ生成
     'django_cleanup',  # 画像の自動消去
     'djoser',  # JWT
     'corsheaders',  # CORS

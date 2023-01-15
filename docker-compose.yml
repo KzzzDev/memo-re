@@ -6,10 +6,10 @@ services:
     build:
       context: ./web
       dockerfile: ./Dockerfile
-      args:
-        - VITE_API_SERVER=${VITE_API_SERVER}
-        - VITE_TOKEN_KEY=${VITE_TOKEN_KEY}
-    env_file: .env
+      # args:
+      #   - VITE_API_SERVER=${VITE_API_SERVER}
+      #   - VITE_TOKEN_KEY=${VITE_TOKEN_KEY}
+    # env_file: .env
     restart: always
     ports:
       - "8000:8000"
@@ -19,9 +19,9 @@ services:
       - ./web/conf:/etc/nginx/conf.d
       - ./web/logs/nginx/:/var/log/nginx
       - ./web/uwsgi_params:/etc/nginx/uwsgi_params
-      - templates_volume:/usr/share/nginx/html
+      # - templates_volume:/usr/share/nginx/html
       - static_volume:/usr/share/nginx/html/static
-      - images_volume:/usr/share/nginx/html/images
+      # - images_volume:/usr/share/nginx/html/images
       - media_volume:/usr/share/nginx/html/media
     networks:
       - django_net
@@ -38,9 +38,9 @@ services:
     restart: always
     volumes:
       - ./back:/usr/src/app
-      - templates_volume:/usr/src/app/app/templates
+      # - templates_volume:/usr/src/app/app/templates
       - static_volume:/usr/src/app/app/static
-      - images_volume:/usr/src/app/app/images
+      # - images_volume:/usr/src/app/app/images
       - media_volume:/usr/src/app/app/media
     expose:
       - "8001"
@@ -76,8 +76,8 @@ networks:
 volumes:
   django_statics:
     driver: local
-  templates_volume:
+  # templates_volume:
   static_volume:
-  images_volume:
+  # images_volume:
   media_volume:
   db_volume:
