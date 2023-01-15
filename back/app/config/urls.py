@@ -13,6 +13,7 @@ router.register("api/v1/auth/users", CustomUserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path(environ['DJANGO_ADMIN_URL'], admin.site.urls),
+    # path('', TemplateView.as_view(template_name='index.html')),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/auth/', include('rest_framework.urls')),  # DRFのログイン機能を表示
