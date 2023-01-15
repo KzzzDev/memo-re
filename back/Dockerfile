@@ -15,3 +15,5 @@ RUN pip install --upgrade pip && \
     pip install coreapi django-cors-headers python-jose
 
 COPY ./app/ ${WORKDIR}/
+# media/だけコピーされないので追記
+COPY ./app/media/ ${WORKDIR}/app/media/
