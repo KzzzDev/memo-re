@@ -143,7 +143,7 @@ class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         フレンドのユーザIDでフィルタリング
         """
         friend_user_id = self.kwargs['id']
-        return Note.objects.filter(user=friend_user_id)
+        return Note.objects.filter(user=friend_user_id, is_public=True)
 
     def get(self, request, *args, **kwargs):
         """フレンドのノート一覧を取得"""
