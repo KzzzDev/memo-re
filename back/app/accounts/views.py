@@ -21,11 +21,11 @@ class CustomUserViewSet(UserViewSet):
             PATCHの変更箇所にパスワードとメールアドレスが含まれないようにする
             """
             if 'password' in request.data and 'email' in request.data:
-                return Response(data={'error': '変更箇所にパスワードとメールアドレスが含まれています'}, status=500)
+                return Response(data={'error': '変更箇所にパスワードとメールアドレスが含まれています'}, status=400)
             elif 'password' in request.data:
-                return Response(data={'error': '変更箇所にパスワードが含まれています'}, status=500)
+                return Response(data={'error': '変更箇所にパスワードが含まれています'}, status=400)
             elif 'email' in request.data:
-                return Response(data={'error': '変更箇所にメールアドレスが含まれています'}, status=500)
+                return Response(data={'error': '変更箇所にメールアドレスが含まれています'}, status=400)
             else:
                 return self.partial_update(request, *args, **kwargs)
         elif request.method == "DELETE":
