@@ -17,3 +17,4 @@ RUN mkdir /usr/share/nginx/html/static
 RUN mkdir /usr/share/nginx/html/media
 RUN mkdir /usr/share/nginx/html/locales
 COPY --from=build dist /usr/share/nginx/html
+a
