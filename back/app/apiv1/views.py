@@ -131,6 +131,25 @@ class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIVie
         return self.partial_update(request, *args, **kwargs)
 
 
+class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """フレンドのノート一覧の取得APIクラス"""
+
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        """
+        フレンドのユーザIDでフィルタリング
+        """
+        friend_user_id = self.kwargs['id']
+        return Note.objects.filter(user=friend_user_id, is_public=True)
+
+    def get(self, request, *args, **kwargs):
+        """フレンドのノート一覧を取得"""
+        return self.list(request, *args, **kwargs)
+
+
 class NoteListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     """ノート一覧の取得・ノート作成APIクラス"""
 
