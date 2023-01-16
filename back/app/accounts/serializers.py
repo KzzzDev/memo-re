@@ -18,3 +18,8 @@ class CustomUserSerializer(serializers.UserSerializer):
                 'write_only': True
             }
         }
+
+    def get_icon_uri(self, obj):
+        request = self.context.get('request')
+        photo_url = obj.fingerprint.url
+        return request.build_absolute_uri(photo_url)

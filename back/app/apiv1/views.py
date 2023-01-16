@@ -6,11 +6,14 @@ from memore.models import Friend
 from memore.models import Note
 from memore.models import NoteShare
 from .serializers import FriendSerializer
+from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
 from django.db.models import Q
 from rest_framework.response import Response
+import json
+from rest_framework import status
 
 
 class MultipleFieldLookupMixin:
@@ -31,8 +34,32 @@ class MultipleFieldLookupMixin:
         return obj
 
 
-class FriendListRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    """ユーザのフレンドリスト取得・フレンド申請APIクラス"""
+class FriendListAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    """フレンドリスト取得APIクラス"""
+
+    queryset = Friend.objects.all()
+    serializer_class = FriendListSerializer
+
+    def get(self, request, *args, **kwargs):
+        """フレンドリスト（承認済み）を取得"""
+
+        validate_json = []
+
+        auth_user_id = self.request.user.id
+        queryset = Friend.objects.filter(
+            Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
+        serializer = FriendListSerializer(queryset, context={"request":
+                                                             request}, many=True)
+        for i in range(len(serializer.data)):
+            if auth_user_id != serializer.data[i]['user_from']['id']:
+                validate_json.append(serializer.data[i]['user_from'])
+            else:
+                validate_json.append(serializer.data[i]['user_to'])
+        return Response(validate_json, status.HTTP_200_OK)
+
+
+class FriendRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    """フレンド申請APIクラス"""
 
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
@@ -43,10 +70,6 @@ class FriendListRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, g
         """
         auth_user_id = self.request.user.id
         return Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
-
-    def get(self, request, *args, **kwargs):
-        """フレンドリスト（承認済み）を取得"""
-        return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         """フレンド申請"""
