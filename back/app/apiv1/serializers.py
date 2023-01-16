@@ -2,6 +2,28 @@ from rest_framework import serializers
 from memore.models import Friend
 from memore.models import Note
 from memore.models import NoteShare
+from accounts.serializers import CustomUserSerializer
+from drf_writable_nested import WritableNestedModelSerializer
+
+
+class FriendListSerializer(WritableNestedModelSerializer):
+    """フレンドリスト用のシリアライザ"""
+
+    user_from = CustomUserSerializer(many=False, read_only=True)
+    user_to = CustomUserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Friend
+        fields = ('user_from', 'user_to', 'apply')
+        extra_kwargs = {
+            'apply': {
+                'write_only': True
+            }, 'user_from': {
+                'write_only': True
+            }, 'user_to': {
+                'write_only': True
+            }
+        }
 
 
 class FriendSerializer(serializers.ModelSerializer):
