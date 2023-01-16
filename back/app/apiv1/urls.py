@@ -12,7 +12,7 @@ urlpatterns = [
          views.FriendRequestAnswerAPIView.as_view()),
     path('friends/apply/', views.FriendRequestApplyListAPIView.as_view()),
     path('friends/list/', views.FriendListAPIView.as_view()),
-    path('friends/request/', views.FriendRequestAPIView.as_view()),
+    path('friends/request/', views.FriendRequestListAPIView.as_view()),
     path('friends/<int:user_to>/', views.FriendDeleteAPIView.as_view()),
     path('friends/', views.FriendRequestAPIView.as_view()),
     path('brains/friends/<int:id>/', views.NoteListFriendAPIView.as_view()),
