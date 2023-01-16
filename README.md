@@ -1,6 +1,6 @@
 # memo:Re
 
-## インストール
+## ダウンロード
 
 ```sh
 git clone https://github.com/Kazumasa1/memo-re.git
@@ -11,12 +11,27 @@ git clone https://github.com/Kazumasa1/memo-re.git
 
 ## 使い方
 
+### Dockerの起動（バック、DB）
+
 次のコマンドを実行してDocker コンテナを構築します。
 
 ```bash
 cd memo-re
 docker compose build --no-cache
 docker compose up -d
+```
+
+### Vueの起動（フロント）
+
+```bash
+cd memo-re/web/app
+npm ci
+npm run dev
+```
+
+### AIサーバの起動（AI）
+
+```bash
 ```
 
 ## 動作環境
@@ -55,10 +70,17 @@ memo-re
     ├── logs
     └── uwsgi_params
 ```
+### ローカル図
+
+<img src="./docs/local_diagram.png" alt="local diagram" width="720">
+
+### ネットワーク図
+
+<img src="./docs/network_diagram.png" alt="network diagram" width="720">
 
 ### システム構成図
 
-<img src="./docs/system.png" alt="memo:Re logo" width="550">
+<img src="./docs/system_diagram.png" alt="system diagram" width="720">
 
 ## 作者
 
