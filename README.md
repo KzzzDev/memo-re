@@ -8,6 +8,7 @@ git clone https://github.com/Kazumasa1/memo-re.git
 
 ## envの設定
 ”.env.sample" と同じ階層に ".env" を作成してコードを書き加えてください。
+”config.js.sample" と同じ階層に "config.js" を作成してコードを書き加えてください。
 
 ## 使い方
 
@@ -26,7 +27,7 @@ docker compose up -d
 ```bash
 cd memo-re/web/app
 npm ci
-npm run dev
+npm run serve
 ```
 
 ### AIサーバの起動（AI）
@@ -36,7 +37,9 @@ npm run dev
 
 ## 動作環境
 
-Nginx(Django): http://localhost:8000
+### バック
+
+Nginx(Django): http://localhost:8000/
 
 Nginx(Django)管理者サイト: http://localhost:8000/${DJANGO_ADMIN_URL}
  - メールアドレス: ${DJANGO_ADMIN_EMAIL}
@@ -47,6 +50,9 @@ Nginx(Django)APIドキュメントダウンロード: http://localhost:8000/api/
 Nginx(Django)APIドキュメント:swaggerUIで閲覧およびテスト http://localhost:8000/api/schema/swagger-ui/
 
 Nginx(Django)APIドキュメント:redocで閲覧およびテスト http://localhost:8000/api/schema/redoc/
+
+### フロント
+Vue.js: http://localhost:8080/
 
 ### ディレクトリ構成
 
