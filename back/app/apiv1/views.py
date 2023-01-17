@@ -169,10 +169,7 @@ class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         user_id = self.kwargs['id']
         queryset = Note.objects.filter(
             user=user_id, is_public=True)
-        if queryset.exists():
-            return queryset
-        else:
-            return False
+        return queryset
 
     def get(self, request, *args, **kwargs):
         """他ユーザのノート一覧を取得"""
