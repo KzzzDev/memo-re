@@ -11,6 +11,7 @@ from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
 from accounts.serializers import CustomUserSerializer
+from accounts.serializers import CustomUserSearchSerializer
 from accounts.models import CustomUser
 from django.db.models import Q
 from rest_framework.response import Response
@@ -38,7 +39,7 @@ class MultipleFieldLookupMixin:
 class SearchUserAPIView(mixins.ListModelMixin, generics.GenericAPIView):
     """ユーザ検索用APIクラス"""
 
-    serializer_class = CustomUserSerializer
+    serializer_class = CustomUserSearchSerializer
 
     def get_queryset(self):
         """
