@@ -39,8 +39,6 @@ class SearchUserAPIView(mixins.ListModelMixin, generics.GenericAPIView):
     """ユーザ検索用APIクラス"""
 
     serializer_class = CustomUserSerializer
-    # queryset = CustomUser.objects.all()
-    # filter_backends = [filters.DjangoFilterBackend]
 
     def get_queryset(self):
         """
