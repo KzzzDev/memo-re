@@ -12,14 +12,34 @@
         </ul>
         <p class="logout pointer" @click="Logout()">Logout</p>
       </div>
-      <div class="side" v-if="sideFriend">フレンド</div>
-      <div class="side" v-if="sideSearch">検索</div>
-      <div class="side" v-if="sideNotice">通知</div>
+      <!-- フレンド -->
+      <div class="side" v-if="sideFriend">
+        <h3>フレンドリスト</h3>
+        <hr>
+        <div v-for="data in glData" v-bind:key="data">
+          <div class="flex gl-friendWrap" @click="ToFriend(data.id, data.icon_uri, data.username)">
+            <div class="gl-friendImg">
+              <img :src="data.icon_uri" alt="フレンドアイコン">
+            </div>
+            <p>{{ data.username }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="side" v-if="sideSearch">
+        <h3>ユーザー検索</h3>
+        <hr>
+      </div>
+      <div class="side" v-if="sideNotice">
+        <h3>通知BOX</h3>
+        <hr>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { API_SERVER, ICON_URL } from "@/assets/config.js";
 export default {
   name: "GlobalHeader",
   components: {},
@@ -29,9 +49,35 @@ export default {
       sideSearch: false,
       sideNotice: false,
       sideBar: "",
+      glData: [],
     };
   },
+  computed: {
+
+  },
+  watch: {
+    $route() {
+      location.reload();
+    }, 
+  },
   methods: {
+    Created: async function () {
+      const token = this.$cookies.get("access");
+      console.log(token);
+      await axios
+        .get(API_SERVER + "/api/v1/friends/list/", {
+          headers: { Authorization: "JWT " + token },
+        })
+        .then((response) => {
+          this.glData = response.data;
+          console.log(this.glData);
+          return;
+        })
+        .catch((e) => {
+          console.log(e);
+          return;
+        });
+    },
     GlobalSide(num) {
       if (num == 0) {
         this.sideFriend = !this.sideFriend;
@@ -48,12 +94,27 @@ export default {
       }
       return;
     },
+    imgSrc(uri) {
+      const img = ICON_URL + uri;
+      return img;
+    },
+    ToFriend(id,img_uri,username) {
+      console.log(id);
+      localStorage.setItem("friendId",id);
+      localStorage.setItem("friendIcon",img_uri);
+      localStorage.setItem("friendUserName",username);
+      this.$router.push("/FriendPage/" + id);
+      // this.$router.go({path: "/FriendPage", force: true});
+    },
     Logout() {
       this.$cookies.remove("access");
       this.$router.push("/SignIn");
       return;
     },
   },
+  created() {
+    this.Created();
+  }
 };
 </script>
 <style scoped>
@@ -102,9 +163,47 @@ img {
   z-index: 5;
   width: 260px;
   height: 100vh;
-  background: #ccc6c6;
+  background: #E3E3E4;
+  box-shadow:6px 0px 8px 3px #ccc;
 }
-.pointer:hover {
+li:hover,.pointer:hover {
   cursor: pointer;
+  color: #FF6DE8;
+  transition: 0.1s;
+}
+
+hr {
+  color: #ccc;
+}
+
+/* フレンド */
+h3 {
+  font-weight: bolder;
+  margin: 20px 0 20px 16px;
+  color: #515058;
+}
+.gl-friendWrap {
+  padding: 10px 0 10px 10px;
+  
+}
+.gl-friendWrap:hover {
+  cursor: pointer;
+  background: #f1f1f1;
+}
+.gl-friendImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.gl-friendImg img {
+  width: 100%;
+}
+.gl-friendWrap p {
+  font-size: 14px;
+  color:#515058;
+  margin-left: 20px;
+  line-height: 40px;
+  font-weight: bolder;
 }
 </style>
