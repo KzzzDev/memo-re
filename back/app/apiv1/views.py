@@ -10,9 +10,10 @@ from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
+from accounts.serializers import CustomUserSerializer
+from accounts.models import CustomUser
 from django.db.models import Q
 from rest_framework.response import Response
-import json
 from rest_framework import status
 
 
@@ -34,7 +35,36 @@ class MultipleFieldLookupMixin:
         return obj
 
 
-class FriendListAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class SearchUserAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ユーザ検索用APIクラス"""
+
+    serializer_class = CustomUserSerializer
+    # queryset = CustomUser.objects.all()
+    # filter_backends = [filters.DjangoFilterBackend]
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = CustomUser.objects.all()
+        get_query = self.request.query_params.getlist('get', None)
+        if get_query is not None:
+            queryset_result = CustomUser.objects.none()
+            for n in get_query:
+                if n:
+                    queryset_result = queryset_result.union(queryset.filter(
+                        Q(id__icontains=n) | Q(username__icontains=n) | Q(
+                            tag__icontains=n)
+                    ))
+        return queryset_result
+
+    def get(self, request, *args, **kwargs):
+        """ユーザ検索の結果を取得"""
+        return self.list(request, *args, **kwargs)
+
+
+class FriendListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
     """フレンドリスト取得APIクラス"""
 
     queryset = Friend.objects.all()
@@ -169,10 +199,7 @@ class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         user_id = self.kwargs['id']
         queryset = Note.objects.filter(
             user=user_id, is_public=True)
-        if queryset.exists():
-            return queryset
-        else:
-            return False
+        return queryset
 
     def get(self, request, *args, **kwargs):
         """他ユーザのノート一覧を取得"""
