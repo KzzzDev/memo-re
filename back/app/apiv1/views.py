@@ -10,9 +10,10 @@ from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
+from accounts.serializers import CustomUserSerializer
+from accounts.models import CustomUser
 from django.db.models import Q
 from rest_framework.response import Response
-import json
 from rest_framework import status
 
 
@@ -34,7 +35,33 @@ class MultipleFieldLookupMixin:
         return obj
 
 
-class FriendListAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class SearchUserAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ユーザ検索用APIクラス"""
+
+    serializer_class = CustomUserSerializer
+
+    def get_queryset(self):
+        """
+        検索項目で渡されたクエリパラメータでフィルタリング
+        """
+        queryset = CustomUser.objects.all()
+        get_query = self.request.query_params.getlist('get', None)
+        if get_query is not None:
+            queryset_result = CustomUser.objects.none()
+            for n in get_query:
+                if n:
+                    queryset_result = queryset_result.union(queryset.filter(
+                        Q(id__icontains=n) | Q(username__icontains=n) | Q(
+                            tag__icontains=n)
+                    ))
+        return queryset_result
+
+    def get(self, request, *args, **kwargs):
+        """ユーザ検索の結果を取得"""
+        return self.list(request, *args, **kwargs)
+
+
+class FriendListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
     """フレンドリスト取得APIクラス"""
 
     queryset = Friend.objects.all()
