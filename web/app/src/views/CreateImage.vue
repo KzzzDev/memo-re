@@ -8,14 +8,15 @@
       <div class="innerWrap">
         <p>題名</p>
         <p v-if="error">入力されていません</p>
-        <input v-model="title" type="text" class="text" />
+        <input v-model="title" type="text" class="text" maxlength="40" />
         <br />
-        <p>キーワード</p>
-        <input v-model="keyword" type="text" class="text" />
+        <p>キーワード ※複数入力の場合は間に,をつけてください。</p>
+        <input v-model="keyword" type="text" class="text" maxlength="100" placeholder="aaa,bbb,ccc,ddd" />
         <br />
         <p>説明</p>
         <textarea
           v-model="text_uri"
+          maxlength="200"
           name=""
           cols="30"
           rows="10"
@@ -28,7 +29,9 @@
       <template v-if="loadFlag">
         <div class="loadingWrap">
           <div class="loadingContent">
-            <p>画像生成中</p>
+            <p class="warningTitle">画像生成中</p>
+            <p class="warning">生成には20秒～30秒ほど時間がかかります</p>
+            <p class="warning">利用者が多いとそれ以上かかる場合もあります</p>
             <div>
               <vue-element-loading
                 :active="loadFlag.length != 0"
@@ -74,6 +77,7 @@ export default {
         return;
       }
       //API処理
+      //これは残す
       this.loadFlag = true;
       console.log(this.loadFlag);
       const requestBody = {
@@ -82,8 +86,9 @@ export default {
       };
       await axios
         .post(AI_SERVER + "/ai/debug", requestBody)
-        .then((/*response*/) => {
-          // this.image_uri = response.data.img_file;
+        .then((response) => {
+          //ローカル時コメントアウト
+          this.image_uri = response.data.img_file;
 
           // ローカルストレージ
           localStorage.setItem("title", this.title);
@@ -99,7 +104,7 @@ export default {
           console.log("失敗");
         });
       //test
-      // ローカルストレージ
+      //ローカルストレージ
       // localStorage.setItem('title',this.title);
       // localStorage.setItem('keyword',this.keyword);
       // localStorage.setItem('text_uri',this.text_uri);
@@ -113,7 +118,7 @@ export default {
     },
   },
   created() {
-    if (this.$cookies.get("access") === null) {
+    if (this.$cookies.get("access") === null) {   
       this.$router.push("/SignIn");
     }
   },
@@ -122,17 +127,21 @@ export default {
 
 <style scoped>
 h1 {
-  font-size: 22px;
+  font-size: 24px;
   text-align: center;
   margin: 40px;
+  color: #666;
+  font-weight: bolder;
 }
 .wrap {
   width: 510px;
   height: 610px;
   margin: 100px auto 0;
-  border: solid 2px #ccc6c6;
+  /* border: solid 2px #ccc6c6; */
+  border-radius: 26px;
   position: relative;
   background: #fff;
+  filter: drop-shadow(0px 0px 20px #aaa);
 }
 
 .innerWrap {
@@ -142,6 +151,7 @@ h1 {
 
 .innerWrap p {
   margin-bottom: 10px;
+  color: #000;
 }
 
 .text {
@@ -149,9 +159,12 @@ h1 {
   height: 40px;
   /* border: solid 2px #ccc6c6; */
   margin-bottom: 20px;
-  padding: 6px 0 6px 4px;
+  padding: 6px 0 6px 10px;
   border-radius: 10px;
   box-shadow:0px 0px 8px 3px #ccc inset;
+}
+.text:focus {
+  outline: none;
 }
 
 .textarea {
@@ -161,8 +174,11 @@ h1 {
   /* border: solid 2px #ccc6c6; */
   border-radius: 14px;
   margin-bottom: 20px;
-  padding: 6px 0 6px 4px;
+  padding: 14px 10px 6px 10px;
   box-shadow:0px 0px 8px 3px #ccc inset;
+}
+textarea:focus {
+  outline: none;
 }
 
 button {
@@ -173,30 +189,40 @@ button {
   height: 54px;
   text-align: center;
   border-radius: 5px;
+  box-shadow:4px 4px 8px 3px #bbb;
+}
+button:hover {
+  background: #7b98ff;
 }
 
 .loadingWrap {
   width: 510px;
   height: 610px;
   margin: 0 auto;
-  border: solid 2px #f00;
   position: absolute;
   top: 0;
   left: 0;
   background: rgba(255, 255, 255, 0.6);
+  border-radius: 26px;
 }
 .loadingContent {
   width: 300px;
   height: 200px;
   background-color: #fff;
   margin: 205px auto 0;
-  border: solid 2px #000;
+  border: solid 2px #ccc;
+  border-radius: 20px;
 }
 .loadingContent p {
-  margin-top: 20px;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
+}
+.loadingContent .warningTitle {
+  margin-top: 40px;
+}
+.loadingContent .warning {
+  font-size: 12px;
 }
 
 .loadingContent div {

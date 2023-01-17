@@ -6,9 +6,9 @@
     <div>
       <div class="userWrap">
         <div class="flex">
-          <div class="myIcon"><img :src="user.icon_uri" alt="アイコン" v-cloak></div>
+          <div class="myIcon"><img :src="friendIcon" alt="アイコン" v-cloak></div>
           <div class="textWrap">
-            <p class="username" v-cloak>{{ user.username }}</p>
+            <p class="username" v-cloak>{{ friendUsername }}</p>
           </div>
         </div>
         <div class="flex buttonWrap">
@@ -41,36 +41,39 @@ import { API_SERVER } from "@/assets/config.js";
 import GlobalHeader from "@/components/GlobalHeader.vue";
 
 export default {
-  name: "MyPage",
+  name: "FriendPage",
   components: {
     GlobalHeader,
   },
   data() {
     return {
+      friendUsername: localStorage.getItem("friendUserName"),
+      friendIcon: localStorage.getItem("friendIcon"),
       data: [],
       user: [],
     };
   },
   methods: {
     Created: async function () {
+      const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
       console.log(token);
-      await axios
-        .get(API_SERVER + "/api/v1/auth/users/me/", {
-          headers: { Authorization: "JWT " + token },
-        })
-        .then((response2) => {
-          this.user = response2.data;
-          console.log(this.user);
-          return;
-        })
-        .catch((e) => {
-          console.log(e);
-          return;
-        });
+      // await axios
+      //   .get(API_SERVER + "/api/v1/auth/users/me/", {
+      //     headers: { Authorization: "JWT " + token },
+      //   })
+      //   .then((response2) => {
+      //     this.user = response2.data;
+      //     console.log(this.user);
+      //     return;
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //     return;
+      //   });
       // .get(API_SERVER + "/api/v1/brains/" + id, {
       await axios
-        .get(API_SERVER + "/api/v1/brains/", {
+        .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {
