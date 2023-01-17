@@ -1,19 +1,21 @@
 <template>
-  <div class="wrap">
-    <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
-    <h1>サインイン</h1>
-    <div class="innerwrap">
-      <p>メールアドレス</p>
-      <input v-model="email" type="text" class="text" />
-      <br />
-      <p>パスワード</p>
-      <input v-model="password" type="password" class="text" />
-      <br />
-      <div class="button">
-        <button @click="SignIn()">サインイン</button>
-      </div>
-      <div class="signup">
-        <router-link to="/SignUp">新規登録</router-link>
+  <div class="overWrap">
+    <div class="wrap">
+      <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
+      <h1>サインイン</h1>
+      <div class="innerwrap">
+        <p>メールアドレス<span v-if="errorMail" class="errorSpan">※メールアドレスが入力されていません</span></p>
+        <input v-model="email" type="text" class="text" />
+        <br />
+        <p>パスワード　　<span v-if="errorPass"  class="errorSpan">※パスワードが入力されていません</span></p>
+        <input v-model="password" type="password" class="text" />
+        <br />
+        <div class="button">
+          <button @click="SignIn()">サインイン</button>
+        </div>
+        <div class="signup">
+          <router-link to="/SignUp">新規登録</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -27,13 +29,28 @@ export default {
   components: {},
   data() {
     return {
-      password: null,
-      email: null,
+      password: "",
+      email: "",
       data: [],
+      errorMail: false,
+      errorPass: false,
     };
   },
   methods: {
     SignIn() {
+      this.error = false;
+      this.errorMail = false;
+      this.errorPass = false;
+      if (this.password == "" || this.email == "") {
+        if (this.email == "") {
+          this.errorMail = true;
+        }
+        if (this.password == "") {
+          this.errorPass = true;
+        }
+        console.log("だめです！")
+        return;
+      }
       const requestBody = {
         password: this.password,
         email: this.email,
@@ -75,14 +92,20 @@ export default {
 
 <style scoped>
 .wrap {
-  width: 630px;
-  height: 680px;
-  border: solid 2px #000;
-  margin: 40px auto 0;
+  width: 510px;
+  height: 560px;
+  margin: 0 auto;
   padding-top: 60px;
+  border-radius: 26px;
+  background: #fff;
+  filter: drop-shadow(0px 0px 20px #aaa);
 }
 h1 {
+  font-size: 24px;
+  font-weight: bolder;
   text-align: center;
+  margin-bottom: 20px;
+  color: #666;
 }
 .innerwrap {
   width: 420px;
@@ -91,8 +114,14 @@ h1 {
 .text {
   width: 420px;
   height: 40px;
-  border: solid 2px #000;
-  margin-bottom: 20px;
+  /* border: solid 2px #ccc6c6; */
+  margin: 4px 0 20px;
+  padding: 6px 0 6px 10px;
+  border-radius: 10px;
+  box-shadow:0px 0px 8px 3px #ccc inset;
+}
+.text:focus {
+  outline: none;
 }
 .image {
   width: 100px;
@@ -113,10 +142,20 @@ button {
   height: 54px;
   text-align: center;
   border-radius: 5px;
+  margin-top: 20px;
+  box-shadow:4px 4px 8px 3px #bbb;
+}
+button:hover {
+  background: #7b98ff;
 }
 .signup {
   margin-top: 20px;
   font-size: 14px;
   text-align: center;
+}
+.errorSpan {
+  font-size: 12px;
+  color: #f00;
+  margin-left: 10px;
 }
 </style>

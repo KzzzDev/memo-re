@@ -1,5 +1,4 @@
 <template>
-  <!-- preview作るから作成のAPIこっちに持ってくる -->
   <div class="flex">
     <div class="fixedGlobal">
       <GlobalHeader />
@@ -65,7 +64,6 @@ export default {
       };
       console.log(requestBody);
       const token = this.$cookies.get("access");
-      // .post(API_SERVER + "/api/v1/brains/" + this.user, requestBody, {
       await axios
         .post(API_SERVER + "/api/v1/brains/", requestBody, {
           headers: { Authorization: "JWT " + token },

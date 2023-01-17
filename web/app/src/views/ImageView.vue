@@ -9,10 +9,10 @@
           <div class="flex innerWrap">
             <p class="title">{{ data.title }}</p>
             <template v-if="this.is_public === true">
-              <p @click="Public(0)">公開</p>
+              <p class="public" @click="Public(0)">公開</p>
             </template>
             <template v-else>
-              <p @click="Public(1)">非公開</p>
+              <p class="public" @click="Public(1)">非公開</p>
             </template>
           </div>
           <ul class="flex">
@@ -30,6 +30,7 @@
         <ul class="flex">
           <li v-for="img in scrollData" v-bind:key="img" class="scrImg" @click="ImageView(img.id)">
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
+            <p class="opacity">{{ img.title }}</p>
           </li>
         </ul>
       </div>
@@ -58,7 +59,6 @@ export default {
     ImageData: async function () {
       const noteId = localStorage.getItem("noteId");
       const token = this.$cookies.get("access");
-      console.log(token);
       await axios
         .get(API_SERVER + "/api/v1/brains/" + noteId + "/", {
           headers: { Authorization: "JWT " + token },
@@ -68,7 +68,7 @@ export default {
           this.data.image_uri = IMG_URL + this.data.image_uri;
           this.keywordAry = this.data.keyword.split(",");
           this.is_public = this.data.is_public;
-          console.log(this.data);
+          //console.log(this.data);
           console.log("成功");
           return;
         })
@@ -80,7 +80,6 @@ export default {
     },
     ScrollData: async function () {
       const token = this.$cookies.get("access");
-      console.log(token);
       // .get(API_SERVER + "/api/v1/brains/" + id, {
       await axios
         .get(API_SERVER + "/api/v1/brains/", {
@@ -88,7 +87,7 @@ export default {
         })
         .then((response) => {
           this.scrollData = response.data;
-          console.log(this.scrollData);
+          //console.log(this.scrollData);
           return;
         })
         .catch((e) => {
@@ -101,7 +100,7 @@ export default {
       return img;
     },
     ImageView(noteId) {
-      console.log("click");
+      //console.log("click");
       localStorage.setItem("noteId", noteId);
       this.$router.go({path: this.$router.currentRoute.path, force: true});
     },
@@ -161,6 +160,12 @@ export default {
 }
 .title {
   font-size: 28px;
+  font-weight: bolder;
+}
+.public {
+  font-weight: bolder;
+  line-height: 32px;
+  cursor: pointer;
 }
 .text_uri {
   font-size: 18px;
@@ -194,6 +199,7 @@ export default {
   overflow-x: scroll;
 }
 .scrImg{
+  position: relative;
   width: 120px;
   height: 120px;
   margin-right: 30px;
@@ -201,5 +207,24 @@ export default {
 }
 .scrImg img{
   width: 120px;
+}
+
+.scrImg p{
+  font-size: 12px;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  line-height: 120px;
+  font-weight: bold;
+  color: #fff;
+  background: rgba(0,0,0,0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.scrImg p:hover{
+  opacity: 1;
+  transition: 0.6s;
 }
 </style>

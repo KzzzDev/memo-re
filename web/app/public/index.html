@@ -1,17 +1,137 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="ja">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
+    <title>memo:Re</title>
+    <style>
+      .canvas-wrap{
+        position: fixed;
+        z-index: 1;
+      }
+      #app {
+        position: relative;
+        z-index:10;
+      }
+    </style>
   </head>
   <body>
+    <div class="canvas-wrap">
+      <canvas id="canvas"></canvas>
+    </div>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  
+    window.requestAnimationFrame = 
+      window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.weblitRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function (cb) { setTimeout(cb, 17); };
+  
+    const NUM = 30; // 表示数
+    const particles = [];
+  
+    class Particle {
+      constructor(x, y, radius, directionX, directionY, index) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.directionX = directionX;
+        this.directionY = directionY;
+        this.index = index;
+      }
+      render() {
+        if(this.index % 5 === 0) {
+          ctx.fillStyle = "#fff";
+          ctx.fill();
+        } else if(this.index % 5 === 1) {
+          ctx.strokeStyle = "#6D8DFE";
+          ctx.lineWidth = 1;
+          ctx.stroke()
+        }else if(this.index % 5 === 2){
+          ctx.globalAlpha = 0.8;
+          ctx.fillStyle = "#FCFF6D";
+          ctx.fill();
+        } else if(this.index % 5 === 3){
+          ctx.globalAlpha = 0.8;
+          ctx.fillStyle = "#6D8DFF";
+          ctx.fill();
+        } else {
+          ctx.globalAlpha = 0.8;
+          ctx.fillStyle = "#FC6DE8";
+          ctx.fill();
+        }
+        // 円をかく
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+        
+        
+      }
+      update() {
+  
+        this.y += this.directionY;
+        if(this.y > canvas.width + this.radius) {
+          this.y = -this.radius;
+        }
+        
+        this.render();
+      }
+    }
+  
+    init();
+    render();
+  
+    function init() {
+      for(let i = 0; i < NUM; i++) {
+        // particles 
+        const x = Math.random() * canvas.width;
+        const y = Math.floor(Math.random() * canvas.height);
+        const radius = Math.floor(Math.random() * 120);
+        const directionX = Math.random() * 2;
+        const directionY = Math.random() * 2 - 1;
+        const particle = new Particle(x, y, radius, directionX, directionY, i);
+        particles.push(particle);
+      }
+    }
+  
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for(let i = 0; i < particles.length; i++) {
+        particles[i].update();
+      }
+      requestAnimationFrame(render);
+    }
+  
+    jQuery(function() {
+          var pagetop = $('#page_top');   
+          pagetop.hide();
+          $(window).scroll(function () {
+              if ($(this).scrollTop() > 100) {  //100pxスクロールしたら表示
+                  pagetop.fadeIn();
+              } else {
+                  pagetop.fadeOut();
+              }
+          });
+          pagetop.click(function () {
+              $('body,html').animate({
+                  scrollTop: 0
+              }, 500); //0.5秒かけてトップへ移動
+              return false;
+          });
+      });
+  </script>  
 </html>
