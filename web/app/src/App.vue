@@ -10,16 +10,19 @@ export default {
   components: {},
 };
 </script>
-
-<style scoped>
-@import "./css/destyle.css";
-</style>
 <style>
+@import "./css/destyle.css";
+* {
+  font-family:'ヒラギノ角ゴ Pro W3',sans-serif;
+}
 .flex {
   display: flex;
 }
 .fixedGlobal {
   width: 170px;
   z-index: 10;
+}
+.overWrap {
+  padding-top: 40px;
 }
 </style>
