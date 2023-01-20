@@ -341,7 +341,11 @@ class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModel
 
     def patch(self, request, *args, **kwargs):
         """ノート共有の更新"""
-        return self.partial_update(request, *args, **kwargs)
+
+        if request.data["apply"] == True and request.data["rejection"] == True:
+            return Response({"error": "applyとrejectionの両方が登録されています。"}, status.HTTP_400_BAD_REQUEST)
+        else:
+            return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         """ノート共有削除"""
