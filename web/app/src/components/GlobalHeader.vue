@@ -2,7 +2,10 @@
   <div class="fixed">
     <div class="gl-wrap">
       <div class="gl-global">
-        <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
+        <router-link to="/myPage" class="image"
+          ><img src="@/assets/logo.png" alt="ロゴ"
+        /></router-link>
+        <!-- <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div> -->
         <ul>
           <li><router-link to="/MyPage">Profile</router-link></li>
           <li><router-link to="/CreateImage">Create</router-link></li>
@@ -15,11 +18,14 @@
       <!-- フレンド -->
       <div class="side" v-if="sideFriend">
         <h3>フレンドリスト</h3>
-        <hr>
+        <hr />
         <div v-for="data in glData" v-bind:key="data">
-          <div class="flex gl-friendWrap" @click="ToFriend(data.id, data.icon_uri, data.username)">
+          <div
+            class="flex gl-friendWrap"
+            @click="ToFriend(data.id, data.icon_uri, data.username)"
+          >
             <div class="gl-friendImg">
-              <img :src="data.icon_uri" alt="フレンドアイコン">
+              <img :src="data.icon_uri" alt="フレンドアイコン" />
             </div>
             <p>{{ data.username }}</p>
           </div>
@@ -27,11 +33,11 @@
       </div>
       <div class="side" v-if="sideSearch">
         <h3>ユーザー検索</h3>
-        <hr>
+        <hr />
       </div>
       <div class="side" v-if="sideNotice">
         <h3>通知BOX</h3>
-        <hr>
+        <hr />
       </div>
     </div>
   </div>
@@ -52,13 +58,11 @@ export default {
       glData: [],
     };
   },
-  computed: {
-
-  },
+  computed: {},
   watch: {
     $route() {
       location.reload();
-    }, 
+    },
   },
   methods: {
     Created: async function () {
@@ -83,11 +87,11 @@ export default {
         this.sideFriend = !this.sideFriend;
         this.sideSearch = false;
         this.sideNotice = false;
-      }else if (num == 1) {
+      } else if (num == 1) {
         this.sideFriend = false;
         this.sideSearch = !this.sideSearch;
         this.sideNotice = false;
-      }else if (num == 2) {
+      } else if (num == 2) {
         this.sideFriend = false;
         this.sideSearch = false;
         this.sideNotice = !this.sideNotice;
@@ -98,12 +102,12 @@ export default {
       const img = ICON_URL + uri;
       return img;
     },
-    ToFriend(id,img_uri,username) {
+    ToFriend(id, img_uri, username) {
       console.log(id);
-      localStorage.setItem("friendId",id);
-      localStorage.setItem("friendIcon",img_uri);
-      localStorage.setItem("friendUserName",username);
-      this.$router.push("/FriendPage/" + id);
+      localStorage.setItem("friendId", id);
+      localStorage.setItem("friendIcon", img_uri);
+      localStorage.setItem("friendUserName", username);
+      this.$router.push("/FriendPage/");
       // this.$router.go({path: "/FriendPage", force: true});
     },
     Logout() {
@@ -114,7 +118,7 @@ export default {
   },
   created() {
     this.Created();
-  }
+  },
 };
 </script>
 <style scoped>
@@ -140,10 +144,11 @@ export default {
   margin-left: 56px;
 }
 .gl-global li {
-  width:fit-content;
+  width: fit-content;
   margin-bottom: 16px;
 }
 .image {
+  display: block;
   width: 80px;
   height: 80px;
   margin: 0 auto;
@@ -163,12 +168,13 @@ img {
   z-index: 5;
   width: 260px;
   height: 100vh;
-  background: #E3E3E4;
-  box-shadow:6px 0px 8px 3px #ccc;
+  background: #e3e3e4;
+  box-shadow: 6px 0px 8px 3px #ccc;
 }
-li:hover,.pointer:hover {
+li:hover,
+.pointer:hover {
   cursor: pointer;
-  color: #FF6DE8;
+  color: #ff6de8;
   transition: 0.1s;
 }
 
@@ -184,7 +190,6 @@ h3 {
 }
 .gl-friendWrap {
   padding: 10px 0 10px 10px;
-  
 }
 .gl-friendWrap:hover {
   cursor: pointer;
@@ -201,7 +206,7 @@ h3 {
 }
 .gl-friendWrap p {
   font-size: 14px;
-  color:#515058;
+  color: #515058;
   margin-left: 20px;
   line-height: 40px;
   font-weight: bolder;

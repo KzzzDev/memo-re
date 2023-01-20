@@ -7,6 +7,7 @@ import SignIn from "../views/SignIn.vue";
 import MyPage from "../views/MyPage.vue";
 import ImageView from "../views/ImageView.vue";
 import FriendPage from "../views/FriendPage";
+import FriendImageView from "../views/FriendImageView.vue";
 
 const routes = [
   {
@@ -45,9 +46,14 @@ const routes = [
     component: ImageView,
   },
   {
-    path: "/friendPage/:user?",
+    path: "/friendPage",
     name: "friendPage",
     component: FriendPage,
+  },
+  {
+    path: "/friendImageView",
+    name: "friendImageView",
+    component: FriendImageView,
   },
 ];
 

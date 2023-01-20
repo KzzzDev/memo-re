@@ -4,17 +4,26 @@
       <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
       <h1>サインイン</h1>
       <div class="innerwrap">
-        <p>メールアドレス<span v-if="errorMail" class="errorSpan">※メールアドレスが入力されていません</span></p>
+        <p>
+          メールアドレス<span v-if="errorMail" class="errorSpan"
+            >※メールアドレスが入力されていません</span
+          >
+        </p>
         <input v-model="email" type="text" class="text" />
         <br />
-        <p>パスワード　　<span v-if="errorPass"  class="errorSpan">※パスワードが入力されていません</span></p>
+        <p>
+          パスワード　　<span v-if="errorPass" class="errorSpan"
+            >※パスワードが入力されていません</span
+          >
+        </p>
         <input v-model="password" type="password" class="text" />
         <br />
         <div class="button">
           <button @click="SignIn()">サインイン</button>
         </div>
         <div class="signup">
-          <router-link to="/SignUp">新規登録</router-link>
+          <router-link to="/SignUp">新規登録</router-link><br />
+          <router-link to="/">戻る</router-link>
         </div>
       </div>
     </div>
@@ -48,7 +57,7 @@ export default {
         if (this.password == "") {
           this.errorPass = true;
         }
-        console.log("だめです！")
+        console.log("だめです！");
         return;
       }
       const requestBody = {
@@ -118,7 +127,7 @@ h1 {
   margin: 4px 0 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow:0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 8px 3px #ccc inset;
 }
 .text:focus {
   outline: none;
@@ -143,7 +152,7 @@ button {
   text-align: center;
   border-radius: 5px;
   margin-top: 20px;
-  box-shadow:4px 4px 8px 3px #bbb;
+  box-shadow: 4px 4px 8px 3px #bbb;
 }
 button:hover {
   background: #7b98ff;
