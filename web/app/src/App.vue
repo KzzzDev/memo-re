@@ -13,7 +13,7 @@ export default {
 <style>
 @import "./css/destyle.css";
 * {
-  font-family:'ヒラギノ角ゴ Pro W3',sans-serif;
+  font-family: "ヒラギノ角ゴ Pro W3", sans-serif;
 }
 .flex {
   display: flex;

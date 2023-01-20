@@ -7,23 +7,17 @@
       <div class="flex preOverWrap">
         <div class="preWrap">
           <div class="flex innerWrap">
-            <p class="title">{{ data.title }}</p>
-            <template v-if="this.is_public === true">
-              <p class="public" @click="Public(0)">公開</p>
-            </template>
-            <template v-else>
-              <p class="public" @click="Public(1)">非公開</p>
-            </template>
+            <p class="title">{{ title }}</p>
           </div>
           <ul class="flex">
-            <li v-for="word in keywordAry" v-bind:key="word" class="keyword">
+            <li v-for="word in keyword" v-bind:key="word" class="keyword">
               {{ word }}
             </li>
           </ul>
-          <p class="text_uri">{{ data.text_uri }}</p>
+          <p class="text_uri">{{ text_uri }}</p>
         </div>
         <div class="preImg">
-          <img :src="data.image_uri" alt="画像" />
+          <img :src="image_uri" alt="画像" />
         </div>
       </div>
       <div class="scrWrap">
@@ -51,6 +45,12 @@ export default {
   name: "ImageView",
   data() {
     return {
+      id: localStorage.getItem("friendNoteId"),
+      keyword: localStorage.getItem("friendNoteKeyword").split(","),
+      title: localStorage.getItem("friendNoteTitle"),
+      image_uri: IMG_URL + localStorage.getItem("friendNoteImage"),
+      user: localStorage.getItem("friendNoteUser"),
+      text_uri: localStorage.getItem("friendNoteText"),
       data: [],
       scrollData: [],
       keywordAry: "",
@@ -61,33 +61,34 @@ export default {
     GlobalHeader,
   },
   methods: {
-    ImageData: async function () {
-      const noteId = localStorage.getItem("noteId");
-      const token = this.$cookies.get("access");
-      await axios
-        .get(API_SERVER + "/api/v1/brains/" + noteId + "/", {
-          headers: { Authorization: "JWT " + token },
-        })
-        .then((response) => {
-          this.data = response.data;
-          this.data.image_uri = IMG_URL + this.data.image_uri;
-          this.keywordAry = this.data.keyword.split(",");
-          this.is_public = this.data.is_public;
-          //console.log(this.data);
-          console.log("成功");
-          return;
-        })
-        .catch((e) => {
-          console.log(e);
-          // this.$router.push({ name: "myPage" });
-          return;
-        });
-    },
+    // ImageData: async function () {
+    //   const noteId = localStorage.getItem("noteId");
+    //   const token = this.$cookies.get("access");
+    //   await axios
+    //     .get(API_SERVER + "/api/v1/brains/" + noteId + "/", {
+    //       headers: { Authorization: "JWT " + token },
+    //     })
+    //     .then((response) => {
+    //       this.data = response.data;
+    //       this.data.image_uri = IMG_URL + this.data.image_uri;
+    //       this.keywordAry = this.data.keyword.split(",");
+    //       this.is_public = this.data.is_public;
+    //       //console.log(this.data);
+    //       console.log("成功");
+    //       return;
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //       // this.$router.push({ name: "myPage" });
+    //       return;
+    //     });
+    // },
     ScrollData: async function () {
+      const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
       // .get(API_SERVER + "/api/v1/brains/" + id, {
       await axios
-        .get(API_SERVER + "/api/v1/brains/", {
+        .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {
@@ -140,7 +141,7 @@ export default {
       this.$router.push("/SignIn");
       return;
     }
-    this.ImageData();
+    // this.ImageData();
     this.ScrollData();
   },
 };
