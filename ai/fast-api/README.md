@@ -76,12 +76,13 @@ pipでインポートするライブラリ
 
 ### 併用しているモジュール
 - DeepL
-
-### condaの仮想実行環境を作成
+- paramiko
+- uvicorn
+### condaの仮想環境を作成
 ```
 conda env create -f environment.yaml
 ```
-### conda起動
+### condaの起動
 ```
 conda activate ldm
 ```
@@ -95,7 +96,7 @@ rm -r /anaconda/envs/ldm
 conda env create -f environment.yaml
 conda activate ldm
 ```
-### 起動に成功時に仮想環境でcudaが有効化されているか確認する
+### 起動の成功時に仮想環境でcudaが有効化されているか確認する
 ```
 $ python3
 Python 3.8.5 (default, Sep  4 2020, 07:30:14)
@@ -115,7 +116,6 @@ sudo apt list --installed | less
 ##　学習済みデータの導入
 ### データのclone(約4GBあるので長時間待機する)
 ```
-
 git clone https://huggingface.co/CompVis/stable-diffusion-v-1-4-original
 ```
 ### 学習済みデータの確認
@@ -125,7 +125,7 @@ du -h /diffusion-ai/stable-diffusion-v-1-4-original/sd-v1-4.ckpt
 4.0G    stable-diffusion-v-1-4-original/sd-v1-4.ckpt　#4.0Gあれば問題なし。
 ```
 
-### 学習済みデータセットを指定先にコピー
+### 学習済みデータを指定先にコピー
 ```
 cd ~
 mkdir /diffusion-ai/stable-diffusion/models/ldm/stable-diffusion-v1
@@ -163,7 +163,7 @@ script/配下の`genimg.py`が実行され、画像パスをクライアント�
 genimg.py
 ```
 ※Webサーバの画像を格納するパスのユーザ所有権がなかった場合
-sudo chown th458-user imagesで画像をAIサーバからSCP出来るようになりました。
+`sudo chown ユーザ パス`で画像をAIサーバからSCPが可能になります。
 
 ### AI画像生成APIリクエストのテスト
 ```
