@@ -319,7 +319,7 @@ class NoteShareRequestAnswerListAPIView(mixins.ListModelMixin, generics.GenericA
 
 
 class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
-    """ノート共有削除APIクラス"""
+    """ノート共有ステータス更新・削除APIクラス"""
 
     queryset = NoteShare.objects.all()
     serializer_class = NoteShareSerializer
@@ -332,11 +332,20 @@ class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModel
         note_id = self.kwargs['note']
         user_to_id = self.kwargs['user_to']
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id, note=note_id, user_to=user_to_id)
+        queryset = NoteShare.objects.filter(
+            user_from=auth_user_id, note=note_id, user_to=user_to_id, apply=False, rejection=False)
+        if queryset.exists():
+            return queryset
+        else:
+            return NoteShare.objects.none()
 
     def patch(self, request, *args, **kwargs):
         """ノート共有の更新"""
-        return self.partial_update(request, *args, **kwargs)
+
+        if request.data["apply"] == True and request.data["rejection"] == True:
+            return Response({"error": "applyとrejectionの両方が登録されています。"}, status.HTTP_400_BAD_REQUEST)
+        else:
+            return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         """ノート共有削除"""
