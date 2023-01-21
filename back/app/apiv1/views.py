@@ -277,9 +277,15 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
 
     def post(self, request, *args, **kwargs):
         """ノート共有設定"""
+
         auth_user_id = self.request.user.id
-        request.data['user_from'] = auth_user_id
-        return self.create(request, *args, **kwargs)
+        if Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=False):
+            auth_user_id = self.request.user.id
+            request.data['user_from'] = auth_user_id
+            return self.create(request, *args, **kwargs)
+        else:
+            return Response({"error": "共有相手がフレンドではありません。"},
+                            status.HTTP_403_FORBIDDEN)
 
 
 class NoteShareRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
