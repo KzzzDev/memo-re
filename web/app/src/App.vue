@@ -25,4 +25,11 @@ export default {
 .overWrap {
   padding-top: 40px;
 }
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
 </style>
