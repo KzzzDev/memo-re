@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex relative">
     <div class="fixedGlobal">
       <GlobalHeader />
     </div>
@@ -20,6 +20,7 @@
           <img :src="image_uri" alt="画像" />
         </div>
       </div>
+      <button @click="GiveImageModal()">この画像をもらう</button>
       <div class="scrWrap">
         <ul class="flex">
           <li
@@ -32,6 +33,16 @@
             <p class="opacity">{{ img.title }}</p>
           </li>
         </ul>
+      </div>
+    </div>
+    <div v-if="modalFlag == true" class="absolute modal">
+      <div class="modalContent">
+        <h2>共有申請しますか？</h2>
+        <img :src="image_uri" alt="画像" />
+        <div class="flex button">
+          <button class="cancel" @click="Cancel()">キャンセル</button>
+          <button class="accept" @click="Share()">申請</button>
+        </div>
       </div>
     </div>
   </div>
@@ -55,34 +66,16 @@ export default {
       scrollData: [],
       keywordAry: "",
       is_public: null,
+      modalFlag: false,
     };
   },
   components: {
     GlobalHeader,
   },
   methods: {
-    // ImageData: async function () {
-    //   const noteId = localStorage.getItem("noteId");
-    //   const token = this.$cookies.get("access");
-    //   await axios
-    //     .get(API_SERVER + "/api/v1/brains/" + noteId + "/", {
-    //       headers: { Authorization: "JWT " + token },
-    //     })
-    //     .then((response) => {
-    //       this.data = response.data;
-    //       this.data.image_uri = IMG_URL + this.data.image_uri;
-    //       this.keywordAry = this.data.keyword.split(",");
-    //       this.is_public = this.data.is_public;
-    //       //console.log(this.data);
-    //       console.log("成功");
-    //       return;
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //       // this.$router.push({ name: "myPage" });
-    //       return;
-    //     });
-    // },
+    GiveImageModal: async function () {
+      this.modalFlag = true;
+    },
     ScrollData: async function () {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
@@ -133,6 +126,28 @@ export default {
         .catch((e) => {
           console.log(e);
           return;
+        });
+    },
+    Cancel() {
+      this.modalFlag = !this.modalFlag;
+    },
+    Share() {
+      const requestBody = {
+        user_to: localStorage.getItem("id"),
+        user_from: this.user,
+        note: this.id
+      };
+      const token = this.$cookies.get("access");
+      axios
+        .post(API_SERVER + "/api/v1/brains/share/", requestBody, {
+          headers: { Authorization: "JWT " + token },})
+        .then(() => {
+          console.log("成功");
+          this.modalFlag = !this.modalFlag;
+          return;
+        })
+        .catch(() => {
+          console.log("失敗");
         });
     },
   },
@@ -204,6 +219,13 @@ export default {
   width: 900px;
   overflow-x: scroll;
 }
+button {
+  margin-top: 40px;
+  color: #fff;
+  background: #F88CDF;
+  padding: 10px 26px;
+  border-radius: 10px;
+}
 .scrImg {
   position: relative;
   width: 120px;
@@ -232,5 +254,60 @@ export default {
 .scrImg p:hover {
   opacity: 1;
   transition: 0.6s;
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.4);
+  width: calc(100% - 170px);
+  height: 100vh;
+  left: 170px;
+}
+
+.modalContent {
+  width: 420px;
+  height: 500px;
+  background: #fff;
+  filter: drop-shadow(0px 0px 20px #aaa);
+  margin: 60px auto 0;
+  border-radius: 20px;
+  padding-top: 40px;
+}
+.modalContent h2 {
+  font-size: 24px;
+  font-weight: bolder;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #666;
+}
+.modalContent img {
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+.button {
+  width: 340px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.modalContent button {
+  float: right;
+  color: #fff;
+  width: 160px;
+  height: 54px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px 3px #bbb;
+}
+.cancel {
+  background: #818181;
+}
+
+.accept {
+  background: #6d8dff;
+}
+.modalContent .accept:hover {
+  background: #7b98ff;
 }
 </style>
