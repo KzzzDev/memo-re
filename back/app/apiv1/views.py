@@ -279,20 +279,75 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
         """ノート共有設定"""
 
         auth_user_id = self.request.user.id
-        if Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=False):
 
-            if (request.data['user_from']):
+        # ノートIDが設定されていないか？
+        if not ('note' in request.data):
+            return Response({"error": "共有するノートが設定されていません。"},
+                            status.HTTP_400_BAD_REQUEST)
+        # 共有元と共有先のユーザが設定されていないか？
+        elif not ('user_from' in request.data) and not ('user_to' in request.data):
+            return Response({"error": "共有相手が設定されていません。"},
+                            status.HTTP_400_BAD_REQUEST)
+        # 共有元ユーザのみ設定されているか？
+        elif ('user_from' in request.data) and not ('user_to' in request.data):
+            # 共有元ユーザとログインユーザが同じか？
+            if (request.data['user_from'] == auth_user_id):
+                return Response({"error": "共有元ユーザがログインユーザと同じです。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 設定されたノートが共有元ユーザに作成されていないか？
+            if not Note.objects.filter(id=request.data['note'], user=request.data['user_from']):
+                return Response({"error": "設定されたノートIDは不正です。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 共有元ユーザはログインユーザとフレンドか？
+            if Friend.objects.filter(Q(user_from=auth_user_id, user_to=request.data['user_from'], apply=True) | Q(user_to=auth_user_id, user_from=request.data['user_from'], apply=True)):
                 request.data['user_to'] = auth_user_id
                 return self.create(request, *args, **kwargs)
-            elif (request.data['user_to']):
+            else:
+                return Response({"error": "共有相手がフレンドではありません。"},
+                                status.HTTP_401_UNAUTHORIZED)
+        # 共有先ユーザのみ設定されているか？
+        elif not ('user_from' in request.data) and ('user_to' in request.data):
+            # 共有先ユーザとログインユーザが同じか？
+            if (request.data['user_to'] == auth_user_id):
+                return Response({"error": "共有元ユーザが設定されていません。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 設定されたノートが共有先ユーザに作成されていないか？
+            if not Note.objects.filter(id=request.data['note'], user=auth_user_id):
+                return Response({"error": "設定されたノートIDは不正です。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 共有先ユーザはログインユーザとフレンドか？
+            if Friend.objects.filter(Q(user_from=auth_user_id, user_to=request.data['user_to'], apply=True) | Q(user_to=auth_user_id, user_from=request.data['user_to'], apply=True)):
                 request.data['user_from'] = auth_user_id
                 return self.create(request, *args, **kwargs)
             else:
-                return Response({"error": "共有相手が設定されていません。"},
+                return Response({"error": "共有相手がフレンドではありません。"},
+                                status.HTTP_401_UNAUTHORIZED)
+        # 共有元と共有先の両方のユーザが設定されているか？
+        elif ('user_from' in request.data) and ('user_to' in request.data):
+            # 共有元と共有先のユーザが同じか？
+            if (request.data['user_from'] == request.data['user_to']):
+                return Response({"error": "共有先と共有元が同じです。"},
                                 status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"error": "共有相手がフレンドではありません。"},
-                            status.HTTP_401_UNAUTHORIZED)
+            # 共有元または共有先にログインユーザが設定されているか？
+            elif ((request.data['user_from'] != auth_user_id) and (request.data['user_to'] != auth_user_id)):
+                return Response({"error": "共有元と共有先のどちらにもログインユーザが設定されていません。"}, status.HTTP_400_BAD_REQUEST)
+            # 共有元ユーザとログインユーザが同じか？
+            if (request.data['user_from'] == auth_user_id):
+                # 設定されたノートが共有元ユーザに作成されていないか？
+                if not Note.objects.filter(id=request.data['note'], user=auth_user_id):
+                    return Response({"error": "設定されたノートIDは不正です。"},
+                                    status.HTTP_400_BAD_REQUEST)
+            else:
+                # 設定されたノートが共有元ユーザに作成されていないか？
+                if not Note.objects.filter(id=request.data['note'], user=request.data['user_from']):
+                    return Response({"error": "設定されたノートIDは不正です。"},
+                                    status.HTTP_400_BAD_REQUEST)
+            # 共有元または共有先ユーザはログインユーザとフレンドか？
+            if Friend.objects.filter(Q(user_from=request.data['user_from'], user_to=request.data['user_to'], apply=True) | Q(user_to=request.data['user_to'], user_from=request.data['user_from'], apply=True)):
+                return self.create(request, *args, **kwargs)
+            else:
+                return Response({"error": "共有相手がフレンドではありません。"},
+                                status.HTTP_401_UNAUTHORIZED)
 
 
 class NoteShareRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
