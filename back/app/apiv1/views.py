@@ -10,6 +10,7 @@ from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
+from .serializers import NoteShareListSerializer
 from accounts.serializers import CustomUserSerializer
 from accounts.serializers import CustomUserSearchSerializer
 from accounts.models import CustomUser
@@ -350,39 +351,21 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
                                 status.HTTP_401_UNAUTHORIZED)
 
 
-class NoteShareRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """申請中のノート共有一覧を取得するAPIクラス"""
+class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ノート共有申請の一覧を取得するAPIクラス"""
 
     queryset = NoteShare.objects.all()
-    serializer_class = NoteShareSerializer
+    serializer_class = NoteShareListSerializer
 
     def get_queryset(self):
         """
         ログインユーザのユーザIDでフィルタリング
         """
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id, apply=False, rejection=False)
+        return NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=False, rejection=False)
 
     def get(self, request, *args, **kwargs):
-        """申請中のノート共有一覧を取得"""
-        return self.list(request, *args, **kwargs)
-
-
-class NoteShareRequestAnswerListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """フレンドからのノート共有申請の一覧を取得するAPIクラス"""
-
-    queryset = NoteShare.objects.all()
-    serializer_class = NoteShareSerializer
-
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
-        auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_to=auth_user_id, apply=False, rejection=False)
-
-    def get(self, request, *args, **kwargs):
-        """フレンドからのノート共有申請の一覧を取得"""
+        """ノート共有申請の一覧を取得"""
         return self.list(request, *args, **kwargs)
 
 

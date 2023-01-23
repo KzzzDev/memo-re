@@ -63,3 +63,16 @@ class NoteShareSerializer(serializers.ModelSerializer):
         model = NoteShare
         fields = '__all__'
         read_only_fields = ('id', 'register_at',)
+
+
+class NoteShareListSerializer(serializers.ModelSerializer):
+    """ノート共有申請一覧取得用のシリアライザ"""
+
+    user_from = CustomUserSerializer(many=False, read_only=True)
+    user_to = CustomUserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = NoteShare
+        fields = ('user_from', 'user_to', 'note', 'notified',
+                  'apply', 'rejection', 'register_at',)
+        read_only_fields = ('note', 'user_from', 'user_to', 'register_at',)
