@@ -11,7 +11,6 @@ from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
 from .serializers import NoteShareListSerializer
-from accounts.serializers import CustomUserSerializer
 from accounts.serializers import CustomUserSearchSerializer
 from accounts.models import CustomUser
 from django.db.models import Q
@@ -77,8 +76,8 @@ class FriendListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         auth_user_id = self.request.user.id
         queryset = Friend.objects.filter(
             Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
-        serializer = FriendListSerializer(queryset, context={"request":
-                                                             request}, many=True)
+        serializer = FriendListSerializer(
+            queryset, context={"request":                                                  request}, many=True)
         for i in range(len(serializer.data)):
             if auth_user_id != serializer.data[i]['user_from']['id']:
                 validate_json.append(serializer.data[i]['user_from'])
@@ -357,16 +356,44 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
     queryset = NoteShare.objects.all()
     serializer_class = NoteShareListSerializer
 
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
-        auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=False, rejection=False)
-
     def get(self, request, *args, **kwargs):
         """ノート共有申請の一覧を取得"""
-        return self.list(request, *args, **kwargs)
+
+        validate_json = []
+
+        auth_user_id = self.request.user.id
+        queryset = NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(
+            user_to=auth_user_id), apply=False, rejection=False)
+        serializer = NoteShareListSerializer(
+            queryset, context={"request": request}, many=True)
+        for i in range(len(serializer.data)):
+            if auth_user_id != serializer.data[i]['user_from']['id']:
+                validate_json.append({
+                    'user_from': serializer.data[i]['user_from']['id'],
+                    'username': serializer.data[i]['user_from']['username'],
+                    'icon_uri': serializer.data[i]['user_from']['icon_uri'],
+                    'tag': serializer.data[i]['user_from']['tag'],
+                    'note': serializer.data[i]['note']['id'],
+                    'image_uri': serializer.data[i]['note']['image_uri'],
+                    'notified': serializer.data[i]['notified'],
+                    'register_at': serializer.data[i]['register_at'],
+                    'aaply': serializer.data[i]['apply'],
+                    'rejection': serializer.data[i]['rejection']
+                })
+            else:
+                validate_json.append({
+                    'user_to': serializer.data[i]['user_to']['id'],
+                    'username': serializer.data[i]['user_to']['username'],
+                    'icon_uri': serializer.data[i]['user_to']['icon_uri'],
+                    'tag': serializer.data[i]['user_to']['tag'],
+                    'note': serializer.data[i]['note']['id'],
+                    'image_uri': serializer.data[i]['note']['image_uri'],
+                    'notified': serializer.data[i]['notified'],
+                    'register_at': serializer.data[i]['register_at'],
+                    'aaply': serializer.data[i]['apply'],
+                    'rejection': serializer.data[i]['rejection']
+                })
+        return Response(validate_json, status.HTTP_200_OK)
 
 
 class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):

@@ -45,6 +45,15 @@ class NoteSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created_at', 'updated_at',)
 
 
+class NoteListSerializer(serializers.ModelSerializer):
+    """ポップアップのノート情報取得用のシリアライザ"""
+
+    class Meta:
+        model = Note
+        fields = ('id', 'image_uri',)
+        read_only_fields = ('id', 'image_uri',)
+
+
 class NoteEditSerializer(serializers.ModelSerializer):
     """ノート編集・削除用のシリアライザ"""
 
@@ -70,6 +79,7 @@ class NoteShareListSerializer(serializers.ModelSerializer):
 
     user_from = CustomUserSerializer(many=False, read_only=True)
     user_to = CustomUserSerializer(many=False, read_only=True)
+    note = NoteListSerializer(many=False, read_only=True)
 
     class Meta:
         model = NoteShare
