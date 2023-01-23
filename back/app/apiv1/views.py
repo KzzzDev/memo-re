@@ -377,7 +377,7 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
                     'image_uri': serializer.data[i]['note']['image_uri'],
                     'notified': serializer.data[i]['notified'],
                     'register_at': serializer.data[i]['register_at'],
-                    'aaply': serializer.data[i]['apply'],
+                    'apply': serializer.data[i]['apply'],
                     'rejection': serializer.data[i]['rejection']
                 })
             else:
@@ -390,7 +390,7 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
                     'image_uri': serializer.data[i]['note']['image_uri'],
                     'notified': serializer.data[i]['notified'],
                     'register_at': serializer.data[i]['register_at'],
-                    'aaply': serializer.data[i]['apply'],
+                    'apply': serializer.data[i]['apply'],
                     'rejection': serializer.data[i]['rejection']
                 })
         return Response(validate_json, status.HTTP_200_OK)
