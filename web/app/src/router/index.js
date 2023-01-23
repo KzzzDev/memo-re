@@ -46,7 +46,7 @@ const routes = [
     component: ImageView,
   },
   {
-    path: "/friendPage",
+    path: "/friendPage/:user?",
     name: "friendPage",
     component: FriendPage,
   },
