@@ -26,6 +26,7 @@
           <img :src="data.image_uri" alt="画像" />
         </div>
       </div>
+      <button @click="BtnClick()">この画像をもらう</button>
       <div class="scrWrap">
         <ul class="flex">
           <li
@@ -134,6 +135,11 @@ export default {
           return;
         });
     },
+    BtnClick() {
+      localStorage.setItem("DropImage",this.data.image_uri);
+      this.$router.push("/ShareDrop");
+      return;
+    },
   },
   created() {
     if (this.$cookies.get("access") === null) {
@@ -231,5 +237,13 @@ export default {
 .scrImg p:hover {
   opacity: 1;
   transition: 0.6s;
+}
+
+button {
+  margin-top: 40px;
+  color: #fff;
+  background: #F88CDF;
+  padding: 10px 26px;
+  border-radius: 10px;
 }
 </style>

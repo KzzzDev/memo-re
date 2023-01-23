@@ -8,6 +8,7 @@ import MyPage from "../views/MyPage.vue";
 import ImageView from "../views/ImageView.vue";
 import FriendPage from "../views/FriendPage";
 import FriendImageView from "../views/FriendImageView.vue";
+import ShareDrop from "../views/ShareDrop.vue";
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: "/friendImageView",
     name: "friendImageView",
     component: FriendImageView,
+  },
+  {
+    path: "/shareDrop",
+    name: "shareDrop",
+    component: ShareDrop,
   },
 ];
 
