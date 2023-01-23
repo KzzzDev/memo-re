@@ -39,6 +39,7 @@
       <div class="modalContent">
         <h2>共有申請しますか？</h2>
         <img :src="image_uri" alt="画像" />
+        <p v-if="error != '' ">{{ error }}</p>
         <div class="flex button">
           <button class="cancel" @click="Cancel()">キャンセル</button>
           <button class="accept" @click="Share()">申請</button>
@@ -67,6 +68,7 @@ export default {
       keywordAry: "",
       is_public: null,
       modalFlag: false,
+      error: "",
     };
   },
   components: {
@@ -79,7 +81,6 @@ export default {
     ScrollData: async function () {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
-      // .get(API_SERVER + "/api/v1/brains/" + id, {
       await axios
         .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
@@ -131,12 +132,13 @@ export default {
     Cancel() {
       this.modalFlag = !this.modalFlag;
     },
+    //申請
     Share() {
       const requestBody = {
-        user_to: localStorage.getItem("id"),
-        user_from: this.user,
-        note: this.id
+        user_from: parseInt(this.user),
+        note: parseInt(this.id)
       };
+      console.log(requestBody);
       const token = this.$cookies.get("access");
       axios
         .post(API_SERVER + "/api/v1/brains/share/", requestBody, {
@@ -146,8 +148,8 @@ export default {
           this.modalFlag = !this.modalFlag;
           return;
         })
-        .catch(() => {
-          console.log("失敗");
+        .catch((response) => {
+          this.error = response.response.data.error;
         });
     },
   },
@@ -309,5 +311,11 @@ button {
 }
 .modalContent .accept:hover {
   background: #7b98ff;
+}
+
+.modalContent p {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
 }
 </style>

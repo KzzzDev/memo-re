@@ -7,6 +7,8 @@
         <p>
           メールアドレス<span v-if="errorMail" class="errorSpan"
             >※メールアドレスが入力されていません</span
+          ><span v-if="error" class="errorSpan"
+            >※ログイン情報に誤りがあります</span
           >
         </p>
         <input v-model="email" type="text" class="text" />
@@ -43,6 +45,7 @@ export default {
       data: [],
       errorMail: false,
       errorPass: false,
+      error: false,
     };
   },
   methods: {
@@ -64,6 +67,7 @@ export default {
         password: this.password,
         email: this.email,
       };
+      //ログイン処理
       axios
         .post(API_SERVER + "/api/v1/auth/jwt/create/", requestBody)
         .then((response) => {
@@ -92,7 +96,9 @@ export default {
         })
         .catch(() => {
           //エラー回避用
+          this.error = !this.error;
           console.log("ログイン失敗");
+
         });
     },
   },
