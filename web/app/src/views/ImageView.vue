@@ -26,14 +26,14 @@
           <img :src="data.image_uri" alt="画像" />
         </div>
       </div>
-      <button @click="BtnClick()">この画像をもらう</button>
+      <button @click="BtnClick()">この画像を共有する</button>
       <div class="scrWrap">
         <ul class="flex">
           <li
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id)"
+            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public)"
           >
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
             <p class="opacity">{{ img.title }}</p>
@@ -105,10 +105,15 @@ export default {
       const img = IMG_URL + img_uri;
       return img;
     },
-    ImageView(noteId) {
+    ImageView(noteId,title,keyword,img_uri, text_uri, is_public) {
       //console.log("click");
       localStorage.setItem("noteId", noteId);
-      this.$router.go({ path: this.$router.currentRoute.path, force: true });
+      this.data.title = title;
+      this.keywordAry = keyword.split(",");
+      this.data.img_uri = img_uri;
+      this.data.text_uri = text_uri;
+      this.is_public = is_public;
+      // this.$router.go({ path: this.$router.currentRoute.path, force: true });
     },
     Public: async function (flag) {
       if (flag === 0) {
@@ -135,6 +140,7 @@ export default {
           return;
         });
     },
+    //共有のボタンクリック
     BtnClick() {
       localStorage.setItem("DropImage",this.data.image_uri);
       this.$router.push("/ShareDrop");

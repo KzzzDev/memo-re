@@ -5,7 +5,7 @@
         <div class="header-nav">
           <div class="flex">
             <p><router-link to="/SignUp">新規登録</router-link></p>
-            <p><router-link to="/SignIn">サインイン</router-link></p>
+            <p><router-link to="/SignIn">ログイン</router-link></p>
           </div>
         </div>
         <div class="section1">
