@@ -7,7 +7,7 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (_('一般'), {'fields': ('password', 'username', 'email', 'icon_uri', 'tag',)}),
-        (_('日時'), {'fields': ('created_at', 'updated_at')}),
+        # (_('日時'), {'fields': ('created_at', 'updated_at')}),
         (_('権限'), {'fields': (
             'is_superuser', 'is_staff', 'is_active', 'groups', 'user_permissions',), },),)
     add_fieldsets = ((None, {
