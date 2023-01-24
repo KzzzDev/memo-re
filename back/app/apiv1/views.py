@@ -6,6 +6,7 @@ from memore.models import Friend
 from memore.models import Note
 from memore.models import NoteShare
 from .serializers import FriendSerializer
+from .serializers import FriendRequestSerializer
 from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
@@ -125,10 +126,10 @@ class FriendRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
 
 
 class FriendRequestApplyListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """ログインユーザの承認待ちのユーザ一覧を取得APIクラス"""
+    """他ユーザからのフレンド申請を一覧取得するAPIクラス"""
 
     queryset = Friend.objects.all()
-    serializer_class = FriendSerializer
+    serializer_class = FriendRequestSerializer
 
     def get_queryset(self):
         """
@@ -138,8 +139,27 @@ class FriendRequestApplyListAPIView(mixins.ListModelMixin, generics.GenericAPIVi
         return Friend.objects.filter(user_to=auth_user_id, apply=False, rejection=False)
 
     def get(self, request, *args, **kwargs):
-        """ログインユーザの承認待ちのユーザ一覧を取得"""
-        return self.list(request, *args, **kwargs)
+        """他ユーザからのフレンド申請を一覧取得"""
+
+        validate_json = []
+
+        auth_user_id = self.request.user.id
+        queryset = Friend.objects.filter(
+            user_to=auth_user_id, apply=False, rejection=False)
+        serializer = FriendRequestSerializer(
+            queryset, context={"request": request}, many=True)
+        for i in range(len(serializer.data)):
+            validate_json.append({
+                'user_from': serializer.data[i]['user_from']['id'],
+                'username': serializer.data[i]['user_from']['username'],
+                'icon_uri': serializer.data[i]['user_from']['icon_uri'],
+                'tag': serializer.data[i]['user_from']['tag'],
+                'notified': serializer.data[i]['notified'],
+                'register_at': serializer.data[i]['register_at'],
+                'apply': serializer.data[i]['apply'],
+                'rejection': serializer.data[i]['rejection']
+            })
+        return Response(validate_json, status.HTTP_200_OK)
 
 
 class FriendDeleteAPIView(mixins.DestroyModelMixin, generics.GenericAPIView):
