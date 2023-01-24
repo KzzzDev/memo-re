@@ -43,7 +43,7 @@
           <button @click="SignUp()">新規登録</button>
         </div>
         <div class="signin">
-          <router-link to="/SignIn">サインイン</router-link><br />
+          <router-link to="/SignIn">ログイン</router-link><br />
           <router-link to="/">戻る</router-link>
         </div>
       </div>

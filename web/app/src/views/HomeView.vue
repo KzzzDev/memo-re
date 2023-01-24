@@ -133,7 +133,7 @@
               <router-link to="/SignUp">新規登録</router-link>
             </p>
             <p class="login-btn">
-              <router-link to="/SignIn">サインイン</router-link>
+              <router-link to="/SignIn">ログイン</router-link>
             </p>
           </div>
         </div>
