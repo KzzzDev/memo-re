@@ -9,10 +9,10 @@
           <div class="flex innerWrap">
             <p class="title">{{ data.title }}</p>
             <template v-if="this.is_public === true">
-              <p class="public" @click="Public(0)">公開</p>
+              <p class="public" @click="Public(0)"><img src="/img/11.png" alt="画像" /></p>
             </template>
             <template v-else>
-              <p class="public" @click="Public(1)">非公開</p>
+              <p class="public" @click="Public(1)"><img src="/img/1.png" alt="画像" /></p>
             </template>
           </div>
           <ul class="flex">
@@ -35,6 +35,7 @@
             class="scrImg"
             @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public)"
           >
+            <!-- {{ img.is_public }} -->
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
             <p class="opacity">{{ img.title }}</p>
           </li>
@@ -139,6 +140,12 @@ export default {
           console.log(e);
           return;
         });
+
+      this.scrollData.forEach(data => {
+        if (data.id == noteId) {
+          data.is_public = !data.is_public;
+        }
+      });
     },
     //共有のボタンクリック
     BtnClick() {
@@ -174,6 +181,9 @@ export default {
 .innerWrap {
   justify-content: space-between;
   flex-wrap: wrap;
+}
+.innerWrap img {
+  width: 30px;
 }
 .title {
   font-size: 28px;
