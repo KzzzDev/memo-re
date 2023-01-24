@@ -6,7 +6,9 @@
     <div>
       <div class="userWrap">
         <div class="flex">
-          <div class="myIcon"><img :src="user.icon_uri" alt="アイコン" v-cloak></div>
+          <div class="myIcon">
+            <img :src="user.icon_uri" alt="アイコン" v-cloak />
+          </div>
           <div class="textWrap">
             <p class="username" v-cloak>{{ user.username }}</p>
           </div>
@@ -98,7 +100,7 @@ export default {
 };
 </script>
 <style scoped>
-.userWrap{
+.userWrap {
   margin: 60px 0 0 40px;
 }
 .myIcon {
@@ -154,26 +156,26 @@ h2 {
   border: solid 1px #ccc;
   width: 180px;
   position: relative;
-  box-shadow:8px 6px 8px 3px #999;
+  box-shadow: 8px 6px 8px 3px #999;
 }
 .myPageImage img {
   width: 100%;
 }
 
-.myPageImage p{
+.myPageImage p {
   width: 176px;
   height: 176px;
   text-align: center;
   line-height: 176px;
   font-weight: bold;
   color: #fff;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
 }
-.myPageImage p:hover{
+.myPageImage p:hover {
   opacity: 1;
   transition: 0.6s;
 }

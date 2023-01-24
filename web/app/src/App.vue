@@ -13,7 +13,7 @@ export default {
 <style>
 @import "./css/destyle.css";
 * {
-  font-family:'ヒラギノ角ゴ Pro W3',sans-serif;
+  font-family: "ヒラギノ角ゴ Pro W3", sans-serif;
 }
 .flex {
   display: flex;
@@ -24,5 +24,12 @@ export default {
 }
 .overWrap {
   padding-top: 40px;
+}
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
 }
 </style>

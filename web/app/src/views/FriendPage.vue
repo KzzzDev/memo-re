@@ -10,6 +10,12 @@
           <div class="textWrap">
             <p class="username" v-cloak>{{ friendUsername }}</p>
           </div>
+          <template v-if="friendReqFlag == false">
+            <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
+          </template>
+          <template v-else>
+            <p class="friendReq">フレンド申請済み</p>
+          </template> 
         </div>
         <div class="flex buttonWrap">
           <h2>すべての記憶</h2>
@@ -21,8 +27,8 @@
           v-for="image in data"
           v-bind:key="image"
           class="imageBox"
-          @click="ImageView(image.id)"
-        >
+          @click="ImageView(image.id,image.keyword,image.title,image.image_uri,image.user,image.text_uri)"
+        >     
           <!-- <p>{{ image.title }}</p>
           <p>{{ image.text_uri }}</p> -->
           <div class="myPageImage">
@@ -51,6 +57,8 @@ export default {
       friendIcon: localStorage.getItem("friendIcon"),
       data: [],
       user: [],
+      id: localStorage.getItem("friendId"),
+      friendReqFlag: false,
     };
   },
   methods: {
@@ -58,20 +66,6 @@ export default {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
       console.log(token);
-      // await axios
-      //   .get(API_SERVER + "/api/v1/auth/users/me/", {
-      //     headers: { Authorization: "JWT " + token },
-      //   })
-      //   .then((response2) => {
-      //     this.user = response2.data;
-      //     console.log(this.user);
-      //     return;
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //     return;
-      //   });
-      // .get(API_SERVER + "/api/v1/brains/" + id, {
       await axios
         .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
@@ -86,9 +80,33 @@ export default {
           return;
         });
     },
-    ImageView(noteId) {
-      localStorage.setItem("noteId", noteId);
-      this.$router.push("/imageView");
+    ImageView(id,keyword,title,image_uri,user,text_uri) {
+      localStorage.setItem("friendNoteId", id);
+      localStorage.setItem("friendNoteKeyword", keyword);
+      localStorage.setItem("friendNoteTitle", title);
+      localStorage.setItem("friendNoteImage", image_uri);
+      localStorage.setItem("friendNoteUser", user);
+      localStorage.setItem("friendNoteText", text_uri);
+      this.$router.push("/friendImageView");
+    },
+    FriendReq: async function() {
+      const token = this.$cookies.get("access");
+      const requestBody = {
+        user_to: this.id,
+      };
+      await axios
+        .post(API_SERVER + "/api/v1/friends/", requestBody, {
+          headers: { Authorization: "JWT " + token },
+        })
+        .then(() => {
+          this.friendReqFlag = true;
+          console.log("成功");
+        })
+        .catch((e) => {
+          this.friendReqFlag = true;
+          console.log(e);
+          console.log("失敗");
+        });
     },
   },
   created() {
@@ -179,5 +197,15 @@ h2 {
 .myPageImage p:hover{
   opacity: 1;
   transition: 0.6s;
+}
+
+.friendReq {
+  margin: 10px 0 0 40px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  color: #fff;
+  background: #6d8dff;
+  border-radius: 10px;
 }
 </style>

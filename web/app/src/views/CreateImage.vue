@@ -11,7 +11,13 @@
         <input v-model="title" type="text" class="text" maxlength="40" />
         <br />
         <p>キーワード ※複数入力の場合は間に,をつけてください。</p>
-        <input v-model="keyword" type="text" class="text" maxlength="100" placeholder="aaa,bbb,ccc,ddd" />
+        <input
+          v-model="keyword"
+          type="text"
+          class="text"
+          maxlength="100"
+          placeholder="aaa,bbb,ccc,ddd"
+        />
         <br />
         <p>説明</p>
         <textarea
@@ -105,20 +111,20 @@ export default {
         });
       //test
       //ローカルストレージ
-      // localStorage.setItem('title',this.title);
-      // localStorage.setItem('keyword',this.keyword);
-      // localStorage.setItem('text_uri',this.text_uri);
-      // localStorage.setItem('image_uri',this.image_uri);
+      // localStorage.setItem("title", this.title);
+      // localStorage.setItem("keyword", this.keyword);
+      // localStorage.setItem("text_uri", this.text_uri);
+      // localStorage.setItem("image_uri", this.image_uri);
       // console.log(this.keyword);
       // //画面遷移
-      // this.$router.push('/PreviewImage');
-      // //test end
+      // this.$router.push("/PreviewImage");
+      //test end
 
       this.loadFlag = false;
     },
   },
   created() {
-    if (this.$cookies.get("access") === null) {   
+    if (this.$cookies.get("access") === null) {
       this.$router.push("/SignIn");
     }
   },
@@ -161,7 +167,7 @@ h1 {
   margin-bottom: 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow:0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 8px 3px #ccc inset;
 }
 .text:focus {
   outline: none;
@@ -175,7 +181,7 @@ h1 {
   border-radius: 14px;
   margin-bottom: 20px;
   padding: 14px 10px 6px 10px;
-  box-shadow:0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 8px 3px #ccc inset;
 }
 textarea:focus {
   outline: none;
@@ -189,7 +195,7 @@ button {
   height: 54px;
   text-align: center;
   border-radius: 5px;
-  box-shadow:4px 4px 8px 3px #bbb;
+  box-shadow: 4px 4px 8px 3px #bbb;
 }
 button:hover {
   background: #7b98ff;

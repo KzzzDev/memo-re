@@ -10,7 +10,7 @@ from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
-from accounts.serializers import CustomUserSerializer
+from .serializers import NoteShareListSerializer
 from accounts.serializers import CustomUserSearchSerializer
 from accounts.models import CustomUser
 from django.db.models import Q
@@ -76,8 +76,8 @@ class FriendListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         auth_user_id = self.request.user.id
         queryset = Friend.objects.filter(
             Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
-        serializer = FriendListSerializer(queryset, context={"request":
-                                                             request}, many=True)
+        serializer = FriendListSerializer(
+            queryset, context={"request":                                                  request}, many=True)
         for i in range(len(serializer.data)):
             if auth_user_id != serializer.data[i]['user_from']['id']:
                 validate_json.append(serializer.data[i]['user_from'])
@@ -277,49 +277,127 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
 
     def post(self, request, *args, **kwargs):
         """ノート共有設定"""
+
         auth_user_id = self.request.user.id
-        request.data['user_from'] = auth_user_id
-        return self.create(request, *args, **kwargs)
+
+        # ノートIDが設定されていないか？
+        if not ('note' in request.data):
+            return Response({"error": "共有するノートが設定されていません。"},
+                            status.HTTP_400_BAD_REQUEST)
+        # 共有元と共有先のユーザが設定されていないか？
+        elif not ('user_from' in request.data) and not ('user_to' in request.data):
+            return Response({"error": "共有相手が設定されていません。"},
+                            status.HTTP_400_BAD_REQUEST)
+        # 共有元ユーザのみ設定されているか？
+        elif ('user_from' in request.data) and not ('user_to' in request.data):
+            # 共有元ユーザとログインユーザが同じか？
+            if (request.data['user_from'] == auth_user_id):
+                return Response({"error": "共有元ユーザがログインユーザと同じです。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 設定されたノートが共有元ユーザに作成されていないか？
+            if not Note.objects.filter(id=request.data['note'], user=request.data['user_from']):
+                return Response({"error": "設定されたノートIDは不正です。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 共有元ユーザはログインユーザとフレンドか？
+            if Friend.objects.filter(Q(user_from=auth_user_id, user_to=request.data['user_from'], apply=True) | Q(user_to=auth_user_id, user_from=request.data['user_from'], apply=True)):
+                request.data['user_to'] = auth_user_id
+                return self.create(request, *args, **kwargs)
+            else:
+                return Response({"error": "共有相手がフレンドではありません。"},
+                                status.HTTP_401_UNAUTHORIZED)
+        # 共有先ユーザのみ設定されているか？
+        elif not ('user_from' in request.data) and ('user_to' in request.data):
+            # 共有先ユーザとログインユーザが同じか？
+            if (request.data['user_to'] == auth_user_id):
+                return Response({"error": "共有元ユーザが設定されていません。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 設定されたノートが共有先ユーザに作成されていないか？
+            if not Note.objects.filter(id=request.data['note'], user=auth_user_id):
+                return Response({"error": "設定されたノートIDは不正です。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 共有先ユーザはログインユーザとフレンドか？
+            if Friend.objects.filter(Q(user_from=auth_user_id, user_to=request.data['user_to'], apply=True) | Q(user_to=auth_user_id, user_from=request.data['user_to'], apply=True)):
+                request.data['user_from'] = auth_user_id
+                return self.create(request, *args, **kwargs)
+            else:
+                return Response({"error": "共有相手がフレンドではありません。"},
+                                status.HTTP_401_UNAUTHORIZED)
+        # 共有元と共有先の両方のユーザが設定されているか？
+        elif ('user_from' in request.data) and ('user_to' in request.data):
+            # 共有元と共有先のユーザが同じか？
+            if (request.data['user_from'] == request.data['user_to']):
+                return Response({"error": "共有先と共有元が同じです。"},
+                                status.HTTP_400_BAD_REQUEST)
+            # 共有元または共有先にログインユーザが設定されているか？
+            elif ((request.data['user_from'] != auth_user_id) and (request.data['user_to'] != auth_user_id)):
+                return Response({"error": "共有元と共有先のどちらにもログインユーザが設定されていません。"}, status.HTTP_400_BAD_REQUEST)
+            # 共有元ユーザとログインユーザが同じか？
+            if (request.data['user_from'] == auth_user_id):
+                # 設定されたノートが共有元ユーザに作成されていないか？
+                if not Note.objects.filter(id=request.data['note'], user=auth_user_id):
+                    return Response({"error": "設定されたノートIDは不正です。"},
+                                    status.HTTP_400_BAD_REQUEST)
+            else:
+                # 設定されたノートが共有元ユーザに作成されていないか？
+                if not Note.objects.filter(id=request.data['note'], user=request.data['user_from']):
+                    return Response({"error": "設定されたノートIDは不正です。"},
+                                    status.HTTP_400_BAD_REQUEST)
+            # 共有元または共有先ユーザはログインユーザとフレンドか？
+            if Friend.objects.filter(Q(user_from=request.data['user_from'], user_to=request.data['user_to'], apply=True) | Q(user_to=request.data['user_to'], user_from=request.data['user_from'], apply=True)):
+                return self.create(request, *args, **kwargs)
+            else:
+                return Response({"error": "共有相手がフレンドではありません。"},
+                                status.HTTP_401_UNAUTHORIZED)
 
 
-class NoteShareRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """申請中のノート共有一覧を取得するAPIクラス"""
+class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ノート共有申請の一覧を取得するAPIクラス"""
 
     queryset = NoteShare.objects.all()
-    serializer_class = NoteShareSerializer
-
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
-        auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id, apply=False, rejection=False)
+    serializer_class = NoteShareListSerializer
 
     def get(self, request, *args, **kwargs):
-        """申請中のノート共有一覧を取得"""
-        return self.list(request, *args, **kwargs)
+        """ノート共有申請の一覧を取得"""
 
+        validate_json = []
 
-class NoteShareRequestAnswerListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """フレンドからのノート共有申請の一覧を取得するAPIクラス"""
-
-    queryset = NoteShare.objects.all()
-    serializer_class = NoteShareSerializer
-
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_to=auth_user_id, apply=False, rejection=False)
-
-    def get(self, request, *args, **kwargs):
-        """フレンドからのノート共有申請の一覧を取得"""
-        return self.list(request, *args, **kwargs)
+        queryset = NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(
+            user_to=auth_user_id), apply=False, rejection=False)
+        serializer = NoteShareListSerializer(
+            queryset, context={"request": request}, many=True)
+        for i in range(len(serializer.data)):
+            if auth_user_id != serializer.data[i]['user_from']['id']:
+                validate_json.append({
+                    'user_from': serializer.data[i]['user_from']['id'],
+                    'username': serializer.data[i]['user_from']['username'],
+                    'icon_uri': serializer.data[i]['user_from']['icon_uri'],
+                    'tag': serializer.data[i]['user_from']['tag'],
+                    'note': serializer.data[i]['note']['id'],
+                    'image_uri': serializer.data[i]['note']['image_uri'],
+                    'notified': serializer.data[i]['notified'],
+                    'register_at': serializer.data[i]['register_at'],
+                    'apply': serializer.data[i]['apply'],
+                    'rejection': serializer.data[i]['rejection']
+                })
+            else:
+                validate_json.append({
+                    'user_to': serializer.data[i]['user_to']['id'],
+                    'username': serializer.data[i]['user_to']['username'],
+                    'icon_uri': serializer.data[i]['user_to']['icon_uri'],
+                    'tag': serializer.data[i]['user_to']['tag'],
+                    'note': serializer.data[i]['note']['id'],
+                    'image_uri': serializer.data[i]['note']['image_uri'],
+                    'notified': serializer.data[i]['notified'],
+                    'register_at': serializer.data[i]['register_at'],
+                    'apply': serializer.data[i]['apply'],
+                    'rejection': serializer.data[i]['rejection']
+                })
+        return Response(validate_json, status.HTTP_200_OK)
 
 
 class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
-    """ノート共有削除APIクラス"""
+    """ノート共有ステータス更新・削除APIクラス"""
 
     queryset = NoteShare.objects.all()
     serializer_class = NoteShareSerializer
@@ -332,11 +410,20 @@ class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModel
         note_id = self.kwargs['note']
         user_to_id = self.kwargs['user_to']
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id, note=note_id, user_to=user_to_id)
+        queryset = NoteShare.objects.filter(
+            user_from=auth_user_id, note=note_id, user_to=user_to_id, apply=False, rejection=False)
+        if queryset.exists():
+            return queryset
+        else:
+            return NoteShare.objects.none()
 
     def patch(self, request, *args, **kwargs):
         """ノート共有の更新"""
-        return self.partial_update(request, *args, **kwargs)
+
+        if request.data["apply"] == True and request.data["rejection"] == True:
+            return Response({"error": "applyとrejectionの両方が登録されています。"}, status.HTTP_400_BAD_REQUEST)
+        else:
+            return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         """ノート共有削除"""

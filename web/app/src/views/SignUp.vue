@@ -4,21 +4,38 @@
       <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
       <h1>サインアップ</h1>
       <div class="innerwrap">
-        <p>ユーザー名<span v-if="errorUsername"  class="errorSpan">※ユーザー名が入力されていません</span></p>
+        <p>
+          ユーザー名<span v-if="errorUsername" class="errorSpan"
+            >※ユーザー名が入力されていません</span
+          >
+        </p>
         <p>{{ error.username }}</p>
         <input v-model="username" type="text" class="text" />
         <br />
-        <p>メールアドレス<span v-if="errorEmail"  class="errorSpan">※メールアドレスが入力されていません</span></p>
+        <p>
+          メールアドレス<span v-if="errorEmail" class="errorSpan"
+            >※メールアドレスが入力されていません</span
+          >
+        </p>
         <p>{{ error.email }}</p>
         <input v-model="email" type="text" class="text" />
         <br />
-        <p>パスワード
-          <span v-if="errorPassword"  class="errorSpan">※パスワードが入力されていません</span>
-          <span v-if="errorCheck"  class="errorSpan">※確認パスワードと違います</span>
+        <p>
+          パスワード
+          <span v-if="errorPassword" class="errorSpan"
+            >※パスワードが入力されていません</span
+          >
+          <span v-if="errorCheck" class="errorSpan"
+            >※確認パスワードと違います</span
+          >
         </p>
         <input v-model="password" type="password" class="text" />
         <br />
-        <p>確認用パスワード<span v-if="errorCheckpass"  class="errorSpan">※確認用パスワードが入力されていません</span></p>
+        <p>
+          確認用パスワード<span v-if="errorCheckpass" class="errorSpan"
+            >※確認用パスワードが入力されていません</span
+          >
+        </p>
         <p>{{ error.password }}</p>
         <input v-model="checkpass" type="password" class="text" />
         <br />
@@ -26,7 +43,8 @@
           <button @click="SignUp()">新規登録</button>
         </div>
         <div class="signin">
-          <router-link to="/SignIn">サインイン</router-link>
+          <router-link to="/SignIn">サインイン</router-link><br />
+          <router-link to="/">戻る</router-link>
         </div>
       </div>
     </div>
@@ -49,10 +67,9 @@ export default {
       errorUsername: false,
       errorPassword: false,
       errorCheckpass: false,
-      errorEmail: false, 
+      errorEmail: false,
       errorCheck: false,
       error: [],
-
     };
   },
   methods: {
@@ -62,7 +79,12 @@ export default {
       this.errorCheckpass = false;
       this.errorCheck = false;
       this.errorEmail = false;
-      if (this.username == "" || this.password == "" || this.checkpass == "" || this.email == "") {
+      if (
+        this.username == "" ||
+        this.password == "" ||
+        this.checkpass == "" ||
+        this.email == ""
+      ) {
         if (this.username == "") {
           this.errorUsername = true;
         }
@@ -129,10 +151,10 @@ h1 {
   width: 420px;
   height: 40px;
   /* border: solid 2px #ccc6c6; */
-  margin:4px 0 20px;
+  margin: 4px 0 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow:0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 8px 3px #ccc inset;
 }
 .text:focus {
   outline: none;
@@ -157,7 +179,7 @@ button {
   text-align: center;
   border-radius: 5px;
   margin-top: 20px;
-  box-shadow:4px 4px 8px 3px #bbb;
+  box-shadow: 4px 4px 8px 3px #bbb;
 }
 
 button:hover {

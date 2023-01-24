@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex relative">
     <div class="fixedGlobal">
       <GlobalHeader />
     </div>
@@ -7,26 +7,20 @@
       <div class="flex preOverWrap">
         <div class="preWrap">
           <div class="flex innerWrap">
-            <p class="title">{{ data.title }}</p>
-            <template v-if="this.is_public === true">
-              <p class="public" @click="Public(0)">公開</p>
-            </template>
-            <template v-else>
-              <p class="public" @click="Public(1)">非公開</p>
-            </template>
+            <p class="title">{{ title }}</p>
           </div>
           <ul class="flex">
-            <li v-for="word in keywordAry" v-bind:key="word" class="keyword">
+            <li v-for="word in keyword" v-bind:key="word" class="keyword">
               {{ word }}
             </li>
           </ul>
-          <p class="text_uri">{{ data.text_uri }}</p>
+          <p class="text_uri">{{ text_uri }}</p>
         </div>
         <div class="preImg">
-          <img :src="data.image_uri" alt="画像" />
+          <img :src="image_uri" alt="画像" />
         </div>
       </div>
-      <button @click="BtnClick()">この画像をもらう</button>
+      <button @click="GiveImageModal()">この画像をもらう</button>
       <div class="scrWrap">
         <ul class="flex">
           <li
@@ -41,6 +35,17 @@
         </ul>
       </div>
     </div>
+    <div v-if="modalFlag == true" class="absolute modal">
+      <div class="modalContent">
+        <h2>共有申請しますか？</h2>
+        <img :src="image_uri" alt="画像" />
+        <p v-if="error != '' ">{{ error }}</p>
+        <div class="flex button">
+          <button class="cancel" @click="Cancel()">キャンセル</button>
+          <button class="accept" @click="Share()">申請</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,43 +57,32 @@ export default {
   name: "ImageView",
   data() {
     return {
+      id: localStorage.getItem("friendNoteId"),
+      keyword: localStorage.getItem("friendNoteKeyword").split(","),
+      title: localStorage.getItem("friendNoteTitle"),
+      image_uri: IMG_URL + localStorage.getItem("friendNoteImage"),
+      user: localStorage.getItem("friendNoteUser"),
+      text_uri: localStorage.getItem("friendNoteText"),
       data: [],
       scrollData: [],
       keywordAry: "",
       is_public: null,
+      modalFlag: false,
+      error: "",
     };
   },
   components: {
     GlobalHeader,
   },
   methods: {
-    ImageData: async function () {
-      const noteId = localStorage.getItem("noteId");
-      const token = this.$cookies.get("access");
-      await axios
-        .get(API_SERVER + "/api/v1/brains/" + noteId + "/", {
-          headers: { Authorization: "JWT " + token },
-        })
-        .then((response) => {
-          this.data = response.data;
-          this.data.image_uri = IMG_URL + this.data.image_uri;
-          this.keywordAry = this.data.keyword.split(",");
-          this.is_public = this.data.is_public;
-          //console.log(this.data);
-          console.log("成功");
-          return;
-        })
-        .catch((e) => {
-          console.log(e);
-          // this.$router.push({ name: "myPage" });
-          return;
-        });
+    GiveImageModal: async function () {
+      this.modalFlag = true;
     },
     ScrollData: async function () {
+      const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
-      // .get(API_SERVER + "/api/v1/brains/" + id, {
       await axios
-        .get(API_SERVER + "/api/v1/brains/", {
+        .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {
@@ -135,10 +129,28 @@ export default {
           return;
         });
     },
-    BtnClick() {
-      localStorage.setItem("DropImage",this.data.image_uri);
-      this.$router.push("/ShareDrop");
-      return;
+    Cancel() {
+      this.modalFlag = !this.modalFlag;
+    },
+    //申請
+    Share() {
+      const requestBody = {
+        user_from: parseInt(this.user),
+        note: parseInt(this.id)
+      };
+      console.log(requestBody);
+      const token = this.$cookies.get("access");
+      axios
+        .post(API_SERVER + "/api/v1/brains/share/", requestBody, {
+          headers: { Authorization: "JWT " + token },})
+        .then(() => {
+          console.log("成功");
+          this.modalFlag = !this.modalFlag;
+          return;
+        })
+        .catch((response) => {
+          this.error = response.response.data.error;
+        });
     },
   },
   created() {
@@ -146,7 +158,7 @@ export default {
       this.$router.push("/SignIn");
       return;
     }
-    this.ImageData();
+    // this.ImageData();
     this.ScrollData();
   },
 };
@@ -209,6 +221,13 @@ export default {
   width: 900px;
   overflow-x: scroll;
 }
+button {
+  margin-top: 40px;
+  color: #fff;
+  background: #F88CDF;
+  padding: 10px 26px;
+  border-radius: 10px;
+}
 .scrImg {
   position: relative;
   width: 120px;
@@ -239,11 +258,64 @@ export default {
   transition: 0.6s;
 }
 
-button {
-  margin-top: 40px;
+.modal {
+  background: rgba(255, 255, 255, 0.4);
+  width: calc(100% - 170px);
+  height: 100vh;
+  left: 170px;
+}
+
+.modalContent {
+  width: 420px;
+  height: 500px;
+  background: #fff;
+  filter: drop-shadow(0px 0px 20px #aaa);
+  margin: 60px auto 0;
+  border-radius: 20px;
+  padding-top: 40px;
+}
+.modalContent h2 {
+  font-size: 24px;
+  font-weight: bolder;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #666;
+}
+.modalContent img {
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+.button {
+  width: 340px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.modalContent button {
+  float: right;
   color: #fff;
-  background: #F88CDF;
-  padding: 10px 26px;
-  border-radius: 10px;
+  width: 160px;
+  height: 54px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px 3px #bbb;
+}
+.cancel {
+  background: #818181;
+}
+
+.accept {
+  background: #6d8dff;
+}
+.modalContent .accept:hover {
+  background: #7b98ff;
+}
+
+.modalContent p {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
 }
 </style>

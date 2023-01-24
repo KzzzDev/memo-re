@@ -14,7 +14,8 @@
     "vue": "^3.2.13",
     "vue-cookies": "^1.8.2",
     "vue-element-loading": "^3.0.1",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
