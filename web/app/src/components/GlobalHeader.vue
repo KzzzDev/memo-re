@@ -58,6 +58,7 @@
           <button @click="NoticeButton(0)">友達申請</button>
           <button @click="NoticeButton(1)">共有申請</button>
         </div>
+        <!-- 友達申請 -->
         <template v-if="reqFlag == true">
           <div v-for="data in searchReqData" v-bind:key="data">
             <div
@@ -71,6 +72,7 @@
             </div>
           </div>
         </template>
+        <!-- 共有申請 -->
         <template v-else>
           <div v-for="data in noteReqData" v-bind:key="data">
             <div
@@ -132,6 +134,7 @@ export default {
           console.log(e);
           return;
         });
+      //友達申請一覧
       await axios
         .get(API_SERVER + "/api/v1/friends/apply/", {
           headers: { Authorization: "JWT " + token },
@@ -145,9 +148,9 @@ export default {
           console.log(e);
           return;
         });
-
+      //ノート申請一覧
       await axios
-        .get(API_SERVER + "/api/v1/brains/share/request/answer/", {
+        .get(API_SERVER + "/api/v1/brains/share/request/answer", {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {

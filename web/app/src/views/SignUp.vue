@@ -2,7 +2,7 @@
   <div class="overWrap">
     <div class="wrap">
       <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
-      <h1>サインアップ</h1>
+      <h1>新規登録</h1>
       <div class="innerwrap">
         <p>
           ユーザー名<span v-if="errorUsername" class="errorSpan"
