@@ -2,7 +2,7 @@
   <div class="overWrap">
     <div class="wrap">
       <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div>
-      <h1>サインイン</h1>
+      <h1>ログイン</h1>
       <div class="innerwrap">
         <p>
           メールアドレス<span v-if="errorMail" class="errorSpan"

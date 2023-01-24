@@ -27,7 +27,7 @@
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id)"
+            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public)"
           >
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
             <p class="opacity">{{ img.title }}</p>
@@ -99,10 +99,14 @@ export default {
       const img = IMG_URL + img_uri;
       return img;
     },
-    ImageView(noteId) {
+    ImageView(noteId,title,keyword,img_uri, text_uri, is_public) {
       //console.log("click");
       localStorage.setItem("noteId", noteId);
-      this.$router.go({ path: this.$router.currentRoute.path, force: true });
+      this.title = title;
+      this.keyword = keyword.split(",");
+      this.img_uri = img_uri;
+      this.text_uri = text_uri;
+      this.is_public = is_public;
     },
     Public: async function (flag) {
       if (flag === 0) {
