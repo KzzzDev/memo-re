@@ -10,7 +10,7 @@ from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
-from accounts.serializers import CustomUserSerializer
+from .serializers import NoteShareListSerializer
 from accounts.serializers import CustomUserSearchSerializer
 from accounts.models import CustomUser
 from django.db.models import Q
@@ -76,8 +76,8 @@ class FriendListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         auth_user_id = self.request.user.id
         queryset = Friend.objects.filter(
             Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
-        serializer = FriendListSerializer(queryset, context={"request":
-                                                             request}, many=True)
+        serializer = FriendListSerializer(
+            queryset, context={"request":                                                  request}, many=True)
         for i in range(len(serializer.data)):
             if auth_user_id != serializer.data[i]['user_from']['id']:
                 validate_json.append(serializer.data[i]['user_from'])
@@ -350,40 +350,50 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
                                 status.HTTP_401_UNAUTHORIZED)
 
 
-class NoteShareRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """申請中のノート共有一覧を取得するAPIクラス"""
+class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """ノート共有申請の一覧を取得するAPIクラス"""
 
     queryset = NoteShare.objects.all()
-    serializer_class = NoteShareSerializer
-
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
-        auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_from=auth_user_id, apply=False, rejection=False)
+    serializer_class = NoteShareListSerializer
 
     def get(self, request, *args, **kwargs):
-        """申請中のノート共有一覧を取得"""
-        return self.list(request, *args, **kwargs)
+        """ノート共有申請の一覧を取得"""
 
+        validate_json = []
 
-class NoteShareRequestAnswerListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    """フレンドからのノート共有申請の一覧を取得するAPIクラス"""
-
-    queryset = NoteShare.objects.all()
-    serializer_class = NoteShareSerializer
-
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
         auth_user_id = self.request.user.id
-        return NoteShare.objects.filter(user_to=auth_user_id, apply=False, rejection=False)
-
-    def get(self, request, *args, **kwargs):
-        """フレンドからのノート共有申請の一覧を取得"""
-        return self.list(request, *args, **kwargs)
+        queryset = NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(
+            user_to=auth_user_id), apply=False, rejection=False)
+        serializer = NoteShareListSerializer(
+            queryset, context={"request": request}, many=True)
+        for i in range(len(serializer.data)):
+            if auth_user_id != serializer.data[i]['user_from']['id']:
+                validate_json.append({
+                    'user_from': serializer.data[i]['user_from']['id'],
+                    'username': serializer.data[i]['user_from']['username'],
+                    'icon_uri': serializer.data[i]['user_from']['icon_uri'],
+                    'tag': serializer.data[i]['user_from']['tag'],
+                    'note': serializer.data[i]['note']['id'],
+                    'image_uri': serializer.data[i]['note']['image_uri'],
+                    'notified': serializer.data[i]['notified'],
+                    'register_at': serializer.data[i]['register_at'],
+                    'apply': serializer.data[i]['apply'],
+                    'rejection': serializer.data[i]['rejection']
+                })
+            else:
+                validate_json.append({
+                    'user_to': serializer.data[i]['user_to']['id'],
+                    'username': serializer.data[i]['user_to']['username'],
+                    'icon_uri': serializer.data[i]['user_to']['icon_uri'],
+                    'tag': serializer.data[i]['user_to']['tag'],
+                    'note': serializer.data[i]['note']['id'],
+                    'image_uri': serializer.data[i]['note']['image_uri'],
+                    'notified': serializer.data[i]['notified'],
+                    'register_at': serializer.data[i]['register_at'],
+                    'apply': serializer.data[i]['apply'],
+                    'rejection': serializer.data[i]['rejection']
+                })
+        return Response(validate_json, status.HTTP_200_OK)
 
 
 class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
