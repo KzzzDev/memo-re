@@ -6,20 +6,22 @@
     <div class="wrap">
       <h1>記憶を画像にしよう</h1>
       <div class="innerWrap">
-        <p>題名</p>
-        <p v-if="error">入力されていません</p>
+        <p class="title">題名</p>
+        <p class="error" v-if="titleError">※題名を入力してください</p>
         <input v-model="title" type="text" class="text" maxlength="40" />
         <br />
-        <p>キーワード ※複数入力の場合は間に,をつけてください。</p>
+        <p class="title">キーワード <span class="space">※複数入力の場合は間に,または、をつけてください。</span></p>
+        <p class="error" v-if="keyError">※キーワードが入力されていません</p>
         <input
           v-model="keyword"
           type="text"
           class="text"
           maxlength="100"
-          placeholder="aaa,bbb,ccc,ddd"
+          placeholder="aaa,bbb、ccc,ddd"
         />
         <br />
-        <p>説明</p>
+        <p class="title">説明</p>
+        <p class="error" v-if="textError">※説明が入力されていません</p>
         <textarea
           v-model="text_uri"
           maxlength="200"
@@ -66,7 +68,10 @@ export default {
       keyword: "",
       text_uri: "",
       image_uri: "test.png",
-      error: false,
+      titleError: false,
+      keyError: false,
+      textError: false,
+      keywordAry: [],
     };
   },
   name: "CreateImage",
@@ -77,15 +82,27 @@ export default {
   methods: {
     ImageRequest: async function () {
       //入力確認
-      this.error = false;
+      this.titleError = false;
+      this.keyError = false;
+      this.textError = false;
       if (this.title == "" || this.keyword == "" || this.text_uri == "") {
-        this.error = true;
+        if (this.title == "") {
+          this.titleError = true;
+        }
+        if (this.keyword == "") {
+          this.keyError = true;
+        }
+        if (this.text_uri == "") {
+          this.textError = true;
+        }
         return;
       }
       //API処理
       //これは残す
       this.loadFlag = true;
       console.log(this.loadFlag);
+      this.keywordAry = this.keyword.split("、");
+      this.keyword = this.keywordAry.join(",");
       const requestBody = {
         user_id: this.user,
         keyword: this.keyword,
@@ -155,8 +172,8 @@ h1 {
   margin: 0 auto;
 }
 
-.innerWrap p {
-  margin-bottom: 10px;
+.title {
+  /* margin-bottom: 10px; */
   color: #000;
 }
 
@@ -164,6 +181,7 @@ h1 {
   width: 420px;
   height: 40px;
   /* border: solid 2px #ccc6c6; */
+  margin-top: 6px;
   margin-bottom: 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
@@ -179,6 +197,7 @@ h1 {
   height: 180px;
   /* border: solid 2px #ccc6c6; */
   border-radius: 14px;
+  margin-top: 6px;
   margin-bottom: 20px;
   padding: 14px 10px 6px 10px;
   box-shadow: 0px 0px 8px 3px #ccc inset;
@@ -233,5 +252,14 @@ button:hover {
 
 .loadingContent div {
   margin-top: 30px;
+}
+.error {
+  font-size: 12px;
+  color: #f00;
+  /* margin-left: 10px; */
+}
+
+.space {
+  font-size: 12px;
 }
 </style>

@@ -111,7 +111,7 @@ export default {
       localStorage.setItem("noteId", noteId);
       this.data.title = title;
       this.keywordAry = keyword.split(",");
-      this.data.img_uri = img_uri;
+      this.data.img_uri = IMG_URL + img_uri;
       this.data.text_uri = text_uri;
       this.is_public = is_public;
       // this.$router.go({ path: this.$router.currentRoute.path, force: true });
