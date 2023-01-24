@@ -7,13 +7,13 @@
         /></router-link>
         <!-- <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div> -->
         <ul>
-          <li><router-link to="/MyPage">Profile</router-link></li>
-          <li><router-link to="/CreateImage">Create</router-link></li>
-          <li @click="GlobalSide(0)" class="pointer">Friend</li>
-          <li @click="GlobalSide(1)" class="pointer">Search</li>
-          <li @click="GlobalSide(2)" class="pointer">Notice</li>
+          <li><router-link to="/MyPage">マイページ</router-link></li>
+          <li><router-link to="/CreateImage">ノート作成</router-link></li><br>
+          <li @click="GlobalSide(0)" class="pointer">フレンド</li>
+          <li @click="GlobalSide(1)" class="pointer">検索</li>
+          <li @click="GlobalSide(2)" class="pointer">通知</li>
         </ul>
-        <p class="logout pointer" @click="Logout()">Logout</p>
+        <p class="logout pointer" @click="Logout()">ログアウト</p>
       </div>
       <!-- フレンド -->
       <div class="side" v-if="sideFriend">
@@ -39,6 +39,7 @@
           <button @click="Search()">検索</button>
         </div>
         <hr />
+        <p v-if="arrayFlag" style="text-align:center;margin-top:6px;">見つかりませんでした</p>
         <div v-for="data in searchData" v-bind:key="data">
           <div
             class="flex gl-friendWrap"
@@ -109,6 +110,7 @@ export default {
       searchReqData: [],
       noteReqData: [],
       reqFlag: true,
+      arrayFlag: false,
     };
   },
   computed: {},
@@ -196,7 +198,9 @@ export default {
       this.$router.push("/SignIn");
       return;
     },
+    //検索
     Search: async function() {
+      this.arrayFlag = false;
       const token = this.$cookies.get("access");
       await axios
         .get(API_SERVER + "/api/v1/search/?get=" + this.searchText, {
@@ -205,6 +209,9 @@ export default {
         .then((response) => {
           this.searchData = response.data;
           console.log(this.searchData);
+          if (this.searchData.length == 0) {
+            this.arrayFlag = true;
+          }
           return;
         })
         .catch((e) => {
@@ -245,7 +252,7 @@ export default {
 }
 .gl-global ul {
   margin-top: 80px;
-  margin-left: 56px;
+  margin-left: 40px;
 }
 .gl-global li {
   width: fit-content;
@@ -263,7 +270,7 @@ img {
 .gl-global p {
   position: absolute;
   bottom: 100px;
-  left: 56px;
+  left: 40px;
 }
 .side {
   position: absolute;
