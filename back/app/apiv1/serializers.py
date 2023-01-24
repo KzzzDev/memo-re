@@ -35,6 +35,19 @@ class FriendSerializer(serializers.ModelSerializer):
         read_only_fields = ('register_at',)
 
 
+class FriendRequestSerializer(serializers.ModelSerializer):
+    """フレンド申請一覧用のシリアライザ"""
+
+    user_from = CustomUserSerializer(many=False, read_only=True)
+    user_to = CustomUserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Friend
+        fields = ('user_from', 'user_to', 'notified',
+                  'apply', 'rejection', 'register_at',)
+        read_only_fields = ('user_from', 'user_to', 'register_at',)
+
+
 class NoteSerializer(serializers.ModelSerializer):
     """ノートモデル用のシリアライザ"""
 
