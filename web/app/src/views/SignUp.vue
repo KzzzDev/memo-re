@@ -43,7 +43,7 @@
           <button @click="SignUp()">新規登録</button>
         </div>
         <div class="signin">
-          <router-link to="/SignIn">ログイン</router-link><br />
+          <p class="space"><router-link to="/SignIn">ログイン</router-link></p>
           <router-link to="/">戻る</router-link>
         </div>
       </div>
@@ -194,5 +194,8 @@ button:hover {
   font-size: 12px;
   color: #f00;
   margin-left: 10px;
+}
+.space {
+  margin-bottom: 10px;
 }
 </style>
