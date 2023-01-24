@@ -19,6 +19,8 @@ urlpatterns = [
     path('brains/friends/<int:id>/', views.NoteListFriendAPIView.as_view()),
     path('brains/share/<int:note>/<int:user_to>/',
          views.NoteShareUpdateDestroyAPIView.as_view()),
+    path('brains/share/request/answer/',
+         views.NoteShareToRequestListAPIView.as_view()),
     path('brains/share/request/',
          views.NoteShareAllRequestListAPIView.as_view()),
     path('brains/share/',
