@@ -10,7 +10,7 @@
           >
         </p>
         <p>{{ error.username }}</p>
-        <input v-model="username" type="text" class="text" />
+        <input v-model="username" type="text" class="text" placeholder="HAL太郎" />
         <br />
         <p>
           メールアドレス<span v-if="errorEmail" class="errorSpan"
@@ -18,7 +18,7 @@
           >
         </p>
         <p>{{ error.email }}</p>
-        <input v-model="email" type="text" class="text" />
+        <input v-model="email" type="text" class="text"  placeholder="xxx@xxx.xxx" />
         <br />
         <p>
           パスワード
@@ -29,7 +29,7 @@
             >※確認パスワードと違います</span
           >
         </p>
-        <input v-model="password" type="password" class="text" />
+        <input v-model="password" type="password" class="text" placeholder="8文字以上の半角英数記号" />
         <br />
         <p>
           確認用パスワード<span v-if="errorCheckpass" class="errorSpan"
