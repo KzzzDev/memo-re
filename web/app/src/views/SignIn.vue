@@ -21,7 +21,7 @@
         <input v-model="password" type="password" class="text" />
         <br />
         <div class="button">
-          <button @click="SignIn()">サインイン</button>
+          <button @click="SignIn()">ログイン</button>
         </div>
         <div class="signup">
           <router-link to="/SignUp">新規登録</router-link><br />
