@@ -11,7 +11,7 @@
         <div class="section1">
           <div class="section1-wrap">
             <h1 class="main-h1">消えない記憶を未来へ</h1>
-            <img src="/media/images/logo.png" alt="logo" class="logo" />
+            <img src="/img/logo.png" alt="logo" class="logo" />
           </div>
         </div>
       </div>
@@ -26,23 +26,23 @@
         <div class="section2-person">
           <div class="person-wrap">
             <p>旅行の記憶を共有したい</p>
-            <img src="/media/images/woman.png" alt="" />
+            <img src="/img/woman.png" alt="" />
           </div>
           <div class="arrow-img">
-            <img src="/media/images/arrow-p.png" alt="" />
-            <img src="/media/images/arrow-b.png" alt="" />
+            <img src="/img/arrow-p.png" alt="" />
+            <img src="/img/arrow-b.png" alt="" />
           </div>
           <div class="person-wrap">
             <p>学校での日々を共有したい！</p>
-            <img src="/media/images/man.png" alt="" />
+            <img src="/img/man.png" alt="" />
           </div>
           <div class="arrow-img">
-            <img src="/media/images/arrow-b2.png" alt="" />
-            <img src="/media/images/arrow-y.png" alt="" />
+            <img src="/img/arrow-b2.png" alt="" />
+            <img src="/img/arrow-y.png" alt="" />
           </div>
           <div class="person-wrap">
             <p>昔の自慢話を共有したい！</p>
-            <img src="/media/images/papa.png" alt="" />
+            <img src="/img/papa.png" alt="" />
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
       <div class="section3">
         <h1>memo:Reで出来ること</h1>
         <div class="content-wrap">
-          <img src="/media/images/sc-1.png" alt="" />
+          <img src="/img/sc-1.png" alt="" />
           <div class="content-text">
             <h1>記憶の保存</h1>
             <p>
@@ -73,10 +73,10 @@
               ていきましょう！
             </p>
           </div>
-          <img src="/media/images/sc-2.png" alt="" />
+          <img src="/img/sc-2.png" alt="" />
         </div>
         <div class="content-wrap">
-          <img src="/media/images/sc-3.png" alt="" />
+          <img src="/img/sc-3.png" alt="" />
           <div class="content-text">
             <h1>記憶の一覧表示</h1>
             <p>
@@ -99,10 +99,10 @@
           <div class="content-text2">
             <p>楽しい旅の記憶を</p>
           </div>
-          <img src="/media/images/ai1.png" alt="" />
+          <img src="/img/ai1.png" alt="" />
         </div>
         <div class="content4-wrap">
-          <img src="/media/images/ai2.png" alt="" />
+          <img src="/img/ai2.png" alt="" />
           <div class="content-text">
             <p>幻想的な夢の記憶を</p>
           </div>
@@ -111,10 +111,10 @@
           <div class="content-text2">
             <p>感動の体験を</p>
           </div>
-          <img src="/media/images/ai3.png" alt="" />
+          <img src="/img/ai3.png" alt="" />
         </div>
         <div class="content4-wrap">
-          <img src="/media/images/ai4.png" alt="" />
+          <img src="/img/ai4.png" alt="" />
           <div class="content-text">
             <p>夢で見た記憶だって作れる</p>
           </div>
@@ -127,7 +127,7 @@
           使ってみましょう！
         </h1>
         <div class="section5-wrap">
-          <img src="/media/images/logo.png" alt="logo" />
+          <img src="/img/logo.png" alt="logo" />
           <div class="btn-wrap">
             <p class="new-btn">
               <router-link to="/SignUp">新規登録</router-link>
