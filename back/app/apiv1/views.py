@@ -184,6 +184,23 @@ class FriendDeleteAPIView(mixins.DestroyModelMixin, generics.GenericAPIView):
         return self.destroy(request, *args, **kwargs)
 
 
+class FriendCheckAPIView(mixins.DestroyModelMixin, generics.GenericAPIView):
+    """フレンドチェックAPIクラス"""
+
+    serializer_class = FriendSerializer
+    queryset = Friend.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        """フレンドチェック"""
+        auth_user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
+        if Friend.objects.filter(Q(user_from=auth_user_id, user_to=user_id, apply=True, rejection=False) | Q(user_from=user_id, user_to=auth_user_id, apply=True, rejection=False)):
+            return Response({"friend": "このユーザはフレンドです。"}, status.HTTP_200_OK)
+        else:
+            return Response({"others": "このユーザはフレンドではありません。"},
+                            status.HTTP_404_NOT_FOUND)
+
+
 class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIView):
     """ユーザのフレンド申請承認APIクラス"""
 
