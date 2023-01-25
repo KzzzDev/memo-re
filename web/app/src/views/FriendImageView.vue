@@ -229,7 +229,7 @@ export default {
 }
 .scrWrap ul {
   width: 900px;
-  overflow-x: scroll;
+  flex-wrap: wrap;
 }
 button {
   margin-top: 40px;
@@ -240,21 +240,21 @@ button {
 }
 .scrImg {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin-right: 30px;
+  width: 150px;
+  height: 150px;
+  margin: 15px;
   cursor: pointer;
 }
 .scrImg img {
-  width: 120px;
+  width: 150px;
 }
 
 .scrImg p {
   font-size: 12px;
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   text-align: center;
-  line-height: 120px;
+  line-height: 150px;
   font-weight: bold;
   color: #fff;
   background: rgba(0, 0, 0, 0.4);
