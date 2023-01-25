@@ -10,7 +10,7 @@
           >
         </p>
         <p>{{ error.username }}</p>
-        <input v-model="username" type="text" class="text" placeholder="HAL太郎" />
+        <input v-model="username" type="text" class="text" placeholder="HAL太郎" maxlength="40"/>
         <br />
         <p>
           メールアドレス<span v-if="errorEmail" class="errorSpan"

@@ -18,7 +18,10 @@
       </div>
       <!-- フレンド -->
       <div class="side" v-if="sideFriend">
-        <h3>フレンドリスト</h3>
+        <div class="flex sideTitle">
+          <h3>フレンドリスト</h3>
+          <p class="closeSide pointer" @click="GlobalSide(0)">×</p>
+        </div>
         <hr />
         <div v-for="data in glData" v-bind:key="data">
           <div
@@ -28,12 +31,15 @@
             <div class="gl-friendImg">
               <img :src="data.icon_uri" alt="フレンドアイコン" />
             </div>
-            <p>{{ data.username }}</p>
+            <p class="overflow">{{ data.username }}</p>
           </div>
         </div>
       </div>
       <div class="side gl-search" v-if="sideSearch">
-        <h3>ユーザー検索</h3>
+        <div class="flex sideTitle">
+          <h3>ユーザー検索</h3>
+          <p class="closeSide pointer" @click="GlobalSide(1)">×</p>
+        </div>
         <hr />
         <div class="flex wrap">
           <input v-model="searchText" type="text" class="text" @keypress.enter="Search()">
@@ -49,12 +55,15 @@
             <div class="gl-friendImg">
               <img :src="data.icon_uri" alt="フレンドアイコン" />
             </div>
-            <p>{{ data.username }}</p>
+            <p class="overflow">{{ data.username }}</p>
           </div>
         </div>
       </div>
       <div class="side" v-if="sideNotice">
-        <h3>通知BOX</h3>
+        <div class="flex sideTitle">
+          <h3>通知BOX</h3>
+          <p class="closeSide pointer" @click="GlobalSide(2)">×</p>
+        </div>
         <hr />
         <div class="flex gl-noticeButton">
           <button @click="NoticeButton(0)">友達申請</button>
@@ -410,9 +419,18 @@ hr {
 }
 
 /* フレンド */
-h3 {
+.sideTitle {
+  justify-content: space-between;
+}
+h3{
   font-weight: bolder;
   margin: 20px 0 20px 16px;
+  color: #515058;
+}
+.closeSide{
+  font-size: 30px;
+  font-weight: bold;
+  margin: 10px 10px 0 16px;
   color: #515058;
 }
 .gl-friendWrap,.gl-noticeWrap {
@@ -568,5 +586,12 @@ h2 {
 .close {
   margin-top: 40px;
   text-align: center;
+}
+
+.overflow {
+  width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

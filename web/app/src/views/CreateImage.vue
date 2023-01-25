@@ -103,38 +103,38 @@ export default {
       // console.log(this.loadFlag);
       this.keywordAry = this.keyword.split("、");
       this.keyword = this.keywordAry.join(",");
-      // const requestBody = {
-      //   user_id: this.user,
-      //   keyword: this.keyword,
-      // };
-      // await axios
-      //   .post(AI_SERVER + "/ai/debug", requestBody)
-      //   .then((response) => {
-      //     //ローカル時コメントアウト
-      //     this.image_uri = response.data.img_file;
+      const requestBody = {
+        user_id: this.user,
+        keyword: this.keyword,
+      };
+      await axios
+        .post(AI_SERVER + "/ai/debug", requestBody)
+        .then((response) => {
+          //ローカル時コメントアウト
+          this.image_uri = response.data.img_file;
 
-      //     // ローカルストレージ
-      //     localStorage.setItem("title", this.title);
-      //     localStorage.setItem("keyword", this.keyword);
-      //     localStorage.setItem("text_uri", this.text_uri);
-      //     localStorage.setItem("image_uri", this.image_uri);
-      //     //画面遷移
-      //     this.loadFlag = false;
-      //     this.$router.push("/PreviewImage");
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //     console.log("失敗");
-      //   });
+          // ローカルストレージ
+          localStorage.setItem("title", this.title);
+          localStorage.setItem("keyword", this.keyword);
+          localStorage.setItem("text_uri", this.text_uri);
+          localStorage.setItem("image_uri", this.image_uri);
+          //画面遷移
+          this.loadFlag = false;
+          this.$router.push("/PreviewImage");
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("失敗");
+        });
       //test
       //ローカルストレージ
-      localStorage.setItem("title", this.title);
-      localStorage.setItem("keyword", this.keyword);
-      localStorage.setItem("text_uri", this.text_uri);
-      localStorage.setItem("image_uri", this.image_uri);
-      console.log(this.keyword);
-      //画面遷移
-      this.$router.push("/PreviewImage");
+      // localStorage.setItem("title", this.title);
+      // localStorage.setItem("keyword", this.keyword);
+      // localStorage.setItem("text_uri", this.text_uri);
+      // localStorage.setItem("image_uri", this.image_uri);
+      // console.log(this.keyword);
+      // //画面遷移
+      // this.$router.push("/PreviewImage");
       //test end
 
       this.loadFlag = false;
@@ -157,8 +157,9 @@ h1 {
   font-weight: bolder;
 }
 .wrap {
-  width: 510px;
-  height: 610px;
+  /* width: 510px; */
+  width: 810px;
+  height: 650px;
   margin: 100px auto 0;
   /* border: solid 2px #ccc6c6; */
   border-radius: 26px;
@@ -168,7 +169,8 @@ h1 {
 }
 
 .innerWrap {
-  width: 420px;
+  /* width: 420px; */
+  width: 720px;
   margin: 0 auto;
 }
 
@@ -178,7 +180,8 @@ h1 {
 }
 
 .text {
-  width: 420px;
+  /* width: 420px; */
+  width: 720px;
   height: 40px;
   /* border: solid 2px #ccc6c6; */
   margin-top: 6px;
@@ -193,7 +196,8 @@ h1 {
 
 .textarea {
   resize: none;
-  width: 420px;
+  /* width: 420px; */
+  width: 720px;
   height: 180px;
   /* border: solid 2px #ccc6c6; */
   border-radius: 14px;
@@ -221,8 +225,9 @@ button:hover {
 }
 
 .loadingWrap {
-  width: 510px;
-  height: 610px;
+  /* width: 510px; */
+  width: 810px;
+  height: 650px;
   margin: 0 auto;
   position: absolute;
   top: 0;
