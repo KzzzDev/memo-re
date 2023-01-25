@@ -78,8 +78,8 @@ class NoteListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('id', 'image_uri',)
-        read_only_fields = ('id', 'image_uri',)
+        fields = ('id', 'user_id', 'image_uri',)
+        read_only_fields = ('id', 'user_id', 'image_uri',)
 
 
 class NoteEditSerializer(serializers.ModelSerializer):
@@ -111,6 +111,6 @@ class NoteShareListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NoteShare
-        fields = ('user_from', 'user_to', 'note', 'notified',
+        fields = ('user_from', 'user_to', 'note', 'get', 'notified',
                   'apply', 'rejection', 'register_at',)
         read_only_fields = ('note', 'user_from', 'user_to', 'register_at',)
