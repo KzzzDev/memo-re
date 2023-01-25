@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+  web:
+    container_name: nginx
+    build:
+      context: ./web
+      dockerfile: ./Dockerfile
+      args:
+        - VITE_API_SERVER=${VITE_API_SERVER}
+        - VITE_TOKEN_KEY=${VITE_TOKEN_KEY}
+    env_file: .env
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./web/conf:/etc/nginx/conf.d
+      - ./web/logs/nginx/:/var/log/nginx
+      - ./web/uwsgi_params:/etc/nginx/uwsgi_params
+      - templates_volume:/usr/share/nginx/html
+      - static_volume:/usr/share/nginx/html/static
+      - images_volume:/usr/share/nginx/html/images
+      - media_volume:/usr/share/nginx/html/media
+    networks:
+      - django_net
+    depends_on:
+      - back
+
+  back:
+    container_name: django
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+    env_file: .env
+    command: 'sh start.sh'
+    restart: always
+    volumes:
+      - ./back:/usr/src/app
+      - templates_volume:/usr/src/app/app/templates
+      - static_volume:/usr/src/app/app/static
+      - images_volume:/usr/src/app/app/images
+      - media_volume:/usr/src/app/app/media
+    expose:
+      - "8001"
+    networks:
+      - django_net
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: mysql
+    build:
+      context: ./db
+      dockerfile: ./Dockerfile
+      args:
+        - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+        - MYSQL_USER_NAME=${MYSQL_USER_NAME}
+        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      retries: 60
+      interval: "1s"
+    networks:
+      - django_net
+    volumes:
+      - db_volume:/var/lib/mysql
+
+networks:
+  django_net:
+    driver: bridge
+
+volumes:
+  django_statics:
+    driver: local
+  templates_volume:
+  static_volume:
+  images_volume:
+  media_volume:
+  db_volume:
