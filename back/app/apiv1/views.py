@@ -359,6 +359,7 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
             # 共有元ユーザはログインユーザとフレンドか？
             if Friend.objects.filter(Q(user_from=auth_user_id, user_to=request.data['user_from'], apply=True) | Q(user_to=auth_user_id, user_from=request.data['user_from'], apply=True)):
                 request.data['user_to'] = auth_user_id
+                request.data['get'] = True
                 return self.create(request, *args, **kwargs)
             else:
                 return Response({"error": "共有相手がフレンドではありません。"},
@@ -376,6 +377,7 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
             # 共有先ユーザはログインユーザとフレンドか？
             if Friend.objects.filter(Q(user_from=auth_user_id, user_to=request.data['user_to'], apply=True) | Q(user_to=auth_user_id, user_from=request.data['user_to'], apply=True)):
                 request.data['user_from'] = auth_user_id
+                request.data['get'] = False
                 return self.create(request, *args, **kwargs)
             else:
                 return Response({"error": "共有相手がフレンドではありません。"},
@@ -395,17 +397,22 @@ class NoteShareListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin,
                 if not Note.objects.filter(id=request.data['note'], user=auth_user_id):
                     return Response({"error": "設定されたノートIDは不正です。"},
                                     status.HTTP_400_BAD_REQUEST)
+                # 共有元または共有先ユーザはログインユーザとフレンドか？
+                if Friend.objects.filter(Q(user_from=request.data['user_from'], user_to=request.data['user_to'], apply=True) | Q(user_to=request.data['user_to'], user_from=request.data['user_from'], apply=True)):
+                    request.data['get'] = False
+                    return self.create(request, *args, **kwargs)
             else:
                 # 設定されたノートが共有元ユーザに作成されていないか？
                 if not Note.objects.filter(id=request.data['note'], user=request.data['user_from']):
                     return Response({"error": "設定されたノートIDは不正です。"},
                                     status.HTTP_400_BAD_REQUEST)
-            # 共有元または共有先ユーザはログインユーザとフレンドか？
-            if Friend.objects.filter(Q(user_from=request.data['user_from'], user_to=request.data['user_to'], apply=True) | Q(user_to=request.data['user_to'], user_from=request.data['user_from'], apply=True)):
-                return self.create(request, *args, **kwargs)
-            else:
-                return Response({"error": "共有相手がフレンドではありません。"},
-                                status.HTTP_401_UNAUTHORIZED)
+                # 共有元または共有先ユーザはログインユーザとフレンドか？
+                if Friend.objects.filter(Q(user_from=request.data['user_from'], user_to=request.data['user_to'], apply=True) | Q(user_to=request.data['user_to'], user_from=request.data['user_from'], apply=True)):
+                    request.data['get'] = True
+                    return self.create(request, *args, **kwargs)
+                else:
+                    return Response({"error": "共有相手がフレンドではありません。"},
+                                    status.HTTP_401_UNAUTHORIZED)
 
 
 class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
@@ -432,9 +439,11 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
                     'icon_uri': serializer.data[i]['user_from']['icon_uri'],
                     'tag': serializer.data[i]['user_from']['tag'],
                     'note': serializer.data[i]['note']['id'],
+                    'owner_id': serializer.data[i]['note']['user_id'],
                     'image_uri': serializer.data[i]['note']['image_uri'],
                     'notified': serializer.data[i]['notified'],
                     'register_at': serializer.data[i]['register_at'],
+                    'get': serializer.data[i]['get'],
                     'apply': serializer.data[i]['apply'],
                     'rejection': serializer.data[i]['rejection']
                 })
@@ -445,9 +454,11 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
                     'icon_uri': serializer.data[i]['user_to']['icon_uri'],
                     'tag': serializer.data[i]['user_to']['tag'],
                     'note': serializer.data[i]['note']['id'],
+                    'owner_id': serializer.data[i]['note']['user_id'],
                     'image_uri': serializer.data[i]['note']['image_uri'],
                     'notified': serializer.data[i]['notified'],
                     'register_at': serializer.data[i]['register_at'],
+                    'get': serializer.data[i]['get'],
                     'apply': serializer.data[i]['apply'],
                     'rejection': serializer.data[i]['rejection']
                 })
@@ -477,9 +488,11 @@ class NoteShareToRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIVi
                 'icon_uri': serializer.data[i]['user_from']['icon_uri'],
                 'tag': serializer.data[i]['user_from']['tag'],
                 'note': serializer.data[i]['note']['id'],
+                'owner_id': serializer.data[i]['note']['user_id'],
                 'image_uri': serializer.data[i]['note']['image_uri'],
                 'notified': serializer.data[i]['notified'],
                 'register_at': serializer.data[i]['register_at'],
+                'get': serializer.data[i]['get'],
                 'apply': serializer.data[i]['apply'],
                 'rejection': serializer.data[i]['rejection']
             })

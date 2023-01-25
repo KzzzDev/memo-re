@@ -158,6 +158,10 @@ class NoteShare(models.Model):
         related_name="noteshare_note_id",
         on_delete=models.CASCADE,
     )
+    get = models.BooleanField(
+        _("もらう"),
+        default=True,
+    )
     notified = models.BooleanField(
         _("通知"),
         default=True,
