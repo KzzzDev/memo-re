@@ -18,6 +18,7 @@
         </div>
         <div class="preImg">
           <img :src="image_uri" alt="画像" />
+          <p class="time">{{ time[0] }}</p>
         </div>
       </div>
       <button @click="GiveImageModal()">この画像をもらう</button>
@@ -27,7 +28,7 @@
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public)"
+            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public, img.created_at)"
           >
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
             <p class="opacity">{{ img.title }}</p>
@@ -69,6 +70,7 @@ export default {
       is_public: null,
       modalFlag: false,
       error: "",
+      time: "",
     };
   },
   components: {
@@ -99,7 +101,7 @@ export default {
       const img = IMG_URL + img_uri;
       return img;
     },
-    ImageView(noteId,title,keyword,img_uri, text_uri, is_public) {
+    ImageView(noteId,title,keyword,img_uri, text_uri, is_public, time) {
       //console.log("click");
       localStorage.setItem("noteId", noteId);
       this.title = title;
@@ -107,6 +109,7 @@ export default {
       this.img_uri = IMG_URL + img_uri;
       this.text_uri = text_uri;
       this.is_public = is_public;
+      this.time = time.split("T");
     },
     Public: async function (flag) {
       if (flag === 0) {
@@ -162,6 +165,7 @@ export default {
       this.$router.push("/SignIn");
       return;
     }
+    this.time = localStorage.getItem("friendTime").split("T");
     // this.ImageData();
     this.ScrollData();
   },
@@ -321,5 +325,11 @@ button {
   margin-top: 20px;
   text-align: center;
   font-size: 16px;
+}
+
+.time {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: end;
 }
 </style>

@@ -24,6 +24,7 @@
         </div>
         <div class="preImg">
           <img :src="data.image_uri" alt="画像" />
+          <p class="time">{{ time[0] }}</p>
         </div>
       </div>
       <button @click="BtnClick()">この画像を共有する</button>
@@ -33,7 +34,7 @@
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public)"
+            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public ,img.created_at)"
           >
             <!-- {{ img.is_public }} -->
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
@@ -57,6 +58,7 @@ export default {
       scrollData: [],
       keywordAry: "",
       is_public: null,
+      time: "",
     };
   },
   components: {
@@ -75,6 +77,7 @@ export default {
           this.data.image_uri = IMG_URL + this.data.image_uri;
           this.keywordAry = this.data.keyword.split(",");
           this.is_public = this.data.is_public;
+          this.time = this.data.created_at.split("T");
           //console.log(this.data);
           console.log("成功");
           return;
@@ -106,7 +109,7 @@ export default {
       const img = IMG_URL + img_uri;
       return img;
     },
-    ImageView(noteId,title,keyword,img_uri, text_uri, is_public) {
+    ImageView(noteId,title,keyword,img_uri, text_uri, is_public, time) {
       //console.log("click");
       localStorage.setItem("noteId", noteId);
       this.data.title = title;
@@ -114,6 +117,7 @@ export default {
       this.data.img_uri = IMG_URL + img_uri;
       this.data.text_uri = text_uri;
       this.is_public = is_public;
+      this.time = time.split("T");
       // this.$router.go({ path: this.$router.currentRoute.path, force: true });
     },
     Public: async function (flag) {
@@ -261,5 +265,11 @@ button {
   background: #F88CDF;
   padding: 10px 26px;
   border-radius: 10px;
+}
+
+.time {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: end;
 }
 </style>

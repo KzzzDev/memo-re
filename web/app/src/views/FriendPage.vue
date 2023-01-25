@@ -27,7 +27,7 @@
           v-for="image in data"
           v-bind:key="image"
           class="imageBox"
-          @click="ImageView(image.id,image.keyword,image.title,image.image_uri,image.user,image.text_uri)"
+          @click="ImageView(image.id,image.keyword,image.title,image.image_uri,image.user,image.text_uri,image.created_at)"
         >     
           <!-- <p>{{ image.title }}</p>
           <p>{{ image.text_uri }}</p> -->
@@ -80,13 +80,14 @@ export default {
           return;
         });
     },
-    ImageView(id,keyword,title,image_uri,user,text_uri) {
+    ImageView(id,keyword,title,image_uri,user,text_uri,time) {
       localStorage.setItem("friendNoteId", id);
       localStorage.setItem("friendNoteKeyword", keyword);
       localStorage.setItem("friendNoteTitle", title);
       localStorage.setItem("friendNoteImage", image_uri);
       localStorage.setItem("friendNoteUser", user);
       localStorage.setItem("friendNoteText", text_uri);
+      localStorage.setItem("friendTime",time)
       this.$router.push("/friendImageView");
     },
     FriendReq: async function() {

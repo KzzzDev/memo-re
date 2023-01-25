@@ -29,7 +29,13 @@
           <p>{{ image.text_uri }}</p> -->
           <div class="myPageImage">
             <img :src="'/media/brain/' + image.image_uri" alt="画像" />
-            <p class="opacity">{{ image.title }}</p>
+            <div>
+              <p class="opacity">{{ image.title }}</p>
+              
+            </div>
+            <div class="triangle" v-if="image.is_public == false">
+              <p class="active"><img src="/img/1.png" alt="画像" /></p>
+            </div> 
           </div>
         </div>
       </div>
@@ -162,7 +168,7 @@ h2 {
   width: 100%;
 }
 
-.myPageImage p {
+.myPageImage .opacity {
   width: 176px;
   height: 176px;
   text-align: center;
@@ -178,5 +184,34 @@ h2 {
 .myPageImage p:hover {
   opacity: 1;
   transition: 0.6s;
+}
+.triangle::before {
+  content: "";
+  top: 0;
+  right: 0;
+  border-bottom: 3em solid transparent;
+  border-right: 3em solid rgba(255, 255, 255, 0.8); /* ラベルの色はここで変更 */
+  position: absolute;
+  z-index: 100;
+}
+.triangle::after {
+  font-weight: bold;
+  display: block;
+  top: 5px;
+  transform: rotate(45deg);
+  color: #000; /* 文字色はここで変更 */
+  right: 0;
+  position: absolute;
+  z-index: 101;
+}
+.active {
+  position: absolute;
+  width: 20px;
+  top: 4px;
+  right:4px;
+  z-index: 100;
+}
+.active img {
+  width:100%;
 }
 </style>
