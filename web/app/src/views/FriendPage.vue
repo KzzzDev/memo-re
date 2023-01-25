@@ -19,7 +19,6 @@
         </div>
         <div class="flex buttonWrap">
           <h2>すべての記憶</h2>
-          <button>申請したい記憶を選択</button>
         </div>
       </div>
       <div class="imageWrap">

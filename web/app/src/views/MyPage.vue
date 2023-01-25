@@ -191,7 +191,7 @@ h2 {
   border-bottom: 3em solid transparent;
   border-right: 3em solid rgba(255, 255, 255, 0.8); /* ラベルの色はここで変更 */
   position: absolute;
-  z-index: 100;
+  z-index: 0;
 }
 .triangle::after {
   font-weight: bold;
@@ -201,14 +201,14 @@ h2 {
   color: #000; /* 文字色はここで変更 */
   right: 0;
   position: absolute;
-  z-index: 101;
+  z-index: 0;
 }
 .active {
   position: absolute;
   width: 20px;
   top: 4px;
   right:4px;
-  z-index: 100;
+  z-index: 1;
 }
 .active img {
   width:100%;
