@@ -113,6 +113,7 @@ export default {
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
+  box-shadow:2px 2px 8px 3px #999;
 }
 .myIcon img {
   width: 100%;

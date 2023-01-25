@@ -36,7 +36,7 @@
         <h3>ユーザー検索</h3>
         <hr />
         <div class="flex wrap">
-          <input v-model="searchText" type="text" class="text">
+          <input v-model="searchText" type="text" class="text" @keypress.enter="Search()">
           <button @click="Search()">検索</button>
         </div>
         <hr />
@@ -477,6 +477,10 @@ h3 {
   color: #fff;
   background: #6d8dff;
   border-radius: 10px;
+}
+
+.gl-search button:hover {
+  background: #7b98ff;
 }
 
 /* 通知 */

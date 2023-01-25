@@ -127,6 +127,7 @@ export default {
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
+  box-shadow:2px 2px 8px 3px #999;
 }
 .myIcon img {
   width: 100%;
@@ -207,5 +208,10 @@ h2 {
   color: #fff;
   background: #6d8dff;
   border-radius: 10px;
+  box-shadow: 4px 4px 8px 3px #bbb;
+}
+
+.friendReq:hover {
+  background: #7b98ff;
 }
 </style>

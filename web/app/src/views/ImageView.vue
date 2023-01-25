@@ -239,6 +239,7 @@ export default {
 .preImg img {
   width: 100%;
   border-radius: 20px;
+  box-shadow: 8px 6px 8px 3px #999;
 }
 .scrWrap {
   margin-top: 60px;
@@ -253,6 +254,7 @@ export default {
   height: 150px;
   margin:15px;
   cursor: pointer;
+  box-shadow: 8px 6px 8px 3px #999;
 }
 .scrImg img {
   width: 150px;
@@ -283,6 +285,7 @@ button {
   background: #F88CDF;
   padding: 10px 26px;
   border-radius: 10px;
+  box-shadow: 4px 4px 8px 3px #bbb;
 }
 
 .time {
