@@ -13,6 +13,7 @@
           <li @click="GlobalSide(1)" class="pointer">検索</li>
           <li @click="GlobalSide(2)" class="pointer">通知</li>
         </ul>
+        <p class="produceButton pointer"><router-link to="/produce" >開発者紹介</router-link></p>
         <p class="logout pointer" @click="Logout()">ログアウト</p>
       </div>
       <!-- フレンド -->
@@ -63,13 +64,16 @@
         <template v-if="reqFlag == true">
           <div v-for="data in searchReqData" v-bind:key="data">
             <div
-              class="flex gl-friendWrap"
-              @click="ToFriend(data.id, data.icon_uri, data.username)"
+              class="flex gl-noticeWrap"
+              @click="FriendModal(data.username,data.icon_uri,data.user_from)"
             >
               <div class="gl-friendImg">
                 <img :src="data.icon_uri" alt="フレンドアイコン" />
               </div>
-              <p>{{ data.username }}</p>
+              <div>
+                <p>{{ data.username }}</p>
+                <p class="searchText">フレンド申請されています</p>
+              </div>
             </div>
           </div>
         </template>
@@ -78,7 +82,7 @@
           <div v-for="data in noteReqData" v-bind:key="data">
             <div
               class="flex gl-friendWrap"
-              @click="ToFriend(data.id, data.icon_uri, data.username)"
+              @click="ShareModal(data.id, data.icon_uri, data.username)"
             >
               <div class="gl-friendImg">
                 <img :src="data.icon_uri" alt="フレンドアイコン" />
@@ -87,6 +91,35 @@
             </div>
           </div>
         </template>
+
+      </div>
+      <div class="friendModal" v-if="searchFlag">
+        <div class="modalWrap">
+          <h2>フレンド申請を受け入れますか？</h2>
+          <div class="gl-modalImg">
+            <img :src="sModalIcon" alt="フレンドアイコン" />
+          </div>
+          <p class="modalText">{{ sModalUser }}</p>
+          <div class="flex button">
+            <button class="cancel" @click="Accept(0,0,sModalId)">拒否</button>
+            <button class="accept" @click="Accept(0,1,sModalId)">承認</button>
+          </div>
+          <p class="close" @click="Cancel(0)">閉じる</p>
+        </div>
+      </div>
+      <div class="friendModal" v-if="shareFlag">
+        <div class="modalWrap">
+          <h2>フレンド申請を受け入れますか？</h2>
+          <div class="gl-modalImg">
+            <img :src="sModalIcon" alt="フレンドアイコン" />
+          </div>
+          <p class="modalText">{{ sModalUser }}</p>
+          <div class="flex button">
+            <button class="cancel" @click="Accept(0,0,sModalId)">拒否</button>
+            <button class="accept" @click="Accept(0,1,sModalId)">承認</button>
+          </div>
+          <p class="close" @click="Cancel(1)">閉じる</p>
+        </div>
       </div>
     </div>
   </div>
@@ -111,6 +144,11 @@ export default {
       noteReqData: [],
       reqFlag: true,
       arrayFlag: false,
+      searchFlag: false,
+      shareFlag: false,
+      sModalUser: "",
+      sModalIcon: "",
+      sModalId: "",
     };
   },
   computed: {},
@@ -152,7 +190,7 @@ export default {
         });
       //ノート申請一覧
       await axios
-        .get(API_SERVER + "/api/v1/brains/share/request/answer", {
+        .get(API_SERVER + "/api/v1/brains/share/request/", {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {
@@ -192,6 +230,76 @@ export default {
       localStorage.setItem("friendUserName", username);
       this.$router.push("/FriendPage/" + id);
       // this.$router.go({path: "/FriendPage", force: true});
+    },
+    FriendModal(name,icon,id) {
+      console.log("ddd");
+      this.searchFlag = true;
+      this.sModalUser = name;
+      this.sModalIcon = icon;
+      this.sModalId = id;
+    },
+    ShareModal(name,icon,id) {
+      console.log("ddd");
+      this.shareFlag = true;
+      this.sModalUser = name;
+      this.sModalIcon = icon;
+      this.sModalId = id;
+    },
+    Cancel(num) {
+      if (num == 0) {
+        this.searchFlag = false;
+      }else{
+        this.shareFlag = false;
+      }
+    },
+    Accept(num,accept,user_from) {
+      if (num == 0) {
+        //フレンド登録
+        if (accept == 0){
+          //拒否
+          const requestBody = {
+            notified: true,
+            apply: false,
+            rejection: true,
+          };
+          const token = this.$cookies.get("access");
+          axios
+            .patch(API_SERVER + "/api/v1/friends/apply/" + user_from + "/", requestBody, {
+              headers: { Authorization: "JWT " + token },})
+            .then(() => {
+              this.searchFlag = false;
+              return;
+            })
+            .catch((response) => {
+              this.error = response.response.data.error;
+            });
+        }else{
+          //承認
+          const requestBody = {
+            notified: true,
+            apply: true,
+            rejection: false,
+          };
+          const token = this.$cookies.get("access");
+          axios
+            .patch(API_SERVER + "/api/v1/friends/apply/" + user_from + "/", requestBody, {
+              headers: { Authorization: "JWT " + token },})
+            .then(() => {
+              this.searchFlag = false;
+              return;
+            })
+            .catch((response) => {
+              this.error = response.response.data.error;
+            });
+        }
+      }else{
+        //ノート共有
+        if (accept == 0) {
+          //拒否          
+        } else {
+          //承認
+        }
+      }
     },
     Logout() {
       this.$cookies.remove("access");
@@ -269,14 +377,16 @@ img {
 }
 .gl-global p {
   position: absolute;
-  bottom: 100px;
   left: 40px;
+}
+.gl-global .logout {
+  bottom: 100px;
 }
 .side {
   position: absolute;
   top: 0;
   left: 170px;
-  z-index: 5;
+  z-index: 10;
   width: 260px;
   height: 100vh;
   background: #e3e3e4;
@@ -293,16 +403,22 @@ hr {
   color: #ccc;
 }
 
+.produceButton {
+  margin-top: 60px;
+  text-align: center;
+  bottom: 180px;
+}
+
 /* フレンド */
 h3 {
   font-weight: bolder;
   margin: 20px 0 20px 16px;
   color: #515058;
 }
-.gl-friendWrap {
+.gl-friendWrap,.gl-noticeWrap {
   padding: 10px 0 10px 10px;
 }
-.gl-friendWrap:hover {
+.gl-friendWrap:hover,.gl-noticeWrap:hover {
   cursor: pointer;
   background: #f1f1f1;
 }
@@ -321,6 +437,17 @@ h3 {
   margin-left: 20px;
   line-height: 40px;
   font-weight: bolder;
+}
+.gl-noticeWrap p {
+  font-size: 14px;
+  color: #515058;
+  margin-left: 20px;
+  line-height: 20px;
+  font-weight: bolder;
+}
+.gl-noticeWrap .searchText {
+  font-size: 12px;
+  font-weight: normal;
 }
 
 /* ユーザー検索 */
@@ -361,5 +488,81 @@ h3 {
 }
 .gl-noticeButton button:hover{
   background: #f1f1f1;
+}
+
+/* モーダル */
+.friendModal {
+  position: absolute;
+  top: 0;
+  left: 170px;
+  width: calc(100vw - 170px);
+  height: 100%;
+  background: rgba(255,255,255,0.4);
+  z-index: 1;
+}
+
+.modalWrap {
+  margin: 100px auto 0;
+  width:420px;
+  height: 500px;
+  background: #fff;
+  border-radius: 20px;
+  filter: drop-shadow(0px 0px 20px #aaa);
+  padding-top: 60px;
+}
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.gl-modalImg {
+  margin: 0 auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.gl-modalImg img {
+  width: 100%;
+}
+.modalText {
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+.button {
+  width: 340px;
+  margin: 40px auto 0;
+  justify-content: space-between;
+}
+.modalWrap button {
+  float: right;
+  color: #fff;
+  width: 160px;
+  height: 54px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px 3px #bbb;
+}
+/* .button:hover {
+  background: #7b98ff;
+} */
+
+.cancel {
+  background: #818181;
+}
+
+.accept {
+  background: #6d8dff;
+}
+.modalContent .accept:hover {
+  background: #7b98ff;
+}
+
+.close {
+  margin-top: 40px;
+  text-align: center;
 }
 </style>
