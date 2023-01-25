@@ -15,8 +15,8 @@
               <p class="public" @click="Public(1)"><img src="/img/1.png" alt="画像" /></p>
             </template>
           </div>
-          <ul class="flex">
-            <li v-for="word in keywordAry" v-bind:key="word" class="keyword">
+          <ul class="flex" style="flex-wrap: wrap;">
+            <li v-for="word in keywordAry" v-bind:key="word" class="keyword" style=" margin-bottom: 6px;">
               {{ word }}
             </li>
           </ul>
@@ -190,14 +190,32 @@ export default {
   width: 30px;
 }
 .title {
+  width: 350px;
+  overflow-wrap: break-word;
   font-size: 28px;
   font-weight: bolder;
 }
 .public {
-  font-weight: bolder;
-  line-height: 32px;
+  margin-top: -6px;
+  position:relative;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
   cursor: pointer;
+  filter: drop-shadow(2px 2px 10px #aaa);
 }
+
+.public:hover{
+  filter: drop-shadow(2px 2px 10px #888);
+}
+
+.public img{
+  position: absolute;
+  top: calc(50% - 15px);
+  left: calc(50% - 15px);
+}
+
 .text_uri {
   font-size: 18px;
 }
