@@ -142,6 +142,7 @@ export default {
 .preImg img {
   width: 100%;
   border-radius: 20px;
+  box-shadow: 8px 6px 8px 3px #999;
 }
 .buttonWrap {
   margin: 60px auto 0;
