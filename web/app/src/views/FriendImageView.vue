@@ -9,8 +9,8 @@
           <div class="flex innerWrap">
             <p class="title">{{ title }}</p>
           </div>
-          <ul class="flex">
-            <li v-for="word in keyword" v-bind:key="word" class="keyword">
+          <ul class="flex" style="flex-wrap: wrap;">
+            <li v-for="word in keyword" v-bind:key="word" class="keyword" style=" margin-bottom: 6px;">
               {{ word }}
             </li>
           </ul>
@@ -190,6 +190,8 @@ export default {
   flex-wrap: wrap;
 }
 .title {
+  width: 200px;
+  overflow-wrap: break-word;
   font-size: 28px;
   font-weight: bolder;
 }
