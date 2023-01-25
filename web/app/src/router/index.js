@@ -10,6 +10,8 @@ import FriendPage from "../views/FriendPage";
 import FriendImageView from "../views/FriendImageView.vue";
 import ShareDrop from "../views/ShareDrop.vue";
 import Produce from "../views/Produce.vue";
+import NotFound from "../views/NotFound.vue";
+import Error from "../views/Error.vue";
 
 const routes = [
   {
@@ -66,6 +68,20 @@ const routes = [
     path: "/produce",
     name: "produce",
     component: Produce,
+  },
+  {
+    path: "/500",
+    name: "Error",
+    component: Error,
+  },
+  {
+    path: "/404",
+    name: "notFound",
+    component: NotFound,
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/404",
   },
 ];
 
