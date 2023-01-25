@@ -8,7 +8,7 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 
 # superuser生成
-python manage.py custom_createsuperuser --email $DJANGO_ADMIN_EMAIL --password $DJANGO_ADMIN_PASSWORD --username adminname
+python manage.py custom_createsuperuser --email $DJANGO_ADMIN_EMAIL --password $DJANGO_ADMIN_PASSWORD --username GeniusPanKun
 # APIドキュメント生成
 python manage.py spectacular --file schema.yml
 # サムネ画像が自動で生成されないため
