@@ -109,7 +109,7 @@ export default {
 .wrap {
   width: 510px;
   height: 560px;
-  margin: 0 auto;
+  margin: 40px auto 0;
   padding-top: 60px;
   border-radius: 26px;
   background: #fff;
