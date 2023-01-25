@@ -58,6 +58,21 @@ class NoteSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created_at', 'updated_at',)
 
 
+class NoteAllListSerializer(serializers.ModelSerializer):
+    """全てのユーザのノート一覧用のシリアライザ"""
+
+    class Meta:
+        model = Note
+        fields = ('id', 'author', 'user', 'title', 'keyword', 'text_uri',
+                  'image_uri', 'created_at', 'updated_at', 'is_public')
+        read_only_fields = ('id', 'created_at', 'updated_at',)
+        extra_kwargs = {
+            'is_public': {
+                'write_only': True
+            }
+        }
+
+
 class NoteListSerializer(serializers.ModelSerializer):
     """ポップアップのノート情報取得用のシリアライザ"""
 

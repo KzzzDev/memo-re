@@ -23,6 +23,7 @@ urlpatterns = [
          views.NoteShareToRequestListAPIView.as_view()),
     path('brains/share/request/',
          views.NoteShareAllRequestListAPIView.as_view()),
+    path('brains/all/', views.NoteAllListAPIView.as_view()),
     path('brains/share/',
          views.NoteShareListCreateAPIView.as_view()),
     path('brains/<int:id>/',

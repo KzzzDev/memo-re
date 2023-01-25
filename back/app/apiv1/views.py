@@ -9,6 +9,7 @@ from .serializers import FriendSerializer
 from .serializers import FriendRequestSerializer
 from .serializers import FriendListSerializer
 from .serializers import NoteSerializer
+from .serializers import NoteAllListSerializer
 from .serializers import NoteEditSerializer
 from .serializers import NoteShareSerializer
 from .serializers import NoteShareListSerializer
@@ -201,6 +202,25 @@ class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIVie
     def patch(self, request, *args, **kwargs):
         """フレンド申請承認"""
         return self.partial_update(request, *args, **kwargs)
+
+
+class NoteAllListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    """全てのユーザの公開ノート一覧の取得APIクラス"""
+
+    queryset = Note.objects.all()
+    serializer_class = NoteAllListSerializer
+
+    def get_queryset(self):
+        """
+        URLパラメータで渡されたユーザIDでフィルタリング
+        """
+        queryset = Note.objects.filter(
+            is_public=True)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        """全てのユーザの公開ノート一覧を取得"""
+        return self.list(request, *args, **kwargs)
 
 
 class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
