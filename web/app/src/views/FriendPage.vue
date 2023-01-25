@@ -183,16 +183,16 @@ h2 {
 }
 
 .myPageImage p{
-  width: 176px;
-  height: 176px;
+  width: 178px;
+  height: 178px;
   text-align: center;
-  line-height: 176px;
+  line-height: 178px;
   font-weight: bold;
   color: #fff;
   background: rgba(0,0,0,0.4);
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 1px;
+  left: 1px;
   opacity: 0;
 }
 .myPageImage p:hover{

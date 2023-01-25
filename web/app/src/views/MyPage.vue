@@ -30,7 +30,6 @@
             <img :src="'/media/brain/' + image.image_uri" alt="画像" />
             <div>
               <p class="opacity">{{ image.title }}</p>
-              
             </div>
             <div class="triangle" v-if="image.is_public == false">
               <p class="active"><img src="/img/1.png" alt="画像" /></p>
@@ -169,22 +168,27 @@ h2 {
 }
 
 .myPageImage .opacity {
-  width: 176px;
-  height: 176px;
+  width: 178px;
+  height: 178px;
+  padding-left: 6px;
   text-align: center;
-  line-height: 176px;
+  line-height: 178px;
   font-weight: bold;
   color: #fff;
   background: rgba(0, 0, 0, 0.4);
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 1px;
+  left: 1px;
   opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .myPageImage p:hover {
   opacity: 1;
   transition: 0.6s;
 }
+
 .triangle::before {
   content: "";
   top: 0;
