@@ -112,7 +112,7 @@ export default {
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow:2px 2px 8px 3px #999;
+  box-shadow: 0px 0px 4px 1px rgb(80, 80, 80);
 }
 .myIcon img {
   width: 100%;
@@ -161,7 +161,7 @@ h2 {
   border: solid 1px #ccc;
   width: 180px;
   position: relative;
-  box-shadow: 8px 6px 8px 3px #999;
+  box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
 }
 .myPageImage img {
   width: 100%;

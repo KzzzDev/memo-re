@@ -30,10 +30,9 @@
             <img :src="modalIcon" alt="アイコン">
           </div>
           <p>{{ modalUser }}</p>
-          <p v-if="errorFlag == true">すでに相手から申請が来ています</p>
           <div class="flex button">
             <button class="cancel" @click="Cancel()">キャンセル</button>
-            <button class="accept" @click="Share()">申請</button>
+            <button class="accept" @click="Share()">共有</button>
           </div>
         </div>
       </div>
@@ -56,7 +55,6 @@ export default {
       modalIcon: null,
       modalUser: null,
       modalId: null,
-      errorFlag: false,
     };
   },
   name: "CreateImage",
@@ -92,7 +90,6 @@ export default {
       this.modalIcon = icon;
       this.modalUser = user;
       this.modalId = id;
-      this.errorFlag = false;
       this.modal = true;
     },
     Cancel() {
@@ -102,7 +99,6 @@ export default {
       const requestBody = {
         user_to: this.modalId,
         note: localStorage.getItem("noteId"),
-        get: false,
       };
       console.log(requestBody);
       const token = this.$cookies.get("access");
@@ -114,8 +110,8 @@ export default {
           this.modal = !this.modal;
           return;
         })
-        .catch(() => {
-          this.errorFlag = true;
+        .catch((response) => {
+          this.error = response.response.data.error;
         });
     },
   },
@@ -193,9 +189,9 @@ h2 {
   margin: 100px auto 0;
   border-radius: 26px;
   width: 420px;
-  height: 500px;
+  height: 460px;
   background: #fff;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 2px rgb(111, 111, 111));
 }
 .modalImage {
   width: 140px;
@@ -228,16 +224,22 @@ h2 {
   height: 54px;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 1px 1px 1px rgb(150, 150, 150);
 }
 .cancel {
-  background: #818181;
+  background: #ff78f4;
+}
+.cancel:hover {
+  background: #ff32b1;
 }
 
 .accept {
-  background: #6d8dff;
+  background: #1e4fff;
+}
+.accept:hover {
+  background: #0015ff;
 }
 .modalContent .accept:hover {
-  background: #7b98ff;
+  background: #0037ff;
 }
 </style>

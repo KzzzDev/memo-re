@@ -593,7 +593,7 @@ h3{
   height: 500px;
   background: #fff;
   border-radius: 20px;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 2px rgb(111, 111, 111));
   padding-top: 60px;
 }
 .shareModalWrap {
@@ -672,11 +672,17 @@ h2 {
 } */
 
 .cancel {
-  background: #818181;
+  background: #ff78f4;
+}
+.cancel:hover {
+  background: #ff32b1;
 }
 
 .accept {
-  background: #6d8dff;
+  background: #1e4fff;
+}
+.accept:hover{
+  background: #0015ff;
 }
 .modalContent .accept:hover {
   background: #7b98ff;

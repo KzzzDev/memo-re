@@ -127,6 +127,9 @@ export default {
 </script>
 
 <style scoped>
+.overWrap{
+  margin-bottom: 80px;
+}
 .wrap {
   width: 510px;
   height: 720px;
@@ -134,7 +137,7 @@ export default {
   padding-top: 60px;
   border-radius: 26px;
   background: #fff;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 2px rgb(111, 111, 111));
 }
 h1 {
   font-size: 24px;
@@ -154,7 +157,7 @@ h1 {
   margin: 4px 0 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow: 0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 .text:focus {
   outline: none;
@@ -173,17 +176,16 @@ img {
 }
 button {
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   width: 160px;
   height: 54px;
   text-align: center;
   border-radius: 5px;
   margin-top: 20px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
-
 button:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
 .signin {
   margin-top: 20px;
@@ -196,7 +198,7 @@ button:hover {
   margin-left: 10px;
 }
 .space {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 </style>

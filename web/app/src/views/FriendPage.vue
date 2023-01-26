@@ -10,14 +10,12 @@
           <div class="textWrap">
             <p class="username" v-cloak>{{ friendUsername }}</p>
           </div>
-          <template v-if="friendFlag">
-            <template v-if="friendReqFlag == false">
-              <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
-            </template>
-            <template v-else>
-              <p class="friendReq">フレンド申請済み</p>
-            </template> 
+          <template v-if="friendReqFlag == false">
+            <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
           </template>
+          <template v-else>
+            <p class="friendReq">フレンド申請済み</p>
+          </template> 
         </div>
         <div class="flex buttonWrap">
           <h2>すべての記憶</h2>
@@ -60,14 +58,13 @@ export default {
       user: [],
       id: localStorage.getItem("friendId"),
       friendReqFlag: false,
-      friendFlag: false,
     };
   },
   methods: {
     Created: async function () {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
-      console.log(userId);
+      console.log(token);
       await axios
         .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
@@ -78,20 +75,6 @@ export default {
           return;
         })
         .catch((e) => {
-          console.log(e);
-          return;
-        });
-      await axios
-        .get(API_SERVER + "/api/v1/friends/check/" + Number(userId) + "/", {
-          headers: { Authorization: "JWT " + token },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.friendFlag = false;
-          return;
-        })
-        .catch((e) => {
-          this.friendFlag = true;
           console.log(e);
           return;
         });
@@ -144,7 +127,7 @@ export default {
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow:2px 2px 8px 3px #999;
+  box-shadow: 0px 0px 4px 1px rgb(80, 80, 80);
 }
 .myIcon img {
   width: 100%;
@@ -193,7 +176,7 @@ h2 {
   border: solid 1px #ccc;
   width: 180px;
   position: relative;
-  box-shadow:8px 6px 8px 3px #999;
+  box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
 }
 .myPageImage img {
   width: 100%;
@@ -211,9 +194,6 @@ h2 {
   top: 1px;
   left: 1px;
   opacity: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .myPageImage p:hover{
   opacity: 1;
@@ -226,12 +206,12 @@ h2 {
   line-height: 30px;
   padding: 0 10px;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   border-radius: 10px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
 
 .friendReq:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
 </style>

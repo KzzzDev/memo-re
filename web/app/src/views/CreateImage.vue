@@ -16,7 +16,7 @@
           v-model="keyword"
           type="text"
           class="text"
-          maxlength="255"
+          maxlength="100"
           placeholder="aaa,bbb、ccc,ddd"
         />
         <br />
@@ -24,7 +24,7 @@
         <p class="error" v-if="textError">※説明が入力されていません</p>
         <textarea
           v-model="text_uri"
-          maxlength="255"
+          maxlength="200"
           name=""
           cols="30"
           rows="10"
@@ -103,38 +103,38 @@ export default {
       // console.log(this.loadFlag);
       this.keywordAry = this.keyword.split("、");
       this.keyword = this.keywordAry.join(",");
-      const requestBody = {
-        user_id: this.user,
-        keyword: this.keyword,
-      };
-      await axios
-        .post(AI_SERVER + "/ai/debug", requestBody)
-        .then((response) => {
-          //ローカル時コメントアウト
-          this.image_uri = response.data.img_file;
+      // const requestBody = {
+      //   user_id: this.user,
+      //   keyword: this.keyword,
+      // };
+      // await axios
+      //   .post(AI_SERVER + "/ai/debug", requestBody)
+      //   .then((response) => {
+      //     //ローカル時コメントアウト
+      //     this.image_uri = response.data.img_file;
 
-          // ローカルストレージ
-          localStorage.setItem("title", this.title);
-          localStorage.setItem("keyword", this.keyword);
-          localStorage.setItem("text_uri", this.text_uri);
-          localStorage.setItem("image_uri", this.image_uri);
-          //画面遷移
-          this.loadFlag = false;
-          this.$router.push("/PreviewImage");
-        })
-        .catch((e) => {
-          console.log(e);
-          console.log("失敗");
-        });
+      //     // ローカルストレージ
+      //     localStorage.setItem("title", this.title);
+      //     localStorage.setItem("keyword", this.keyword);
+      //     localStorage.setItem("text_uri", this.text_uri);
+      //     localStorage.setItem("image_uri", this.image_uri);
+      //     //画面遷移
+      //     this.loadFlag = false;
+      //     this.$router.push("/PreviewImage");
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //     console.log("失敗");
+      //   });
       //test
       //ローカルストレージ
-      // localStorage.setItem("title", this.title);
-      // localStorage.setItem("keyword", this.keyword);
-      // localStorage.setItem("text_uri", this.text_uri);
-      // localStorage.setItem("image_uri", this.image_uri);
-      // console.log(this.keyword);
-      // //画面遷移
-      // this.$router.push("/PreviewImage");
+      localStorage.setItem("title", this.title);
+      localStorage.setItem("keyword", this.keyword);
+      localStorage.setItem("text_uri", this.text_uri);
+      localStorage.setItem("image_uri", this.image_uri);
+      console.log(this.keyword);
+      //画面遷移
+      this.$router.push("/PreviewImage");
       //test end
 
       this.loadFlag = false;
@@ -165,7 +165,7 @@ h1 {
   border-radius: 26px;
   position: relative;
   background: #fff;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 4px rgb(187, 187, 187));
 }
 
 .innerWrap {
