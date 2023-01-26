@@ -194,6 +194,9 @@ h2 {
   top: 1px;
   left: 1px;
   opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .myPageImage p:hover{
   opacity: 1;
