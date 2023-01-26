@@ -90,13 +90,20 @@
         <template v-else>
           <div v-for="data in noteReqData" v-bind:key="data">
             <div
-              class="flex gl-friendWrap"
-              @click="ShareModal(data.id, data.icon_uri, data.username)"
+              class="flex gl-shareWrap"
+              @click="ShareModal(data.username, data.icon_uri, data.image_uri,data.user_to,data.user_from,data.note,data.get)"
             >
               <div class="gl-friendImg">
                 <img :src="data.icon_uri" alt="フレンドアイコン" />
               </div>
-              <p>{{ data.username }}</p>
+              <div v-if="data.get">
+                <p>{{ data.username }}</p>
+                <p class="shareText">あなたの画像の共有を申請されています</p>
+              </div>
+              <div v-else>
+                <p>{{ data.username }}</p>
+                <p class="shareText">画像の共有を申請されています</p>
+              </div>
             </div>
           </div>
         </template>
@@ -110,22 +117,27 @@
           </div>
           <p class="modalText">{{ sModalUser }}</p>
           <div class="flex button">
-            <button class="cancel" @click="Accept(0,0,sModalId)">拒否</button>
-            <button class="accept" @click="Accept(0,1,sModalId)">承認</button>
+            <button class="cancel" @click="Accept(0,0,sModalId,null)">拒否</button>
+            <button class="accept" @click="Accept(0,1,sModalId,null)">承認</button>
           </div>
           <p class="close" @click="Cancel(0)">閉じる</p>
         </div>
       </div>
       <div class="friendModal" v-if="shareFlag">
-        <div class="modalWrap">
-          <h2>フレンド申請を受け入れますか？</h2>
-          <div class="gl-modalImg">
+        <div class="shareModalWrap">
+          <h2>ノート共有申請を受け入れますか？</h2>
+          <p class="shareModalText">{{ sModalUser }}</p>
+          <div class="gl-shareModalIcon">
             <img :src="sModalIcon" alt="フレンドアイコン" />
           </div>
-          <p class="modalText">{{ sModalUser }}</p>
+
+          <div class="gl-shareModalImg">
+            <img :src="sModalImage" alt="フレンドアイコン" />
+          </div>
+
           <div class="flex button">
-            <button class="cancel" @click="Accept(0,0,sModalId)">拒否</button>
-            <button class="accept" @click="Accept(0,1,sModalId)">承認</button>
+            <button class="cancel" @click="Accept(1,0,sModalId,sModalNote)">拒否</button>
+            <button class="accept" @click="Accept(1,1,sModalId,sModalNote)">承認</button>
           </div>
           <p class="close" @click="Cancel(1)">閉じる</p>
         </div>
@@ -136,7 +148,7 @@
 
 <script>
 import axios from "axios";
-import { API_SERVER, ICON_URL } from "@/assets/config.js";
+import { API_SERVER, ICON_URL ,IMG_URL } from "@/assets/config.js";
 export default {
   name: "GlobalHeader",
   components: {},
@@ -158,6 +170,8 @@ export default {
       sModalUser: "",
       sModalIcon: "",
       sModalId: "",
+      sModalImage: "",
+      sModalNote: "",
     };
   },
   computed: {},
@@ -247,12 +261,19 @@ export default {
       this.sModalIcon = icon;
       this.sModalId = id;
     },
-    ShareModal(name,icon,id) {
+    ShareModal(name,icon,image,user_to,user_from,note,get) {
       console.log("ddd");
       this.shareFlag = true;
       this.sModalUser = name;
       this.sModalIcon = icon;
-      this.sModalId = id;
+      // if (get == false) {
+      //   this.sModalId = user_from;
+      // } else {
+      //   this.sModalId = user_to;
+      // }
+      this.sModalId = user_to;
+      this.sModalNote = note
+      this.sModalImage = IMG_URL + image
     },
     Cancel(num) {
       if (num == 0) {
@@ -261,7 +282,7 @@ export default {
         this.shareFlag = false;
       }
     },
-    Accept(num,accept,user_from) {
+    Accept(num,accept,user_from,note) {
       if (num == 0) {
         //フレンド登録
         if (accept == 0){
@@ -304,9 +325,41 @@ export default {
       }else{
         //ノート共有
         if (accept == 0) {
-          //拒否          
+          //拒否
+          const requestBody = {
+            notified: true,
+            apply: false,
+            rejection: true,
+          };
+          const token = this.$cookies.get("access");
+          axios
+            .patch(API_SERVER + "/api/v1/brains/share/" + note + "/" + user_from + "/", requestBody, {
+              headers: { Authorization: "JWT " + token },})
+            .then(() => {
+              this.shareFlag = false;
+              return;
+            })
+            .catch((response) => {
+              this.error = response.response.data.error;
+            });
         } else {
           //承認
+          const requestBody = {
+            notified: true,
+            apply: true,
+            rejection: false,
+          };
+          const token = this.$cookies.get("access");
+          axios
+            .patch(API_SERVER + "/api/v1/brains/share/" + note + "/" + user_from + "/", requestBody, {
+              headers: { Authorization: "JWT " + token },})
+            .then(() => {
+              this.shareFlag = false;
+              return;
+            })
+            .catch((response) => {
+              this.error = response.response.data.error;
+            });
         }
       }
     },
@@ -433,10 +486,10 @@ h3{
   margin: 10px 10px 0 16px;
   color: #515058;
 }
-.gl-friendWrap,.gl-noticeWrap {
+.gl-friendWrap,.gl-noticeWrap,.gl-shareWrap {
   padding: 10px 0 10px 10px;
 }
-.gl-friendWrap:hover,.gl-noticeWrap:hover {
+.gl-friendWrap:hover,.gl-noticeWrap:hover,.gl-shareWrap:hover {
   cursor: pointer;
   background: #f1f1f1;
 }
@@ -462,6 +515,16 @@ h3{
   margin-left: 20px;
   line-height: 20px;
   font-weight: bolder;
+}
+.gl-shareWrap p {
+  font-size: 14px;
+  color: #515058;
+  margin-left: 20px;
+  line-height: 20px;
+  font-weight: bolder;
+}
+.gl-shareWrap .shareText {
+  font-size: 8px;
 }
 .gl-noticeWrap .searchText {
   font-size: 12px;
@@ -532,6 +595,15 @@ h3{
   filter: drop-shadow(0px 0px 20px #aaa);
   padding-top: 60px;
 }
+.shareModalWrap {
+  margin: 100px auto 0;
+  width:520px;
+  height: 700px;
+  background: #fff;
+  border-radius: 20px;
+  filter: drop-shadow(0px 0px 20px #aaa);
+  padding-top: 60px;
+}
 h2 {
   font-size: 24px;
   font-weight: bold;
@@ -548,9 +620,35 @@ h2 {
 .gl-modalImg img {
   width: 100%;
 }
+.gl-shareModalImg {
+  margin: 0 auto;
+  width: 240px;
+  height: 240px;
+  overflow: hidden;
+}
+.gl-shareModalImg img {
+  width: 100%;
+}
+.gl-shareModalIcon {
+  margin: 10px auto 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.gl-shareModalIcon img {
+  width: 100%;
+}
 .modalText {
   margin-top: 14px;
   font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.shareModalText {
+  margin-top: 14px;
+  font-size: 14px;
   font-weight: bold;
   text-align: center;
 }
@@ -559,7 +657,7 @@ h2 {
   margin: 40px auto 0;
   justify-content: space-between;
 }
-.modalWrap button {
+.modalWrap button,.shareModalWrap button {
   float: right;
   color: #fff;
   width: 160px;
