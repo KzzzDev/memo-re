@@ -8,7 +8,8 @@
         <!-- <div class="image"><img src="@/assets/logo.png" alt="ロゴ" /></div> -->
         <ul>
           <li><router-link to="/MyPage">マイページ</router-link></li>
-          <li><router-link to="/CreateImage">ノート作成</router-link></li><br>
+          <li><router-link to="/CreateImage">ノート作成</router-link></li>
+          <li><router-link to="/Timeline">タイムライン</router-link></li><br>
           <li @click="GlobalSide(0)" class="pointer">フレンド</li>
           <li @click="GlobalSide(1)" class="pointer">検索</li>
           <li @click="GlobalSide(2)" class="pointer">通知</li>
