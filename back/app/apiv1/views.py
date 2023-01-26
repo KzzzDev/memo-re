@@ -435,6 +435,7 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
             if auth_user_id != serializer.data[i]['user_from']['id']:
                 validate_json.append({
                     'user_from': serializer.data[i]['user_from']['id'],
+                    'user_to': serializer.data[i]['user_to']['id'],
                     'username': serializer.data[i]['user_from']['username'],
                     'icon_uri': serializer.data[i]['user_from']['icon_uri'],
                     'tag': serializer.data[i]['user_from']['tag'],
@@ -449,6 +450,7 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
                 })
             else:
                 validate_json.append({
+                    'user_from': serializer.data[i]['user_from']['id'],
                     'user_to': serializer.data[i]['user_to']['id'],
                     'username': serializer.data[i]['user_to']['username'],
                     'icon_uri': serializer.data[i]['user_to']['icon_uri'],
