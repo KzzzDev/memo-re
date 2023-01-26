@@ -30,6 +30,7 @@
             <img :src="modalIcon" alt="アイコン">
           </div>
           <p>{{ modalUser }}</p>
+          <p v-if="errorFlag == true">すでに相手から申請が来ています</p>
           <div class="flex button">
             <button class="cancel" @click="Cancel()">キャンセル</button>
             <button class="accept" @click="Share()">申請</button>
@@ -55,6 +56,7 @@ export default {
       modalIcon: null,
       modalUser: null,
       modalId: null,
+      errorFlag: false,
     };
   },
   name: "CreateImage",
@@ -90,6 +92,7 @@ export default {
       this.modalIcon = icon;
       this.modalUser = user;
       this.modalId = id;
+      this.errorFlag = false;
       this.modal = true;
     },
     Cancel() {
@@ -99,6 +102,7 @@ export default {
       const requestBody = {
         user_to: this.modalId,
         note: localStorage.getItem("noteId"),
+        get: false,
       };
       console.log(requestBody);
       const token = this.$cookies.get("access");
@@ -110,8 +114,8 @@ export default {
           this.modal = !this.modal;
           return;
         })
-        .catch((response) => {
-          this.error = response.response.data.error;
+        .catch(() => {
+          this.errorFlag = true;
         });
     },
   },

@@ -40,7 +40,7 @@
       <div class="modalContent">
         <h2>共有申請しますか？</h2>
         <img :src="image_uri" alt="画像" />
-        <p v-if="error != '' ">{{ error }}</p>
+        <p v-if="errorFlag == true">すでに相手から申請が来ています</p>
         <div class="flex button">
           <button class="cancel" @click="Cancel()">キャンセル</button>
           <button class="accept" @click="Share()">申請</button>
@@ -69,7 +69,7 @@ export default {
       keywordAry: "",
       is_public: null,
       modalFlag: false,
-      error: "",
+      errorFlag: false,
       time: "",
     };
   },
@@ -141,9 +141,11 @@ export default {
     },
     //申請
     Share() {
+      this.errorFlag = false;
       const requestBody = {
         user_from: parseInt(this.user),
-        note: parseInt(this.id)
+        note: parseInt(this.id),
+        get: true,
       };
       console.log(requestBody);
       const token = this.$cookies.get("access");
@@ -155,8 +157,8 @@ export default {
           this.modalFlag = !this.modalFlag;
           return;
         })
-        .catch((response) => {
-          this.error = response.response.data.error;
+        .catch(() => {
+          this.errorFlag = true;
         });
     },
   },
@@ -190,7 +192,7 @@ export default {
   flex-wrap: wrap;
 }
 .title {
-  width: 200px;
+  width: 400px;
   overflow-wrap: break-word;
   font-size: 28px;
   font-weight: bolder;
@@ -265,6 +267,9 @@ button {
   top: 0;
   left: 0;
   opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .scrImg p:hover {
   opacity: 1;
