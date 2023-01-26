@@ -5,22 +5,8 @@
     </div>
     <div>
       <div class="userWrap">
-        <div class="flex">
-          <div class="myIcon"><img :src="friendIcon" alt="アイコン" v-cloak></div>
-          <div class="textWrap">
-            <p class="username" v-cloak>{{ friendUsername }}</p>
-          </div>
-          <template v-if="friendFlag">
-            <template v-if="friendReqFlag == false">
-              <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
-            </template>
-            <template v-else>
-              <p class="friendReq">フレンド申請済み</p>
-            </template> 
-          </template>
-        </div>
         <div class="flex buttonWrap">
-          <h2>すべての記憶</h2>
+          <h2>タイムライン</h2>
         </div>
       </div>
       <div class="imageWrap">
@@ -65,11 +51,9 @@ export default {
   },
   methods: {
     Created: async function () {
-      const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
-      console.log(userId);
       await axios
-        .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
+        .get(API_SERVER + "/api/v1/brains/all/", {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {
@@ -78,20 +62,6 @@ export default {
           return;
         })
         .catch((e) => {
-          console.log(e);
-          return;
-        });
-      await axios
-        .get(API_SERVER + "/api/v1/friends/check/" + Number(userId) + "/", {
-          headers: { Authorization: "JWT " + token },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.friendFlag = false;
-          return;
-        })
-        .catch((e) => {
-          this.friendFlag = true;
           console.log(e);
           return;
         });
@@ -104,7 +74,7 @@ export default {
       localStorage.setItem("friendNoteUser", user);
       localStorage.setItem("friendNoteText", text_uri);
       localStorage.setItem("friendTime",time)
-      this.$router.push("/friendImageView");
+      this.$router.push("/TimelineImage");
     },
     FriendReq: async function() {
       const token = this.$cookies.get("access");
@@ -173,7 +143,7 @@ export default {
   border-radius: 5px;
 }
 h2 {
-  font-size: 22px;
+  font-size: 28px;
   line-height: 30px;
 }
 .imageWrap {
