@@ -104,6 +104,7 @@ export default {
           console.log(e);
           return;
         });
+        
     },
     ImgSrc(img_uri) {
       const img = IMG_URL + img_uri;
@@ -114,7 +115,7 @@ export default {
       localStorage.setItem("noteId", noteId);
       this.data.title = title;
       this.keywordAry = keyword.split(",");
-      this.data.img_uri = IMG_URL + img_uri;
+      this.data.image_uri = IMG_URL + img_uri;
       this.data.text_uri = text_uri;
       this.is_public = is_public;
       this.time = time.split("T");

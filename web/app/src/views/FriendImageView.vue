@@ -106,7 +106,7 @@ export default {
       localStorage.setItem("noteId", noteId);
       this.title = title;
       this.keyword = keyword.split(",");
-      this.img_uri = IMG_URL + img_uri;
+      this.image_uri = IMG_URL + img_uri;
       this.text_uri = text_uri;
       this.is_public = is_public;
       this.time = time.split("T");

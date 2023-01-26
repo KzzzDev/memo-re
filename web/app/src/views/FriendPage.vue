@@ -10,6 +10,7 @@
           <div class="textWrap">
             <p class="username" v-cloak>{{ friendUsername }}</p>
           </div>
+
           <template v-if="friendReqFlag == false">
             <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
           </template>
@@ -65,6 +66,19 @@ export default {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
       console.log(token);
+      await axios
+        .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
+          headers: { Authorization: "JWT " + token },
+        })
+        .then((response) => {
+          this.data = response.data;
+          console.log(this.data);
+          return;
+        })
+        .catch((e) => {
+          console.log(e);
+          return;
+        });
       await axios
         .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
