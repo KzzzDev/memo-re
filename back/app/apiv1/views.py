@@ -427,8 +427,8 @@ class NoteShareAllRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIV
         validate_json = []
 
         auth_user_id = self.request.user.id
-        queryset = NoteShare.objects.filter(Q(user_from=auth_user_id) | Q(
-            user_to=auth_user_id), apply=False, rejection=False)
+        queryset = NoteShare.objects.filter(Q(user_from=auth_user_id, apply=False, rejection=False, get=False) | Q(
+            user_to=auth_user_id, apply=False, rejection=False, get=False))
         serializer = NoteShareListSerializer(
             queryset, context={"request": request}, many=True)
         for i in range(len(serializer.data)):
