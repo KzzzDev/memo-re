@@ -12,11 +12,14 @@
           </div>
           <template v-if="friendFlag">
             <template v-if="friendReqFlag == false">
-              <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
+              <button class="friendReq hover" @click="FriendReq(id)">フレンド申請</button>
             </template>
             <template v-else>
-              <p class="friendReq">フレンド申請済み</p>
+              <p class="friendReq hover">フレンド申請済み</p>
             </template> 
+          </template>
+          <template v-else>
+            <p class="friendReq">フレンド</p>
           </template>
         </div>
         <div class="flex buttonWrap">
@@ -231,7 +234,7 @@ h2 {
   box-shadow: 4px 4px 8px 3px #bbb;
 }
 
-.friendReq:hover {
+.hover:hover {
   background: #7b98ff;
 }
 </style>
