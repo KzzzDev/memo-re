@@ -10,13 +10,14 @@
           <div class="textWrap">
             <p class="username" v-cloak>{{ friendUsername }}</p>
           </div>
-
-          <template v-if="friendReqFlag == false">
-            <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
+          <template v-if="friendFlag">
+            <template v-if="friendReqFlag == false">
+              <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
+            </template>
+            <template v-else>
+              <p class="friendReq">フレンド申請済み</p>
+            </template> 
           </template>
-          <template v-else>
-            <p class="friendReq">フレンド申請済み</p>
-          </template> 
         </div>
         <div class="flex buttonWrap">
           <h2>すべての記憶</h2>
@@ -59,13 +60,14 @@ export default {
       user: [],
       id: localStorage.getItem("friendId"),
       friendReqFlag: false,
+      friendFlag: false,
     };
   },
   methods: {
     Created: async function () {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
-      console.log(token);
+      console.log(userId);
       await axios
         .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
@@ -80,15 +82,16 @@ export default {
           return;
         });
       await axios
-        .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
+        .get(API_SERVER + "/api/v1/friends/chack/" + Number(userId), {
           headers: { Authorization: "JWT " + token },
         })
         .then((response) => {
-          this.data = response.data;
-          console.log(this.data);
+          console.log(response.data);
+          this.friendFlag = false;
           return;
         })
         .catch((e) => {
+          this.friendFlag = true;
           console.log(e);
           return;
         });
