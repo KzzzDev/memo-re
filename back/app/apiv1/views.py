@@ -531,7 +531,27 @@ class NoteShareUpdateDestroyAPIView(mixins.UpdateModelMixin, mixins.DestroyModel
             else:
                 return self.partial_update(request, *args, **kwargs)
         else:
-            return self.partial_update(request, *args, **kwargs)
+            self.partial_update(request, *args, **kwargs)
+            if ('apply' in request.data):
+                note_id = self.kwargs['note']
+                user_to_id = self.kwargs['user_to']
+                if request.data["apply"] == True:
+                    queryset = Note.objects.filter(id=note_id)
+                    serializer = NoteSerializer(
+                        queryset, context={"request": request}, many=True)
+                    data = {
+                        'author': serializer.data[0]['author'],
+                        'user': user_to_id,
+                        'title': serializer.data[0]['title'],
+                        'keyword': serializer.data[0]['keyword'],
+                        'text_uri': serializer.data[0]['text_uri'],
+                        'image_uri': serializer.data[0]['image_uri']
+                    }
+                    serializer = NoteSerializer(data=data, partial=True)
+                    serializer.is_valid()
+                    serializer.save()
+            return Response({"OK!!": "成功。"}, status.HTTP_200_OK)
+            # return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         """ノート共有削除"""
