@@ -12,6 +12,8 @@ import ShareDrop from "../views/ShareDrop.vue";
 import Produce from "../views/Produce.vue";
 import NotFound from "../views/NotFound.vue";
 import Error from "../views/Error.vue";
+import Timeline from "../views/Timeline.vue";
+import TimelineImage from "../views/TimelineImage.vue";
 
 const routes = [
   {
@@ -68,6 +70,16 @@ const routes = [
     path: "/produce",
     name: "produce",
     component: Produce,
+  },
+  {
+    path: "/timeline",
+    name: "timeline",
+    component: Timeline,
+  },
+  {
+    path: "/timelineImage",
+    name: "timelineImage",
+    component: TimelineImage,
   },
   {
     path: "/500",
