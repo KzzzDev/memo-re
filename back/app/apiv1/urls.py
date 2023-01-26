@@ -9,7 +9,7 @@ app_name = 'apiv1'
 urlpatterns = [
     path('', include(router.urls)),
     path('search/', views.SearchUserAPIView.as_view()),
-    path('friends/chack/<int:user_id>', views.FriendCheckAPIView.as_view()),
+    path('friends/check/<int:user_id>/', views.FriendCheckAPIView.as_view()),
     path('friends/apply/<int:user_from>/',
          views.FriendRequestAnswerAPIView.as_view()),
     path('friends/apply/', views.FriendRequestApplyListAPIView.as_view()),
