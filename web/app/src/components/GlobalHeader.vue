@@ -299,6 +299,7 @@ export default {
               headers: { Authorization: "JWT " + token },})
             .then(() => {
               this.searchFlag = false;
+              location.reload();
               return;
             })
             .catch((response) => {
@@ -317,6 +318,7 @@ export default {
               headers: { Authorization: "JWT " + token },})
             .then(() => {
               this.searchFlag = false;
+              location.reload();
               return;
             })
             .catch((response) => {
@@ -338,6 +340,7 @@ export default {
               headers: { Authorization: "JWT " + token },})
             .then(() => {
               this.shareFlag = false;
+              location.reload();
               return;
             })
             .catch((response) => {
@@ -356,6 +359,7 @@ export default {
               headers: { Authorization: "JWT " + token },})
             .then(() => {
               this.shareFlag = false;
+              location.reload();
               return;
             })
             .catch((response) => {
