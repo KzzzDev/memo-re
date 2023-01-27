@@ -14,6 +14,7 @@ import NotFound from "../views/NotFound.vue";
 import Error from "../views/Error.vue";
 import Timeline from "../views/Timeline.vue";
 import TimelineImage from "../views/TimelineImage.vue";
+import Update from "../views/Update.vue";
 
 const routes = [
   {
@@ -80,6 +81,11 @@ const routes = [
     path: "/timelineImage",
     name: "timelineImage",
     component: TimelineImage,
+  },
+  {
+    path: "/update",
+    name: "update",
+    component: Update,
   },
   {
     path: "/500",
