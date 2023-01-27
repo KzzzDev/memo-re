@@ -135,9 +135,14 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0px 0px 4px 1px rgb(80, 80, 80);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .myIcon img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .textWrap {
   margin: 10px 0 0 40px;

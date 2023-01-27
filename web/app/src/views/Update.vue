@@ -21,8 +21,8 @@
         <p>ユーザー名</p>
         <input v-model="username" type="text" class="text" :placeholder="data.username" maxlength="40"/>
         <br />
-        <p>タグ</p>
-        <input v-model="tag" type="text" class="text"  :placeholder="data.tag" />
+        <p>タグ<small>※この項目は検索などで利用できます</small></p>
+        <input v-model="tag" type="text" class="text"  :placeholder="data.tag" maxlength="255"/>
         <br />
         <div class="buttonWrap">
           <div class="signin">
@@ -86,28 +86,31 @@ export default {
           'Authorization': "JWT " + token,
         }
       };
-      
-      if (this.uploadFile.length) {
+      console.log(this.uploadFile);
+      if (this.uploadFile != "") {
+        console.log("はいった");
         // formData.append("number", "123456");
-        formData.append('icon_uri', this.uploadFile);
+        // formData.append('icon_uri', this.uploadFile);
         var config = {
           headers: {
-            'Authorization': "JWT " + token,
-            'content-type': 'multipart/form-data',
+            Authorization: "JWT " + token,
+            'content-type': 'multipart/form-data'
           }
         }
         const requestBody = {
           username: this.username,
           tag: this.tag,
+          icon_uri: this.uploadFile,
         };
         axios
-          .patch(API_SERVER + "/api/v1/auth/users/me/",requestBody, formData, config)
+          .patch(API_SERVER + "/api/v1/auth/users/me/",requestBody, config)
           .then((response) => {
               console.log(response);
               this.$router.push("/myPage");
           })
           .catch((error) => {
               // error 処理
+              console.log(error);
           })  
       }else{
         const requestBody = {
@@ -192,11 +195,9 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0px 0px 4px 1px rgb(80, 80, 80);
-  
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .myIcon div img {
   width: 180px;
