@@ -10,12 +10,17 @@
           <div class="textWrap">
             <p class="username" v-cloak>{{ friendUsername }}</p>
           </div>
-          <template v-if="friendReqFlag == false">
-            <button class="friendReq" @click="FriendReq(id)">フレンド申請</button>
+          <template v-if="friendFlag">
+            <template v-if="friendReqFlag == false">
+              <button class="friendReq hover" @click="FriendReq(id)">フレンド申請</button>
+            </template>
+            <template v-else>
+              <p class="friendReq hover">フレンド申請済み</p>
+            </template> 
           </template>
           <template v-else>
-            <p class="friendReq">フレンド申請済み</p>
-          </template> 
+            <p class="friendReq">フレンド</p>
+          </template>
         </div>
         <div class="flex buttonWrap">
           <h2>すべての記憶</h2>
