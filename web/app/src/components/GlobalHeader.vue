@@ -127,11 +127,10 @@
       <div class="friendModal" v-if="shareFlag">
         <div class="shareModalWrap">
           <h2>ノート共有申請を受け入れますか？</h2>
-          <p class="shareModalText">{{ sModalUser }}</p>
           <div class="gl-shareModalIcon">
             <img :src="sModalIcon" alt="フレンドアイコン" />
           </div>
-
+          <p class="shareModalText">{{ sModalUser }}</p>
           <div class="gl-shareModalImg">
             <img :src="sModalImage" alt="フレンドアイコン" />
           </div>
@@ -640,7 +639,8 @@ h2 {
   text-align: center;
 }
 .shareModalText {
-  margin-top: 14px;
+  margin-top: -10px;
+  margin-bottom: 30px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -680,6 +680,10 @@ h2 {
 .close {
   margin-top: 40px;
   text-align: center;
+  cursor: pointer;
+}
+.close:hover {
+  color: #ff32b1;
 }
 .overflow {
   width: 170px;

@@ -141,6 +141,7 @@ export default {
     },
     //申請
     Share() {
+      this.errorFlag = false;
       const requestBody = {
         user_from: parseInt(this.user),
         note: parseInt(this.id),
@@ -210,7 +211,7 @@ export default {
   flex-wrap: wrap;
 }
 .title {
-  width: 200px;
+  width: 400px;
   overflow-wrap: break-word;
   font-size: 28px;
   font-weight: bolder;
@@ -288,6 +289,9 @@ button:hover{
   top: 0;
   left: 0;
   opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .scrImg p:hover {
   opacity: 1;

@@ -18,6 +18,7 @@ from accounts.models import CustomUser
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import F
 
 
 class MultipleFieldLookupMixin:
@@ -48,7 +49,7 @@ class SearchUserAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         検索項目で渡されたクエリパラメータでフィルタリング
         """
         queryset = CustomUser.objects.exclude(
-            username='GeniusPanKun')
+            id=1)
         get_query = self.request.query_params.getlist('get', None)
         if get_query is not None:
             queryset_result = CustomUser.objects.none()
@@ -233,7 +234,7 @@ class NoteAllListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         URLパラメータで渡されたユーザIDでフィルタリング
         """
         queryset = Note.objects.filter(
-            is_public=True)
+            is_public=True, author=F('user')).order_by('updated_at').reverse()
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -254,7 +255,7 @@ class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         """
         user_id = self.kwargs['id']
         queryset = Note.objects.filter(
-            user=user_id, is_public=True)
+            user=user_id, is_public=True).order_by('updated_at').reverse()
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -273,7 +274,7 @@ class NoteListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gene
         ログインユーザのユーザIDでフィルタリング
         """
         auth_user_id = self.request.user.id
-        return Note.objects.filter(user=auth_user_id)
+        return Note.objects.filter(user=auth_user_id).order_by('updated_at').reverse()
 
     def get(self, request, *args, **kwargs):
         """ノート一覧を取得"""

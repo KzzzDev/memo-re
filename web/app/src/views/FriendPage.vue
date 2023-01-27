@@ -232,6 +232,9 @@ h2 {
   top: 1px;
   left: 1px;
   opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .myPageImage p:hover{
   opacity: 1;
@@ -249,5 +252,8 @@ h2 {
 }
 .friendReq:hover {
   background: #0015ff;
+}
+.hover:hover {
+  background: #7b98ff;
 }
 </style>
