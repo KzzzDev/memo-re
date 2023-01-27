@@ -9,9 +9,11 @@
           <div class="myIcon">
             <img :src="user.icon_uri" alt="アイコン" v-cloak />
           </div>
-          <div class="textWrap">
+          <div class="textWrap flex">
             <p class="username" v-cloak>{{ user.username }}</p>
+            <router-link to="/Update"><img class="setting" src="/img/settings.png" alt="設定アイコン"></router-link>
           </div>
+          
         </div>
         <div class="flex buttonWrap">
           <h2>すべての記憶</h2>
@@ -139,6 +141,13 @@ export default {
 }
 .textWrap {
   margin: 10px 0 0 40px;
+}
+.textWrap p {
+  margin-right: 20px;
+}
+.setting {
+  width: 30px;
+  height: 30px;
 }
 .username {
   font-size: 32px;
