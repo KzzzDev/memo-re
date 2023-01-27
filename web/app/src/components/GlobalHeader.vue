@@ -499,9 +499,14 @@ h3{
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .gl-friendImg img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .gl-friendWrap p {
   font-size: 14px;
@@ -609,9 +614,14 @@ h2 {
   height: 140px;
   border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .gl-modalImg img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .gl-shareModalImg {
   margin: 0 auto;
@@ -628,9 +638,14 @@ h2 {
   height: 80px;
   border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .gl-shareModalIcon img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .modalText {
   margin-top: 14px;

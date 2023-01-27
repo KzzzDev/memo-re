@@ -187,9 +187,14 @@ h2 {
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .gl-friendImg img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .gl-friendWrap p {
   font-size: 14px;
@@ -221,9 +226,14 @@ h2 {
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .modalImage img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .modal p {
   margin-top: 6px;
