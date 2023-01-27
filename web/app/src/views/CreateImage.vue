@@ -10,63 +10,7 @@
         <p class="error" v-if="titleError">※題名を入力してください</p>
         <input v-model="title" type="text" class="text" maxlength="40" />
         <br />
-        <p class="title">キーワード
-          <small id="modalOpen" class="modalOpen" @click="OpneModal()">ヒント</small>
-          <div id="easyModal" class="modal">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1>キーワード（プロンプト）入力のコツ</h1>
-                <span class="modalClose">×</span>
-              </div>
-              <div class="modal-body">
-                <div class="modal-body-block">
-                  <h2>&#040;&#041;を使ってキーワードの要素を強調しよう！</h2>
-                  <p><code class="code">&#040;柴犬と散歩中の若い男の人&#041;、住宅街、全身、俯瞰的</code></p>
-                  <p>上記のように強調したいキーワードを&#040;&#041;で囲むことによって、そのキーワードが色濃く反映された画像が生成されます。特に重要視したいキーワードに使いましょう。</p>
-                  <p>※&#040;&#041;を2重3重にしていくと、さらに強調されます。</p>
-                </div>
-
-                <hr>
-
-                <div class="modal-body-block">
-                  <h2>&#091;&#093;を使ってキーワードの要素を控えめにしよう！</h2>
-                  <p><code class="code">&#040;柴犬と散歩中の若い男の人&#041;、住宅街、全身、&#091;俯瞰的&#093;</code></p>
-                  <p>上記のように強調したいキーワードを&#091;&#093;で囲むことによって、そのキーワードが弱められた画像が生成されます。</p>
-                  <p>※&#091;&#093;を2重3重にしていくと、さらに弱められます。</p>
-                </div>
-
-                <hr>
-
-                <div class="modal-body-block">
-                  <h2>キーワードの順番を考えよう！</h2>
-                  <p>最初に宣言したキーワードほど、要素が強く反映されます。反対に後ろに宣言したキーワードほど、要素が弱く反映されます。</p>
-                </div>
-
-                <hr>
-
-                <div class="modal-body-block">
-                  <h2>文章でキーワードを入力してみよう！</h2>
-                  <p>短い単語を複数個入力するより、文章で入力する方が、イメージ通りの画像が出力される場合があります。</p>
-                </div>
-
-                <hr>
-
-                <div class="modal-body-block">
-                  <h2>特定のキーワードを入れてみよう！</h2>
-                  <p>特定のキーワードを入力することで、画像が美しくなったり、特徴のある画像を生成することができます。このようなキーワードはたくさん存在します。</p>
-                </div>
-
-                <hr>
-
-                <div class="modal-body-block">
-                  <h3>詳しくはStable Diffusionの画像出力方法のコツについて検索してみてください。是非、様々な画像を生成してみてね！！</h3>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <span class="space">※複数入力の場合は間に,または、をつけてください。</span>
-        </p>
+        <p class="title">キーワード<small id="modalOpen" class="modalOpen" @click="OpneModal()">ヒント</small><span class="space">※複数入力の場合は間に,または、をつけてください。</span></p>
         <p class="error" v-if="keyError">※キーワードが入力されていません</p>
         <input
           v-model="keyword"
@@ -104,8 +48,52 @@
             </div>
           </div>
         </div>
-      </template>
+      </template>  
     </div>
+    <div class="modalWrap">
+      <div id="easyModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>キーワード（プロンプト）入力のコツ</h1>
+            <span class="modalClose">×</span>
+          </div>
+          <div class="modal-body">
+            <div class="modal-body-block">
+              <h2>&#040;&#041;を使ってキーワードの要素を強調しよう！</h2>
+              <p><code class="code">&#040;柴犬と散歩中の若い男の人&#041;、住宅街、全身、俯瞰的</code></p>
+              <p>上記のように強調したいキーワードを&#040;&#041;で囲むことによって、そのキーワードが色濃く反映された画像が生成されます。特に重要視したいキーワードに使いましょう。</p>
+              <p>※&#040;&#041;を2重3重にしていくと、さらに強調されます。</p>
+            </div>
+            <hr>
+            <div class="modal-body-block">
+              <h2>&#091;&#093;を使ってキーワードの要素を控えめにしよう！</h2>
+              <p><code class="code">&#040;柴犬と散歩中の若い男の人&#041;、住宅街、全身、&#091;俯瞰的&#093;</code></p>
+              <p>上記のように強調したいキーワードを&#091;&#093;で囲むことによって、そのキーワードが弱められた画像が生成されます。</p>
+              <p>※&#091;&#093;を2重3重にしていくと、さらに弱められます。</p>
+            </div>
+            <hr>
+            <div class="modal-body-block">
+              <h2>キーワードの順番を考えよう！</h2>
+              <p>最初に宣言したキーワードほど、要素が強く反映されます。反対に後ろに宣言したキーワードほど、要素が弱く反映されます。</p>
+            </div>
+            <hr>
+            <div class="modal-body-block">
+              <h2>文章でキーワードを入力してみよう！</h2>
+              <p>短い単語を複数個入力するより、文章で入力する方が、イメージ通りの画像が出力される場合があります。</p>
+            </div>
+            <hr>
+            <div class="modal-body-block">
+              <h2>特定のキーワードを入れてみよう！</h2>
+              <p>特定のキーワードを入力することで、画像が美しくなったり、特徴のある画像を生成することができます。このようなキーワードはたくさん存在します。</p>
+            </div>
+            <hr>
+            <div class="modal-body-block">
+              <h3>詳しくはStable Diffusionの画像出力方法のコツについて検索してみてください。是非、様々な画像を生成してみてね！！</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
   </div>
 </template>
 
@@ -352,7 +340,22 @@ button:hover {
   font-size: 12px;
 }
 
+
+
+
 /* ----------モーダル---------- */
+hr {
+  height:0;
+  border:0;
+  border-top:1px solid #ccc;
+  border-bottom:1px solid #fff;
+}
+.modalWrap {
+  position: absolute;
+  width: calc(100% - 170px);
+  top:0;
+  left: 170px;
+}
 .modalOpen {
   color: #00e;
   text-decoration: underline;
@@ -360,20 +363,15 @@ button:hover {
 
 }
 
-.modalOpenButton:hover {
-}
-
 .modal {
   display: none;
-  position: fixed;
+  position:fixed;
   z-index: 1;
-  left: 0;
-  top: 0;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 170px);
   border-radius: 26px;
   overflow: auto;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(255,255,255,0.5);
    /*IE(Internet Explorer)・Microsoft Edgeへの対応*/
   -ms-overflow-style: none;
   /*Firefoxへの対応*/
@@ -387,10 +385,10 @@ button:hover {
 
 .modal-content {
   background-color: #fff;
-  width: 90%;
-  margin: 5% auto;
+  width: 1000px;
+  margin: 100px auto 100px;
   border-radius: 26px;
-  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.5),0 7px 20px 0 rgba(0,0,0,0.17);
   animation-name: modalopen;
   animation-duration: 1s;
 }
