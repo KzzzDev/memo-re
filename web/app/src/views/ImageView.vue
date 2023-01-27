@@ -292,6 +292,9 @@ export default {
   top: 0;
   left: 0;
   opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .scrImg p:hover {
   opacity: 1;
