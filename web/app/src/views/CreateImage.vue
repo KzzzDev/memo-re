@@ -147,38 +147,38 @@ export default {
       // console.log(this.loadFlag);
       this.keywordAry = this.keyword.split("、");
       this.keyword = this.keywordAry.join(",");
-      // const requestBody = {
-      //   user_id: this.user,
-      //   keyword: this.keyword,
-      // };
-      // await axios
-      //   .post(AI_SERVER + "/ai/debug", requestBody)
-      //   .then((response) => {
-      //     //ローカル時コメントアウト
-      //     this.image_uri = response.data.img_file;
+      const requestBody = {
+        user_id: this.user,
+        keyword: this.keyword,
+      };
+      await axios
+        .post(AI_SERVER + "/ai/debug", requestBody)
+        .then((response) => {
+          //ローカル時コメントアウト
+          this.image_uri = response.data.img_file;
 
-      //     // ローカルストレージ
-      //     localStorage.setItem("title", this.title);
-      //     localStorage.setItem("keyword", this.keyword);
-      //     localStorage.setItem("text_uri", this.text_uri);
-      //     localStorage.setItem("image_uri", this.image_uri);
-      //     //画面遷移
-      //     this.loadFlag = false;
-      //     this.$router.push("/PreviewImage");
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //     console.log("失敗");
-      //   });
+          // ローカルストレージ
+          localStorage.setItem("title", this.title);
+          localStorage.setItem("keyword", this.keyword);
+          localStorage.setItem("text_uri", this.text_uri);
+          localStorage.setItem("image_uri", this.image_uri);
+          //画面遷移
+          this.loadFlag = false;
+          this.$router.push("/PreviewImage");
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("失敗");
+        });
       //test
       //ローカルストレージ
-      localStorage.setItem("title", this.title);
-      localStorage.setItem("keyword", this.keyword);
-      localStorage.setItem("text_uri", this.text_uri);
-      localStorage.setItem("image_uri", this.image_uri);
-      console.log(this.keyword);
-      //画面遷移
-      this.$router.push("/PreviewImage");
+      // localStorage.setItem("title", this.title);
+      // localStorage.setItem("keyword", this.keyword);
+      // localStorage.setItem("text_uri", this.text_uri);
+      // localStorage.setItem("image_uri", this.image_uri);
+      // console.log(this.keyword);
+      // //画面遷移
+      // this.$router.push("/PreviewImage");
       //test end
 
       this.loadFlag = false;
