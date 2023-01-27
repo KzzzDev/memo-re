@@ -28,7 +28,7 @@
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id, img.title, img.keyword,img.image_uri, img.text_uri, img.is_public, img.created_at)"
+            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public, img.created_at)"
           >
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
             <p class="opacity">{{ img.title }}</p>
@@ -40,7 +40,7 @@
       <div class="modalContent">
         <h2>共有申請しますか？</h2>
         <img :src="image_uri" alt="画像" />
-        <p v-if="errorFlag == true">すでに相手から申請が来ています</p>
+        <p v-if="error != '' ">{{ error }}</p>
         <div class="flex button">
           <button class="cancel" @click="Cancel()">キャンセル</button>
           <button class="accept" @click="Share()">申請</button>
@@ -69,7 +69,7 @@ export default {
       keywordAry: "",
       is_public: null,
       modalFlag: false,
-      errorFlag: false,
+      error: "",
       time: "",
     };
   },
@@ -106,7 +106,7 @@ export default {
       localStorage.setItem("noteId", noteId);
       this.title = title;
       this.keyword = keyword.split(",");
-      this.image_uri = IMG_URL + img_uri;
+      this.img_uri = IMG_URL + img_uri;
       this.text_uri = text_uri;
       this.is_public = is_public;
       this.time = time.split("T");
@@ -141,11 +141,9 @@ export default {
     },
     //申請
     Share() {
-      this.errorFlag = false;
       const requestBody = {
         user_from: parseInt(this.user),
-        note: parseInt(this.id),
-        get: true,
+        note: parseInt(this.id)
       };
       console.log(requestBody);
       const token = this.$cookies.get("access");
@@ -157,8 +155,8 @@ export default {
           this.modalFlag = !this.modalFlag;
           return;
         })
-        .catch(() => {
-          this.errorFlag = true;
+        .catch((response) => {
+          this.error = response.response.data.error;
         });
     },
   },
@@ -245,6 +243,7 @@ button {
 button:hover{
   background: #ff32b1;
 }
+
 .scrImg {
   position: relative;
   width: 150px;

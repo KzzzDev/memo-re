@@ -34,7 +34,7 @@
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id, img.title, img.keyword,img.image_uri, img.text_uri, img.is_public ,img.created_at)"
+            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public ,img.created_at)"
           >
             <!-- {{ img.is_public }} -->
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
@@ -104,7 +104,6 @@ export default {
           console.log(e);
           return;
         });
-        
     },
     ImgSrc(img_uri) {
       const img = IMG_URL + img_uri;
@@ -115,7 +114,7 @@ export default {
       localStorage.setItem("noteId", noteId);
       this.data.title = title;
       this.keywordAry = keyword.split(",");
-      this.data.image_uri = IMG_URL + img_uri;
+      this.data.img_uri = IMG_URL + img_uri;
       this.data.text_uri = text_uri;
       this.is_public = is_public;
       this.time = time.split("T");
@@ -205,8 +204,10 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   filter: drop-shadow(1px 1px 2px #aaa);
+  filter: drop-shadow(1px 1px 2px #aaa);
 }
 .public:hover{
+  filter: drop-shadow(2px 2px 4px #888);
   filter: drop-shadow(2px 2px 4px #888);
 }
 .public img{
@@ -238,6 +239,7 @@ export default {
   width: 100%;
   border-radius: 20px;
   box-shadow: 6px 5px 6px 3px rgb(147, 147, 147);
+  box-shadow: 6px 5px 6px 3px rgb(147, 147, 147);
 }
 .scrWrap {
   margin-top: 60px;
@@ -252,6 +254,7 @@ export default {
   height: 150px;
   margin:15px;
   cursor: pointer;
+  box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
   box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
 }
 .scrImg img {
@@ -278,6 +281,7 @@ export default {
 button {
   margin-top: 40px;
   color: #fff;
+  background: #ff78f4;
   background: #ff78f4;
   padding: 10px 26px;
   border-radius: 10px;

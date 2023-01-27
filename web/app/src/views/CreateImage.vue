@@ -16,7 +16,7 @@
           v-model="keyword"
           type="text"
           class="text"
-          maxlength="255"
+          maxlength="100"
           placeholder="aaa,bbb、ccc,ddd"
         />
         <br />
@@ -24,7 +24,7 @@
         <p class="error" v-if="textError">※説明が入力されていません</p>
         <textarea
           v-model="text_uri"
-          maxlength="255"
+          maxlength="200"
           name=""
           cols="30"
           rows="10"

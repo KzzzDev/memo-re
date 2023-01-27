@@ -63,14 +63,13 @@ export default {
       user: [],
       id: localStorage.getItem("friendId"),
       friendReqFlag: false,
-      friendFlag: false,
     };
   },
   methods: {
     Created: async function () {
       const userId = localStorage.getItem("friendId");
       const token = this.$cookies.get("access");
-      console.log(userId);
+      console.log(token);
       await axios
         .get(API_SERVER + "/api/v1/brains/friends/" + userId +"/", {
           headers: { Authorization: "JWT " + token },
@@ -81,20 +80,6 @@ export default {
           return;
         })
         .catch((e) => {
-          console.log(e);
-          return;
-        });
-      await axios
-        .get(API_SERVER + "/api/v1/friends/check/" + Number(userId) + "/", {
-          headers: { Authorization: "JWT " + token },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.friendFlag = false;
-          return;
-        })
-        .catch((e) => {
-          this.friendFlag = true;
           console.log(e);
           return;
         });
