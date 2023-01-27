@@ -163,7 +163,7 @@ h2 {
   border: solid 1px #ccc;
   width: 180px;
   position: relative;
-  box-shadow:8px 6px 8px 3px #999;
+  box-shadow: 0px 0px 4px 1px rgb(80, 80, 80);
 }
 .myPageImage img {
   width: 100%;
@@ -196,12 +196,12 @@ h2 {
   line-height: 30px;
   padding: 0 10px;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   border-radius: 10px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
 
 .friendReq:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
 </style>

@@ -457,7 +457,7 @@ img {
   width: 260px;
   height: 100vh;
   background: #e3e3e4;
-  box-shadow: 6px 0px 8px 3px #ccc;
+  box-shadow: 1px 0px 4px 2px rgb(183, 183, 183);
 }
 li:hover,
 .pointer:hover {
@@ -546,7 +546,7 @@ h3{
   margin: 10px 0 0 16px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow: 0px 0px 6px 3px #bbb inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 .text:focus {
   outline: none;
@@ -561,12 +561,12 @@ h3{
   height: 30px;
   padding: 0 10px;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   border-radius: 10px;
 }
 
 .gl-search button:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
 
 /* 通知 */
@@ -574,7 +574,7 @@ h3{
   width: 130px;
   height: 40px;
   text-align: center;
-  box-shadow: 0px 0px 6px 3px #ccc inset;
+  box-shadow: 0px 0px 1px 1px rgb(162, 162, 162) inset;
 }
 .gl-noticeButton button:hover{
   background: #f1f1f1;

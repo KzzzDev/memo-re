@@ -260,7 +260,7 @@ h1 {
   margin-bottom: 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow: 0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 .text:focus {
   outline: none;
@@ -276,7 +276,7 @@ h1 {
   margin-top: 6px;
   margin-bottom: 20px;
   padding: 14px 10px 6px 10px;
-  box-shadow: 0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 textarea:focus {
   outline: none;
@@ -290,10 +290,10 @@ button {
   height: 54px;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
 button:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
 
 .loadingWrap {
