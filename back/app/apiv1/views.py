@@ -49,7 +49,7 @@ class SearchUserAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         検索項目で渡されたクエリパラメータでフィルタリング
         """
         queryset = CustomUser.objects.exclude(
-            username='GeniusPanKun')
+            id=1)
         get_query = self.request.query_params.getlist('get', None)
         if get_query is not None:
             queryset_result = CustomUser.objects.none()
