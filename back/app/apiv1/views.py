@@ -225,7 +225,7 @@ class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIVie
 class NoteAllListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
     """全てのユーザの公開ノート一覧の取得APIクラス"""
 
-    queryset = Note.objects.all()
+    queryset = Note.objects.order_by('id')
     serializer_class = NoteAllListSerializer
 
     def get_queryset(self):
@@ -233,7 +233,7 @@ class NoteAllListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         URLパラメータで渡されたユーザIDでフィルタリング
         """
         queryset = Note.objects.filter(
-            is_public=True)
+            is_public=True).order_by('updated_at').reverse()
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -254,7 +254,7 @@ class NoteListFriendAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         """
         user_id = self.kwargs['id']
         queryset = Note.objects.filter(
-            user=user_id, is_public=True)
+            user=user_id, is_public=True).order_by('updated_at').reverse()
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -273,7 +273,7 @@ class NoteListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gene
         ログインユーザのユーザIDでフィルタリング
         """
         auth_user_id = self.request.user.id
-        return Note.objects.filter(user=auth_user_id)
+        return Note.objects.filter(user=auth_user_id).order_by('updated_at').reverse()
 
     def get(self, request, *args, **kwargs):
         """ノート一覧を取得"""
