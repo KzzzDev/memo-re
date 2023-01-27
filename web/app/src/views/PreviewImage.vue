@@ -8,6 +8,7 @@
         <div class="preWrap">
           <div class="flex innerWrap">
             <p class="title">{{ title }}</p>
+            <p>公開</p>
           </div>
           <ul class="flex" style="flex-wrap: wrap;">
             <li v-for="word in keywordAry" v-bind:key="word" class="keyword" style=" margin-bottom: 6px;">
@@ -169,20 +170,31 @@ export default {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
 .button {
   float: right;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
+  background: #1e4fff;
   width: 160px;
   height: 54px;
   text-align: center;
   border-radius: 5px;
   line-height: 54px;
 }
+.button:hover{
+  background: #0015ff;
+}
+.button:hover{
+  background: #0015ff;
+}
 .preButton {
-  background: #fff;
-  color: #000;
-  border: solid 1px #ccc6c6;
+  background: #ff78f4;
+}
+.preButton:hover {
+  background: #ff32b1;
+  background: #ff78f4;
+}
+.preButton:hover {
+  background: #ff32b1;
 }
 </style>

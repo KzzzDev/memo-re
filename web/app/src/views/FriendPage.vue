@@ -166,7 +166,7 @@ export default {
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow:2px 2px 8px 3px #999;
+  box-shadow: 0px 0px 4px 1px rgb(80, 80, 80);
 }
 .myIcon img {
   width: 100%;
@@ -215,12 +215,11 @@ h2 {
   border: solid 1px #ccc;
   width: 180px;
   position: relative;
-  box-shadow:8px 6px 8px 3px #999;
+  box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
 }
 .myPageImage img {
   width: 100%;
 }
-
 .myPageImage p{
   width: 178px;
   height: 178px;
@@ -233,27 +232,22 @@ h2 {
   top: 1px;
   left: 1px;
   opacity: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .myPageImage p:hover{
   opacity: 1;
   transition: 0.6s;
 }
-
 .friendReq {
   margin: 10px 0 0 40px;
   height: 30px;
   line-height: 30px;
   padding: 0 10px;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   border-radius: 10px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
-
-.hover:hover {
-  background: #7b98ff;
+.friendReq:hover {
+  background: #0015ff;
 }
 </style>

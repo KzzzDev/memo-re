@@ -141,7 +141,6 @@ export default {
     },
     //申請
     Share() {
-      this.errorFlag = false;
       const requestBody = {
         user_from: parseInt(this.user),
         note: parseInt(this.id),
@@ -211,7 +210,7 @@ export default {
   flex-wrap: wrap;
 }
 .title {
-  width: 400px;
+  width: 200px;
   overflow-wrap: break-word;
   font-size: 28px;
   font-weight: bolder;
@@ -244,7 +243,7 @@ export default {
 .preImg img {
   width: 100%;
   border-radius: 20px;
-  box-shadow: 8px 6px 8px 3px #999;
+  box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
 }
 .scrWrap {
   margin-top: 60px;
@@ -256,11 +255,15 @@ export default {
 button {
   margin-top: 40px;
   color: #fff;
-  background: #F88CDF;
+  background: #ff78f4;
   padding: 10px 26px;
   border-radius: 10px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
+button:hover{
+  background: #ff32b1;
+}
+
 .scrImg {
   position: relative;
   width: 150px;
@@ -272,7 +275,6 @@ button {
 .scrImg img {
   width: 150px;
 }
-
 .scrImg p {
   font-size: 12px;
   width: 150px;
@@ -286,22 +288,17 @@ button {
   top: 0;
   left: 0;
   opacity: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .scrImg p:hover {
   opacity: 1;
   transition: 0.6s;
 }
-
 .modal {
   background: rgba(255, 255, 255, 0.4);
   width: calc(100% - 170px);
   height: 100vh;
   left: 170px;
 }
-
 .modalContent {
   width: 420px;
   height: 500px;
@@ -329,7 +326,6 @@ button {
   margin: 0 auto;
   justify-content: space-between;
 }
-
 .modalContent button {
   float: right;
   color: #fff;
@@ -340,22 +336,25 @@ button {
   box-shadow: 4px 4px 8px 3px #bbb;
 }
 .cancel {
-  background: #818181;
+  background: #ff78f4;
 }
-
+.cancel:hover {
+  background: #ff32b1;
+}
 .accept {
-  background: #6d8dff;
+  background: #1e4fff;
+}
+.accept:hover {
+  background: #0015ff;
 }
 .modalContent .accept:hover {
   background: #7b98ff;
 }
-
 .modalContent p {
   margin-top: 20px;
   text-align: center;
   font-size: 16px;
 }
-
 .time {
   margin-top: 10px;
   font-weight: bold;

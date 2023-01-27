@@ -457,7 +457,7 @@ img {
   width: 260px;
   height: 100vh;
   background: #e3e3e4;
-  box-shadow: 6px 0px 8px 3px #ccc;
+  box-shadow: 1px 0px 4px 2px rgb(183, 183, 183);
 }
 li:hover,
 .pointer:hover {
@@ -465,17 +465,14 @@ li:hover,
   color: #ff6de8;
   transition: 0.1s;
 }
-
 hr {
   color: #ccc;
 }
-
 .produceButton {
   margin-top: 60px;
   text-align: center;
   bottom: 180px;
 }
-
 /* フレンド */
 .sideTitle {
   justify-content: space-between;
@@ -535,9 +532,7 @@ h3{
   font-size: 12px;
   font-weight: normal;
 }
-
 /* ユーザー検索 */
-
 .text {
   width: 170px;
   height: 30px;
@@ -546,40 +541,35 @@ h3{
   margin: 10px 0 0 16px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow: 0px 0px 6px 3px #bbb inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 .text:focus {
   outline: none;
 }
-
 .gl-search .wrap {
   margin-bottom: 10px;
 }
-
 .gl-search button {
   margin: 10px 0 0 4px;
   height: 30px;
   padding: 0 10px;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   border-radius: 10px;
 }
-
 .gl-search button:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
-
 /* 通知 */
 .gl-noticeButton button{
   width: 130px;
   height: 40px;
   text-align: center;
-  box-shadow: 0px 0px 6px 3px #ccc inset;
+  box-shadow: 0px 0px 1px 1px rgb(162, 162, 162) inset;
 }
 .gl-noticeButton button:hover{
   background: #f1f1f1;
 }
-
 /* モーダル */
 .friendModal {
   position: absolute;
@@ -590,14 +580,13 @@ h3{
   background: rgba(255,255,255,0.4);
   z-index: 1;
 }
-
 .modalWrap {
   margin: 100px auto 0;
   width:420px;
   height: 500px;
   background: #fff;
   border-radius: 20px;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 2px rgb(111, 111, 111));
   padding-top: 60px;
 }
 .shareModalWrap {
@@ -650,7 +639,6 @@ h2 {
   font-weight: bold;
   text-align: center;
 }
-
 .shareModalText {
   margin-top: 14px;
   font-size: 14px;
@@ -674,23 +662,25 @@ h2 {
 /* .button:hover {
   background: #7b98ff;
 } */
-
 .cancel {
-  background: #818181;
+  background: #ff78f4;
 }
-
+.cancel:hover {
+  background: #ff32b1;
+}
 .accept {
-  background: #6d8dff;
+  background: #1e4fff;
+}
+.accept:hover{
+  background: #0015ff;
 }
 .modalContent .accept:hover {
   background: #7b98ff;
 }
-
 .close {
   margin-top: 40px;
   text-align: center;
 }
-
 .overflow {
   width: 170px;
   white-space: nowrap;

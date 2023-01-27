@@ -16,7 +16,7 @@
           v-model="keyword"
           type="text"
           class="text"
-          maxlength="255"
+          maxlength="100"
           placeholder="aaa,bbb、ccc,ddd"
         />
         <br />
@@ -24,7 +24,7 @@
         <p class="error" v-if="textError">※説明が入力されていません</p>
         <textarea
           v-model="text_uri"
-          maxlength="255"
+          maxlength="200"
           name=""
           cols="30"
           rows="10"
@@ -257,20 +257,17 @@ h1 {
   border-radius: 26px;
   position: relative;
   background: #fff;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 4px rgb(187, 187, 187));
 }
-
 .innerWrap {
   /* width: 420px; */
   width: 720px;
   margin: 0 auto;
 }
-
 .title {
   /* margin-bottom: 10px; */
   color: #000;
 }
-
 .text {
   /* width: 420px; */
   width: 720px;
@@ -280,12 +277,11 @@ h1 {
   margin-bottom: 20px;
   padding: 6px 0 6px 10px;
   border-radius: 10px;
-  box-shadow: 0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 .text:focus {
   outline: none;
 }
-
 .textarea {
   resize: none;
   /* width: 420px; */
@@ -296,12 +292,11 @@ h1 {
   margin-top: 6px;
   margin-bottom: 20px;
   padding: 14px 10px 6px 10px;
-  box-shadow: 0px 0px 8px 3px #ccc inset;
+  box-shadow: 0px 0px 2px 2px #ccc inset;
 }
 textarea:focus {
   outline: none;
 }
-
 button {
   float: right;
   color: #fff;
@@ -310,12 +305,11 @@ button {
   height: 54px;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
 button:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
-
 .loadingWrap {
   /* width: 510px; */
   width: 810px;
@@ -346,7 +340,6 @@ button:hover {
 .loadingContent .warning {
   font-size: 12px;
 }
-
 .loadingContent div {
   margin-top: 30px;
 }
@@ -355,14 +348,9 @@ button:hover {
   color: #f00;
   /* margin-left: 10px; */
 }
-
 .space {
   font-size: 12px;
 }
-
-
-
-
 /* ----------モーダル---------- */
 hr {
   height:0;
@@ -380,9 +368,7 @@ hr {
   color: #00e;
   text-decoration: underline;
   cursor: pointer;
-
 }
-
 .modal {
   display: none;
   position:fixed;
@@ -397,12 +383,10 @@ hr {
   /*Firefoxへの対応*/
   scrollbar-width: none;
 }
-
  /*Google Chrome、Safariへの対応*/
 .modal::-webkit-scrollbar{
   display: none;
 }
-
 .modal-content {
   background-color: #fff;
   width: 1000px;
@@ -412,18 +396,15 @@ hr {
   animation-name: modalopen;
   animation-duration: 1s;
 }
-
 @keyframes modalopen {
   from {opacity: 0}
   to {opacity: 1}
 }
-
 .modal-header h1 {
   margin: 1rem 0;
   font-size: 32px;
   color: #fff;
 }
-
 .modal-header {
   background: #6d8dff;
   border-radius: 26px 26px 0 0;
@@ -431,39 +412,32 @@ hr {
   display: flex;
   justify-content: space-between;
 }
-
 .modalClose {
   font-size: 2rem;
   margin: auto 0;
   color: #fff;
 }
-
 .modalClose:hover {
   cursor: pointer;
   color: #ff78f4;
 }
-
 .modal-body {
   padding: 0 20px 20px 20px;
   border-radius: 26px;
   color: #000;
   line-height: 2;
 }
-
 .modal-body-block {
   margin: 20px auto;
 }
-
 .modal-body h2 {
   font-size: 24px;
   font: bold;
 }
-
 .modal-body h3 {
   font-size: 20px;
   font: bold;
 }
-
 .code {
   padding: 0.2em 0.3em;
   border-radius: 5px;
