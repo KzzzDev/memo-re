@@ -60,7 +60,7 @@ export default {
   methods: {
     Created: async function () {
       const token = this.$cookies.get("access");
-      console.log(token);
+      //console.log(token);
       await axios
         .get(API_SERVER + "/api/v1/auth/users/me/", {
           headers: { Authorization: "JWT " + token },
@@ -96,10 +96,30 @@ export default {
   },
   created() {
     if (this.$cookies.get("access") === null) {
-      this.$router.push("/SignIn");
+      const refresh = this.$cookies.get("refresh");
+      if (refresh != null) {
+        console.log("リフレッシュ");
+        const requestBody = {
+          refresh: refresh,
+        };
+        axios
+          .post(API_SERVER + "/api/v1/auth/jwt/refresh/", requestBody)
+          .then((response) => {
+            let token = response.data.access;
+            this.$cookies.set("access", token, 60 * 30);
+            location.reload();
+          })
+          .catch(() => {
+            //エラー回避用
+            this.$router.push("/SignIn");
+          });
+      }else{
+        this.$router.push("/SignIn");
+      }
       return;
     }
     this.Created();
+    
   },
 };
 </script>

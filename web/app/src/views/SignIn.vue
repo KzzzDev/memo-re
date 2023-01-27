@@ -73,6 +73,7 @@ export default {
         .then((response) => {
           this.data = response.data;
           const token = response.data.access;
+          const refresh = response.data.refresh;
           let user = null;
           console.log("ログイン成功");
           console.log(token);
@@ -83,7 +84,8 @@ export default {
             })
             .then((response2) => {
               user = response2.data.id;
-              this.$cookies.set("access", token, 60 * 50);
+              this.$cookies.set("access", token, 60 * 30);
+              this.$cookies.set("refresh", refresh, 60 * 60 * 24 * 2);
               //console.log(this.$cookies.get("access"));
               localStorage.setItem("id", user);
               console.log("成功");
@@ -101,6 +103,13 @@ export default {
 
         });
     },
+  },
+  created() {
+    const userId = this.$cookies.get("access");
+    if (userId != null) {
+      this.$router.push("/myPage");
+      return;
+    }
   },
 };
 </script>

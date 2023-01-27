@@ -123,6 +123,13 @@ export default {
         });
     },
   },
+  created() {
+    const userId = this.$cookies.get("access");
+    if (userId != null) {
+      this.$router.push("/myPage");
+      return;
+    }
+  },
 };
 </script>
 
