@@ -34,7 +34,7 @@
             v-for="img in scrollData"
             v-bind:key="img"
             class="scrImg"
-            @click="ImageView(img.id, img.title, img.keyword,img.img_uri, img.text_uri, img.is_public ,img.created_at)"
+            @click="ImageView(img.id, img.title, img.keyword,img.image_uri, img.text_uri, img.is_public ,img.created_at)"
           >
             <!-- {{ img.is_public }} -->
             <img :src="ImgSrc(img.image_uri)" alt="画像" />
@@ -114,7 +114,7 @@ export default {
       localStorage.setItem("noteId", noteId);
       this.data.title = title;
       this.keywordAry = keyword.split(",");
-      this.data.img_uri = IMG_URL + img_uri;
+      this.data.image_uri = IMG_URL + img_uri;
       this.data.text_uri = text_uri;
       this.is_public = is_public;
       this.time = time.split("T");
