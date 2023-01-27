@@ -8,7 +8,6 @@
         <div class="preWrap">
           <div class="flex innerWrap">
             <p class="title">{{ title }}</p>
-            <p>公開</p>
           </div>
           <ul class="flex" style="flex-wrap: wrap;">
             <li v-for="word in keywordAry" v-bind:key="word" class="keyword" style=" margin-bottom: 6px;">

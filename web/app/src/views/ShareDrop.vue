@@ -32,8 +32,7 @@
           <p>{{ modalUser }}</p>
           <p v-if="errorFlag == true">すでに相手から申請が来ています</p>
           <div class="flex button">
-            <button class="cancel" @click="Cancel()">キャンセル</button>
-            <button class="accept" @click="Share()">申請</button>
+            <button class="cancel" @click="Cancel()">キャンセル</button>￥
             <button class="accept" @click="Share()">共有</button>
           </div>
         </div>
