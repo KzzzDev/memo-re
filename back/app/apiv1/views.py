@@ -18,6 +18,7 @@ from accounts.models import CustomUser
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import F
 
 
 class MultipleFieldLookupMixin:
@@ -225,7 +226,7 @@ class FriendRequestAnswerAPIView(mixins.UpdateModelMixin, generics.GenericAPIVie
 class NoteAllListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
     """全てのユーザの公開ノート一覧の取得APIクラス"""
 
-    queryset = Note.objects.order_by('id')
+    queryset = Note.objects.all()
     serializer_class = NoteAllListSerializer
 
     def get_queryset(self):
@@ -233,7 +234,7 @@ class NoteAllListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
         URLパラメータで渡されたユーザIDでフィルタリング
         """
         queryset = Note.objects.filter(
-            is_public=True).order_by('updated_at').reverse()
+            is_public=True, author=F('user')).order_by('updated_at').reverse()
         return queryset
 
     def get(self, request, *args, **kwargs):
