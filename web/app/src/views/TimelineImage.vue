@@ -111,27 +111,25 @@ export default {
 .preImg img {
   width: 100%;
   border-radius: 20px;
-  box-shadow: 8px 6px 8px 3px #999;
+  box-shadow: 6px 5px 6px 3px rgb(147, 147, 147);
 }
-
 .time {
   margin-top: 10px;
   font-weight: bold;
   text-align: end;
 }
-
 .button {
   float: left;
   color: #fff;
-  background: #6d8dff;
+  background: #1e4fff;
   width: 160px;
   height: 54px;
   line-height: 54px;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
 .button:hover {
-  background: #7b98ff;
+  background: #0015ff;
 }
 </style>

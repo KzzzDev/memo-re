@@ -153,7 +153,6 @@ h2 {
   width: 100%;
   height: 100%;
 }
-
 .friendWrap {
   margin-top: 100px;
   padding: 20px;
@@ -163,7 +162,6 @@ h2 {
 .gl-friendWrap {
   padding: 10px 10px 10px 10px;
 }
-
 .gl-friendImg {
   width: 100px;
   height: 100px;
@@ -193,9 +191,9 @@ h2 {
   margin: 100px auto 0;
   border-radius: 26px;
   width: 420px;
-  height: 500px;
+  height: 460px;
   background: #fff;
-  filter: drop-shadow(0px 0px 20px #aaa);
+  filter: drop-shadow(0px 0px 2px rgb(111, 111, 111));
 }
 .modalImage {
   width: 140px;
@@ -204,7 +202,6 @@ h2 {
   overflow: hidden;
   margin: 0 auto;
 }
-
 .modalImage img {
   width: 100%;
 }
@@ -214,13 +211,11 @@ h2 {
   font-weight: bold;
   text-align: center;
 }
-
 .button {
   width: 340px;
   margin: 60px auto 0;
   justify-content: space-between;
 }
-
 .modal button {
   float: right;
   color: #fff;
@@ -228,16 +223,21 @@ h2 {
   height: 54px;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 1px 1px 1px rgb(150, 150, 150);
 }
 .cancel {
-  background: #818181;
+  background: #ff78f4;
 }
-
+.cancel:hover {
+  background: #ff32b1;
+}
 .accept {
-  background: #6d8dff;
+  background: #1e4fff;
+}
+.accept:hover {
+  background: #0015ff;
 }
 .modalContent .accept:hover {
-  background: #7b98ff;
+  background: #0037ff;
 }
 </style>

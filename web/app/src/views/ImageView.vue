@@ -204,19 +204,16 @@ export default {
   background: #fff;
   border-radius: 50%;
   cursor: pointer;
-  filter: drop-shadow(2px 2px 10px #aaa);
+  filter: drop-shadow(1px 1px 2px #aaa);
 }
-
 .public:hover{
-  filter: drop-shadow(2px 2px 10px #888);
+  filter: drop-shadow(2px 2px 4px #888);
 }
-
 .public img{
   position: absolute;
   top: calc(50% - 15px);
   left: calc(50% - 15px);
 }
-
 .text_uri {
   font-size: 18px;
 }
@@ -240,7 +237,7 @@ export default {
 .preImg img {
   width: 100%;
   border-radius: 20px;
-  box-shadow: 8px 6px 8px 3px #999;
+  box-shadow: 6px 5px 6px 3px rgb(147, 147, 147);
 }
 .scrWrap {
   margin-top: 60px;
@@ -255,12 +252,11 @@ export default {
   height: 150px;
   margin:15px;
   cursor: pointer;
-  box-shadow: 8px 6px 8px 3px #999;
+  box-shadow: 3px 4px 8px 2px rgb(75, 75, 75);
 }
 .scrImg img {
   width: 150px;
 }
-
 .scrImg p {
   font-size: 12px;
   width: 150px;
@@ -274,24 +270,22 @@ export default {
   top: 0;
   left: 0;
   opacity: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .scrImg p:hover {
   opacity: 1;
   transition: 0.6s;
 }
-
 button {
   margin-top: 40px;
   color: #fff;
-  background: #F88CDF;
+  background: #ff78f4;
   padding: 10px 26px;
   border-radius: 10px;
-  box-shadow: 4px 4px 8px 3px #bbb;
+  box-shadow: 1px 2px 1px 1px rgb(194, 194, 194);
 }
-
+button:hover{
+  background: #ff32b1;
+}
 .time {
   margin-top: 10px;
   font-weight: bold;
