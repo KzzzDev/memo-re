@@ -96,18 +96,23 @@ class FriendRequestAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gener
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
 
-    def get_queryset(self):
-        """
-        ログインユーザのユーザIDでフィルタリング
-        """
-        auth_user_id = self.request.user.id
-        return Friend.objects.filter(Q(user_from=auth_user_id) | Q(user_to=auth_user_id), apply=True)
-
     def post(self, request, *args, **kwargs):
         """フレンド申請"""
+
         auth_user_id = self.request.user.id
-        request.data['user_from'] = auth_user_id
-        return self.create(request, *args, **kwargs)
+        target_user = request.data['user_to']
+
+        if auth_user_id == target_user:
+            return Response({"error": "自分自身にはフレンド申請できません。"}, status.HTTP_400_BAD_REQUEST)
+
+        queryset = Friend.objects.filter(Q(user_from=auth_user_id, user_to=target_user) | Q(
+            user_from=target_user, user_to=auth_user_id))
+
+        if not queryset:
+            request.data['user_from'] = auth_user_id
+            return self.create(request, *args, **kwargs)
+        else:
+            return Response({"error": "既にフレンド申請をしている or されています。"}, status.HTTP_400_BAD_REQUEST)
 
 
 class FriendRequestListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
