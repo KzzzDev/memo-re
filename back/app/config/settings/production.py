@@ -8,7 +8,7 @@ DEBUG = False
 
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['api.memo-re.org', ]
 
 ################
 # Static files #
@@ -62,8 +62,7 @@ REST_FRAMEWORK = {
 # クロスオリジン許可
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
+    'https://memo-re.org',
 )
 
 ###########
@@ -90,7 +89,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/var/log/{BASE_DIR.name}/app.log',
+            'filename': '/var/log/memore_app.log',
             'formatter': 'production',
         },
     },

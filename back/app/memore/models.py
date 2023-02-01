@@ -70,11 +70,11 @@ class Note(models.Model):
         db_table = 'note'
         verbose_name = verbose_name_plural = 'ノート'
 
-        constraints = [
-            # userとauthorでユニーク制約
-            models.UniqueConstraint(
-                fields=['user', 'author'], name='unique_user_author')
-        ]
+        # constraints = [
+        #     # userとauthorでユニーク制約
+        #     models.UniqueConstraint(
+        #         fields=['user', 'author'], name='unique_user_author')
+        # ]
 
     user = models.ForeignKey(
         CustomUser,
@@ -157,6 +157,10 @@ class NoteShare(models.Model):
         verbose_name="ノートID",
         related_name="noteshare_note_id",
         on_delete=models.CASCADE,
+    )
+    get = models.BooleanField(
+        _("もらう"),
+        default=True,
     )
     notified = models.BooleanField(
         _("通知"),

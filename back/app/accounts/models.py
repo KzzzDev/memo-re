@@ -2,9 +2,9 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from .validators import UnicodeUsernameValidator
-from imagekit.models import ImageSpecField
-from pilkit.processors import ResizeToFill
+# from .validators import UnicodeUsernameValidator
+# from imagekit.models import ImageSpecField
+# from pilkit.processors import ResizeToFill
 
 
 # class UserManager(UserManager):
@@ -61,7 +61,7 @@ class CustomUser(AbstractUser):
     )
     email = models.EmailField(_('email address'), max_length=255, unique=True)
     icon_uri = models.ImageField(
-        _('アイコンパス'), max_length=255, upload_to='icon', default='icon/default.jpg')
+        _('アイコンパス'), max_length=255, upload_to='icon', default='icon/default.png')
     # icon_thumbnail = ImageSpecField(
     #     source='icon_uri',
     #     processors=[ResizeToFill(300, 300)],

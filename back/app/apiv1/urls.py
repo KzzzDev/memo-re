@@ -2,24 +2,31 @@ from django.urls import path, include
 from rest_framework import routers
 
 from . import views
-from .views import FriendListRequestAPIView
-from .views import FriendRequestApplyAPIView
-from .views import FriendRequestDeleteAPIView
 
 router = routers.DefaultRouter()
 
 app_name = 'apiv1'
 urlpatterns = [
     path('', include(router.urls)),
-    path('friends/request/', FriendListRequestAPIView.as_view()),
-    path('friends/request/apply/<int:user_from>/',
-         views.FriendRequestApplyAPIView.as_view()),
-    path('friends/request/delete/<int:user_to>/',
-         views.FriendRequestDeleteAPIView.as_view()),
+    path('search/', views.SearchUserAPIView.as_view()),
+    path('friends/check/<int:user_id>/', views.FriendCheckAPIView.as_view()),
+    path('friends/apply/<int:user_from>/',
+         views.FriendRequestAnswerAPIView.as_view()),
+    path('friends/apply/', views.FriendRequestApplyListAPIView.as_view()),
+    path('friends/list/', views.FriendListAPIView.as_view()),
+    path('friends/request/', views.FriendRequestListAPIView.as_view()),
     path('friends/<int:user_to>/', views.FriendDeleteAPIView.as_view()),
-    path('friends/', views.FriendListRequestAPIView.as_view()),
-    path('brains/<int:note>/share/',
-         views.NoteShareCreateDestroyAPIView.as_view()),
+    path('friends/', views.FriendRequestAPIView.as_view()),
+    path('brains/friends/<int:id>/', views.NoteListFriendAPIView.as_view()),
+    path('brains/share/<int:note>/<int:user_to>/',
+         views.NoteShareUpdateDestroyAPIView.as_view()),
+    path('brains/share/request/answer/',
+         views.NoteShareToRequestListAPIView.as_view()),
+    path('brains/share/request/',
+         views.NoteShareAllRequestListAPIView.as_view()),
+    path('brains/all/', views.NoteAllListAPIView.as_view()),
+    path('brains/share/',
+         views.NoteShareListCreateAPIView.as_view()),
     path('brains/<int:id>/',
          views.NoteRetrieveUpdateDestroyAPIView.as_view()),
     path('brains/', views.NoteListCreateAPIView.as_view()),
