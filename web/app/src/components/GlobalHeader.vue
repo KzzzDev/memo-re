@@ -14,7 +14,7 @@
           <li @click="GlobalSide(1)" class="pointer">検索</li>
           <li @click="GlobalSide(2)" class="pointer">通知</li>
         </ul>
-        <!-- <p class="produceButton pointer"><router-link to="/produce" >開発者紹介</router-link></p> -->
+        <p class="produceButton pointer"><router-link to="/produce" >開発者紹介</router-link></p>
         <p class="logout pointer" @click="Logout()">ログアウト</p>
       </div>
       <!-- フレンド -->
